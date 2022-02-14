@@ -69,3 +69,4 @@ end
 
 gem "guard"
 gem "guard-livereload"
+gem 'devise', '~> 4.8', '>= 4.8.1'
