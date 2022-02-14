@@ -1,9 +1,9 @@
 class Event < ApplicationRecord
   belongs_to :creator, class_name: 'User'
-  has_many :attendees, through: :attendedevents, source: :user
-  has_many :attendedevents
+  has_many :attended_events
+  has_many :attendees, through: :attended_events, source: :user
 
-  validates :date
-  validates :location
-  validates :creator_id
+  validates :date, presence: true
+  validates :location, presence: true
+  validates :creator_id, presence: true
 end
