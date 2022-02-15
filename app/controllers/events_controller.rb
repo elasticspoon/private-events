@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
-  def index; end
+  def index
+    @events = Event.includes(:creator, :attendees).all
+  end
 
   def show; end
 
