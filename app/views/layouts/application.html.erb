@@ -12,8 +12,8 @@
   <body>
     <main class="h-screen w-screen flex flex-col">
       <%= render 'navbar' %>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+      <div class="notice bg-green-700 w-full"><%= notice %></div>
+      <div class="alert bg-red-700 w-full"><%= alert %></div>
       <%= yield %>
     </main>
   </body>
