@@ -11,6 +11,6 @@ class EventsController < ApplicationController
   private
 
   def find_event
-    @event = Event.find(params[:id])
+    @event = Event.includes(:creator, :attendees).find(params[:id])
   end
 end
