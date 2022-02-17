@@ -3,4 +3,6 @@
   <div class="">Creator <%= @event.creator.email %></div>
   <div class="">Location <%= @event.location %></div>
   <div class="">Time <%= @event.date %></div>
+  <div class=""><%= link_to 'Edit Event', [:edit, @event.creator, @event] %></div>
+  <div class=""><%= button_to 'Delete Event', [@event.creator, @event], method: :delete %></div>
 </div>

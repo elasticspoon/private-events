@@ -1,4 +1,9 @@
-<div>
-  <h1 class="font-bold text-4xl">Events#edit</h1>
-  <p>Find me in app/views/events/edit.html.erb</p>
+<div class="">Edit Event Form</div>
+<div class="">
+  <%= form_with model: @event, url: [current_user, @event], data: {turbo: false}, method: :put do |form| %>
+    <%= form.text_field :location, placeholder: 'Enter a location...' %>
+    <%= form.datetime_local_field :date %>
+    <%= render "devise/shared/error_messages", resource: @event %>
+    <%= form.submit 'Submit'%>
+  <% end%>
 </div>
