@@ -1,0 +1,3 @@
+<div class="bg-red-800 p-8 rounded-md">
+  <%= button_to 'Leave', [current_user, :attended_events], params: { 'attended_event[event_id]': resource.id }, method: :delete %>
+</div>
