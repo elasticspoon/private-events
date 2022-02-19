@@ -12,10 +12,13 @@ class AttendedEventsController < ApplicationController
   end
 
   def destroy
-    event = AttendedEvent.find(params[:id])
-
-    event.destroy
-    flash.now[:notice] = 'No longer attending event.'
+    event = AttendedEvent.find_by(user_id: current_user.id, event_id: params[:event_id])
+    if event
+      event.destroy
+      flash.now[:notice] = 'No longer attending event.'
+    else
+      flash.now[:alert] = 'You are not attending that event.'
+    end
   end
 
   private

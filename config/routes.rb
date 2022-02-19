@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   resources :users, only: :show
   resources :events
-  resources :attended_events, only: %i[create destroy]
-  # delete 'attended_events', to: 'attended_events#destroy'
+  resources :attended_events, only: :create
+  delete 'events/:event_id/attended_events', to: 'attended_events#destroy', as: :attended_event
 
   root 'events#index'
 end
