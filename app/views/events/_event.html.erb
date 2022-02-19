@@ -1,5 +1,5 @@
 <p>This is some event</p>
-<div class="">Created by <%= link_to event.creator.email, [event.creator, event] %></div>
+<div class="">Created by <%= link_to event.creator.email, event %></div>
 <div class="">at: <%= event.date %></div>
 <div class="">in: <%= event.location %></div>
 <div class=""><%= render 'attended_events/create_button', resource: event %></div>

@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_event, only: %i[show edit destroy update]
   before_action :build_event, only: %i[new create]
-  before_action :event_owner?, only: %i[edit update destroy]
+  # before_action :event_owner?, only: %i[edit update destroy]
 
   def index
     @events = Event.includes(:creator, :attendees).all
@@ -14,7 +14,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      redirect_to [current_user, @event], notice: 'Event created!'
+      redirect_to @event, notice: 'Event created!'
     else
       render 'edit', status: :unprocessable_entity
     end
@@ -24,7 +24,7 @@ class EventsController < ApplicationController
 
   def create
     if @event.update(event_params)
-      redirect_to [current_user, @event], notice: 'Event created!'
+      redirect_to @event, notice: 'Event created!'
     else
       render 'new', status: :unprocessable_entity
     end

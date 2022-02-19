@@ -2,17 +2,20 @@ class AttendedEventsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    current_user.events_attended << Event.find(attended_event_params[:event_id])
+    event = current_user.attended_events.new
+    if event.update(attended_event_params)
+      redirect_to event_path(event.event_id), notice: 'You are now attending the event.'
+    else
+      flash[:alert] = event.errors.full_messages.join(' ')
+      flash.now[:alert] = event.errors.full_messages.join(' ')
+    end
   end
 
   def destroy
-    event = AttendedEvent.find_by(user_id: current_user.id, event_id: attended_event_params[:event_id])
-    if event
-      event.destroy
-      flash[:notice] = 'No longer attending event.'
-    else
-      flash[:alert] = 'You are not attending that event.'
-    end
+    event = AttendedEvent.find(params[:id])
+
+    event.destroy
+    flash.now[:notice] = 'No longer attending event.'
   end
 
   private

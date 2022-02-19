@@ -1,6 +1,6 @@
 <div class="">Edit Event Form</div>
 <div class="">
-  <%= form_with model: @event, url: [current_user, @event], data: {turbo: false}, method: :put do |form| %>
+  <%= form_with model: @event, data: {turbo: false}, method: :put do |form| %>
     <%= form.text_field :location, placeholder: 'Enter a location...' %>
     <%= form.datetime_local_field :date %>
     <%= render "devise/shared/error_messages", resource: @event %>
