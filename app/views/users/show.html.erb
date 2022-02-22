@@ -2,9 +2,11 @@
   <h1 class="font-bold text-4xl">Users#show</h1>
   <div class="">
     <div class=""><%= @user.name %></div>
-    <div class="">Events:</div>
+    <div class="">Created Events:</div>
     <div class=""><%= render @user.events_created %></div>
   </div>
-  <div class="">Attending Events:</div>
-  <%= render @user.events_attended %>
+  <div class="">Past Events:</div>
+  <%= render @user.events_attended.past %>
+  <div class="">Future Events:</div>
+  <%= render @user.events_attended.future %>
 </div>
