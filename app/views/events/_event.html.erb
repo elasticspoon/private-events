@@ -1,4 +1,6 @@
-<p>This is some event</p>
-<div class="">Created by <%= link_to event.creator.email, event %></div>
-<div class="">at: <%= event.date %></div>
-<div class="">in: <%= event.location %></div>
+<div class="flex flex-col border-2 border-blue-200 p-2 m-2">
+  <p>This is some event</p>
+  <div class="">Created by <%= link_to event.creator.email, event %></div>
+  <div class="">at: <%= event.date %></div>
+  <div class="">in: <%= event.location %></div>
+</div>
