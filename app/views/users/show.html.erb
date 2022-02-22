@@ -2,11 +2,12 @@
   <h1 class="font-bold text-4xl">Users#show</h1>
   <div class="">
     <div class=""><%= @user.name %></div>
-    <div class="">Created Events:</div>
+    <div class="">Events:</div>
     <div class=""><%= render @user.events_created %></div>
   </div>
-  <div class="">Past Events:</div>
-  <%= render @user.events_attended.past %>
-  <div class="">Future Events:</div>
-  <%= render @user.events_attended.future %>
+  <div class="">Attending Events:</div>
+  <% @user.events_attended.each do |event| %>
+    <%= render event %>
+    <%= render 'attended_events/delete_button', resource: event %>
+  <% end %>
 </div>
