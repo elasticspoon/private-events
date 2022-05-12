@@ -14,7 +14,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      redirect_to @event, notice: 'Event created!'
+      redirect_to @event, notice: 'Event updated!'
     else
       render 'edit', status: :unprocessable_entity
     end
@@ -42,7 +42,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:date, :location)
+    params.require(:event).permit(:date, :location, :private, :desc, :name)
   end
 
   def build_event
