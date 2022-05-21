@@ -17,4 +17,12 @@ class Event < ApplicationRecord
   def self.future
     where('date > ?', DateTime.now)
   end
+
+  def future
+    date > DateTime.now
+  end
+
+  def past
+    date < DateTime.now
+  end
 end
