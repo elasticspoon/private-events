@@ -1,6 +1,19 @@
-<div class="flex flex-col border-2 border-blue-200 p-2 m-2">
-  <p>This is some event</p>
-  <div class="">Created by <%= link_to event.creator.email, event %></div>
-  <div class="">at: <%= event.date %></div>
-  <div class="">in: <%= event.location %></div>
-</div>
+<%= link_to event do %>
+  <div class="flex flex-col border-2 border-blue-500 p-2 m-2 rounded-md bg-blue-300">
+    <div class="flex flex-row w-full justify-between bg-green-300 border-green-500 border-2 rounded-md p-2">
+      <div><%= event.name %></div>
+      <% if event.private %>
+        <%= render "lock" %>
+      <% end %>
+    </div>
+    <div class="">Created by <%= link_to event.creator.email, event.creator %></div>
+    <div class="">at: <%= event.date %></div>
+    <div class="">in: <%= event.location %></div>
+    <% if event.future %>
+      <div class="flex flex-row">
+        <div class=""><%= render 'attended_events/create_button', resource: event %></div>
+        <div class=""><%= render 'attended_events/delete_button', resource: event %></div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
