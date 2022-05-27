@@ -10,17 +10,17 @@ class User < ApplicationRecord
   # Private Events: events to which a user is invited, whether or not they have accepted
   has_many :events_invited, through: :attended_events, source: :event
 
-  # Public Events: user has chosen to attend event: accepted is NULL
+  # Public Events: user has chosen to attend event: accepted is true
   # Private Events: user has accepted invite to event: accepted is true
   def events_attended
-    Event.find_by_sql('
+    Event.find_by_sql(["
       SELECT * FROM users
       INNER JOIN attended_events ON attended_events.user_id = users.id
       INNER JOIN events ON attended_events.event_id = events.id
-      WHERE "attended_events"."accepted" IS NULL OR "attended_events"."accepted" IS true')
+      WHERE \"attended_events\".\"accepted\" = true AND user_id = ?", id])
   end
 
-  # Public Events: does not apply, will be 0
+  # Public Events: invite is extended but user has not yet accepted
   # Private Events: invite is extended but user has not yet accepted
   def events_pending
     Event.find_by_sql(["
