@@ -1,0 +1,15 @@
+<div class="border-blue-200 border-2">
+  <p>Invite more people:</p>
+  <%= form_with model: AttendedEvent.new, data: {turbo: false} do |f| %>
+    <%= f.hidden_field :event_id, value: resource.id %>
+    <div class="flex flex-row">
+      <div class="field flex flex-row">
+        <%= f.label :email %><br />
+        <%= f.email_field :email %>
+      </div>
+      <div class="actions border-2 border-green-600 bg-green-400">
+        <%= f.submit "Send Invite" %>
+      </div>
+    </div>
+  <% end %>
+</div>
