@@ -17,6 +17,16 @@ class AttendedEvent < ApplicationRecord
     created_invite.check_attendance_perms(current_user_id)
   end
 
+  def self.invite_destroyable?(u_id, e_id, current_u_id)
+    invite = AttendedEvent.find_by(user_id: u_id, event_id: e_id)
+    return { result: false, response: 'Invite does not exist' } unless invite
+    unless invite.event.creator_id == current_u_id || current_u_id == u_id
+      return { result: false, response: 'You do not have permission.' }
+    end
+
+    { result: invite, response: (current_u_id == u_id ? 'You are no longer attending.' : 'Invitation revoked.') }
+  end
+
   def check_attendance_perms(current_user_id)
     event.private ? accept_private_invite(current_user_id) : accept_public_invite(current_user_id)
   end
@@ -33,6 +43,13 @@ class AttendedEvent < ApplicationRecord
     self
   end
 
+  def check_invite_perms(current_user_id)
+    errors.add :accepted, message: 'You do not have the required permissions.' if current_user_id != event.creator_id
+
+    save if errors.empty?
+    self
+  end
+
   def accept_private_invite(current_user_id)
     errors.add :accepted, message: 'Invite does not exist.' if new_record?
     errors.add :accepted, message: 'You do not have the required permissions.' if current_user_id != user.id
@@ -42,13 +59,6 @@ class AttendedEvent < ApplicationRecord
       save
     end
 
-    self
-  end
-
-  def check_invite_perms(current_user_id)
-    errors.add :accepted, message: 'You do not have the required permissions.' if current_user_id != event.creator_id
-
-    save if errors.empty?
     self
   end
 end
