@@ -14,7 +14,14 @@
       <%= render 'navbar' %>
       <div class="notice bg-green-700 w-full"><%= notice %></div>
       <div class="alert bg-red-700 w-full"><%= alert %></div>
-      <%= yield %>
+      <div class="w-full flex flex-row justify-evenly">
+        <div class="w-full max-w-xs"></div>
+        <div class="w-full">
+          <%= yield %>
+        </div>
+        <div class="w-full max-w-xs"></div>
+      </div>
     </main>
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
   </body>
 </html>
