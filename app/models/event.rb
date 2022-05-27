@@ -25,4 +25,20 @@ class Event < ApplicationRecord
   def past
     date < DateTime.now
   end
+
+  def accepted_invites
+    User.find_by_sql(["
+      SELECT * FROM users
+      INNER JOIN attended_events ON attended_events.user_id = users.id
+      INNER JOIN events ON attended_events.event_id = events.id
+      WHERE \"attended_events\".\"accepted\" = true AND event_id = ?", id])
+  end
+
+  def pending_invites
+    User.find_by_sql(["
+      SELECT * FROM users
+      INNER JOIN attended_events ON attended_events.user_id = users.id
+      INNER JOIN events ON attended_events.event_id = events.id
+      WHERE \"attended_events\".\"accepted\" = false AND event_id = ?", id])
+  end
 end
