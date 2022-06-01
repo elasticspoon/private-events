@@ -1,16 +1,33 @@
-<div>
-  <h1 class="font-bold text-4xl">Events#show</h1>
-  <div class="">Creator <%= @event.creator.email %></div>
-  <div class="">Location <%= @event.location %></div>
-  <div class="">Time <%= @event.date %></div>
-  <div class=""><%= link_to 'Edit Event', [:edit, @event] %></div>
-  <div class=""><%= button_to 'Delete Event', @event, method: :delete %></div>
-  <div class="flex flex-row">
-    <div class=""><%= render 'attended_events/create_button', resource: @event %></div>
-    <div class=""><%= render 'attended_events/delete_button', resource: @event %></div>
-  </div>
-  <div class="">Attendees:</div>
-  <% @event.attendees.each do |attendee| %>
-    <%= attendee.name %>
+<div class="bg-white flex flex-col h-full py-10 px-24">
+  <div class=""><%= render partial: 'full_event', locals: { event: @event } %></div>
+  <% if current_user&.id == @event.creator.id %>
+    <div class=""><%= link_to 'Edit Event', [:edit, @event] %></div>
+    <div class=""><%= button_to 'Delete Event', @event, method: :delete %></div>
+    <%= render 'attended_events/create_invite_form', resource: @event %>
   <% end %>
+  <div class="flex flex-row py-4 w-full">
+    <div class="flex flex-col w-full">
+      <div class="">Attendees:</div>
+      <% @event.accepted_invites.each do |attendee| %>
+        <div class="flex flex-col py-2">
+          <%= attendee.email %>
+          <% if current_user&.id == attendee.user_id %>
+            <%= render 'attended_events/delete_invite_button', resource: attendee %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div class="flex flex-col w-full">
+      <div class="">Pending Invites:</div>
+      <% @event.pending_invites.each do |pending| %>
+        <div class="flex flex-col py-2">
+          <%= pending.email %>
+          <% if current_user&.id == @event.creator.id %>
+            <div class=""><%= render 'attended_events/delete_invite_button', resource: pending %></div>
+          <% end%>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class=""><%= render 'event_bottom_bar' %></div>
 </div>
