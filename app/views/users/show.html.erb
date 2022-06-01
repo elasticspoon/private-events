@@ -6,7 +6,7 @@
     <div class=""><%= render @user.events_created %></div>
   </div>
   <div class="">Attending Events:</div>
-  <% @user.events_attended.each do |event| %>
+  <% @user.events_invited.each do |event| %>
     <%= render event %>
     <%= render 'attended_events/delete_button', resource: event %>
   <% end %>
