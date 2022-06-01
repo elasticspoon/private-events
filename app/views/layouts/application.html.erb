@@ -10,7 +10,7 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
-    <main class="h-screen w-screen flex flex-col">
+    <main class="h-full w-screen flex flex-col bg-gray-300">
       <%= render 'navbar' %>
       <div class="notice bg-green-700 w-full"><%= notice %></div>
       <div class="alert bg-red-700 w-full"><%= alert %></div>
@@ -22,6 +22,5 @@
         <div class="w-full max-w-xs"></div>
       </div>
     </main>
-    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
   </body>
 </html>
