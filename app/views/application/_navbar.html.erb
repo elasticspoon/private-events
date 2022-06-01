@@ -1,12 +1,14 @@
-<nav class="bg-blue-300 w-full">
-  <ul class='flex flex-row justify-evenly'>
-    <li><%= link_to 'Private Events', root_path %></li>
+<nav class="bg-blue-300 w-full flex flex-row">
+  <div class='p-4 w-full max-w-xs'></div>
+  <ul class='flex flex-row font-bold text-2xl p-2 w-full'>
+    <li class='hover:text-white hover:bg-gray-600 rounded-md p-4 mr-auto'><%= link_to 'Private Events', root_path %></li>
     <% if user_signed_in? %>
-      <li><%= link_to 'Create Event', new_event_path %></li>
-      <li><%= button_to 'Log Out', destroy_user_session_path, method: :delete %></li>
+      <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'><%= link_to 'Create Event', new_event_path %></li>
+      <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'><%= button_to 'Log Out', destroy_user_session_path, method: :delete %></li>
     <% else %>
-      <li><%= link_to 'Sign In', new_user_session_path %></li>
-      <li><%= link_to 'Sign Up', new_user_registration_path %></li>
+      <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'><%= link_to 'Sign In', new_user_session_path %></li>
+      <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'><%= link_to 'Sign Up', new_user_registration_path %></li>
     <% end %>
   </ul>
+  <div class='p-4 w-full max-w-xs'></div>
 </nav>
