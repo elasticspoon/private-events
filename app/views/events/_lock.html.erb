@@ -1,6 +1,11 @@
-<div data-tooltip-target="lock_tooltip" data-tooltip-placement="right">
-  <div class="h-full"><%= image_tag "padlock.svg", size: "15x15", class: "h-full" %></div>
-  <div id="lock_tooltip" class="invisible border-2 rounded-md bg-white p-2 tooltip opacity-0">
-    This is a private event. You may only join if you recieve an invitation from the event owner.
+<div class="flex items-center justify-center">
+  <div class="relative flex flex-col items-center group">
+    <%= image_tag "padlock.svg", size: "15x15" %>
+    <div class="absolute hidden flex-col bottom-0 items-center mb-6 group-hover:flex min-w-max">
+      <div class="relative z-10 p-2 text-md text-black leading-none whitespace-no-wrap bg-white shadow-lg rounded-md w-full ">
+        This is a private event. You may only join if you recieve an invitation from the event owner.
+      </div>
+      <div class="w-3 h-3 -mt-2 rotate-45 bg-white"></div>
+    </div>
   </div>
 </div>
