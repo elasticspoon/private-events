@@ -1,19 +1,19 @@
-<%= link_to event do %>
-  <div class="flex flex-col border-2 border-blue-500 p-2 m-2 rounded-md bg-blue-300">
+<div class="flex flex-col border-2 border-blue-500 p-2 m-2 rounded-md bg-blue-300 hover:border-blue-800 hover:shadow-xl">
+  <%= link_to event do %>
     <div class="flex flex-row w-full justify-between bg-green-300 border-green-500 border-2 rounded-md p-2">
-      <div><%= event.name %></div>
+      <div><%= event.name.titleize %></div>
       <% if event.private %>
-        <%= render "lock" %>
+        <%= render "events/lock" %>
       <% end %>
     </div>
-    <div class="">Created by <%= link_to event.creator.email, event.creator %></div>
-    <div class="">at: <%= event.date %></div>
-    <div class="">in: <%= event.location %></div>
-    <% if event.future %>
-      <div class="flex flex-row">
-        <div class=""><%= render 'attended_events/create_button', resource: event %></div>
-        <div class=""><%= render 'attended_events/delete_button', resource: event %></div>
-      </div>
-    <% end %>
-  </div>
-<% end %>
+  <% end %>
+  <div class="">Time: <%= event.date.to_formatted_s(:long_ordinal) %></div>
+  <div class="">Location: <%= event.location.titleize %></div>
+  <div class="">Creator: <%= link_to event.creator.email, event.creator, class: "hover:text-white" %></div>
+  <% if event.future %>
+    <div class="flex flex-row mt-4 w-full">
+      <div class="ml-auto"><%= render 'attended_events/create_button', resource: event %></div>
+      <div class=""><%= render 'attended_events/delete_button', resource: event %></div>
+    </div>
+  <% end %>
+</div>
