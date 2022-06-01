@@ -1,8 +1,12 @@
 <div class="">New Event Form</div>
 <div class="">
-  <%= form_with model: @event, data: {turbo: false} do |form| %>
+  <%= form_with model: @event, data: {turbo: false}, class: 'flex flex-col max-w-lg' do |form| %>
+    <%= form.text_field :name, placeholder: 'Enter a name for the event...' %>
+    <%= form.text_field :desc, placeholder: 'Describe the event...' %>
     <%= form.text_field :location, placeholder: 'Enter a location...' %>
     <%= form.datetime_local_field :date %>
+    <%= form.check_box :private, checked: false %>
+    <%= form.label :private, 'Create private event' %>
     <%= render "devise/shared/error_messages", resource: @event %>
     <%= form.submit 'Submit'%>
   <% end%>

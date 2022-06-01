@@ -2,7 +2,11 @@
 <div class="">
   <%= form_with model: @event, data: {turbo: false}, method: :put do |form| %>
     <%= form.text_field :location, placeholder: 'Enter a location...' %>
+    <%= form.text_field :name, placeholder: 'Enter a name for the event...' %>
+    <%= form.text_field :desc, placeholder: 'Describe the event...' %>
     <%= form.datetime_local_field :date %>
+    <%= form.check_box :private %>
+    <%= form.label :private, 'Create private event' %>
     <%= render "devise/shared/error_messages", resource: @event %>
     <%= form.submit 'Submit'%>
   <% end%>
