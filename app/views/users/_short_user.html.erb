@@ -1,0 +1,10 @@
+<div class="flex flex-row justify-between border-2 p-2 my-2">
+  <div class="flex flex-row">
+    <div class="mr-2"><%= image_tag 'event_placeholder_image.jpg', size: '40x40', class: 'rounded-xl' %></div>
+    <div class="text-center mr-2"><%= user.username.titleize %></div>
+    <div class="text-center">(<%= user.email %>)</div>
+  </div>
+  <% if show_revoke_button %>
+    <div class=""><%= render 'attended_events/delete_invite_button', resource: user %></div>
+  <% end%>
+</div>
