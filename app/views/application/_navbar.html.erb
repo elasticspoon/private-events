@@ -4,7 +4,9 @@
     <li class='hover:text-white hover:bg-gray-600 rounded-md p-4 mr-auto'><%= link_to 'Private Events', root_path %></li>
     <% if user_signed_in? %>
       <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'><%= link_to 'Create Event', new_event_path %></li>
-      <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'><%= button_to 'Log Out', destroy_user_session_path, method: :delete %></li>
+      <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'>
+        <%= button_to 'Log Out', destroy_user_session_path, method: :delete, class: 'font-bold text-2xl' %>
+      </li>
     <% else %>
       <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'><%= link_to 'Sign In', new_user_session_path %></li>
       <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'><%= link_to 'Sign Up', new_user_registration_path %></li>
