@@ -10,6 +10,9 @@ class User < ApplicationRecord
   # Private Events: events to which a user is invited, whether or not they have accepted
   has_many :events_invited, through: :attended_events, source: :event
 
+  validates :name, presence: true, length: { in: 3..20 }
+  validates :username, uniqueness: true, length: { in: 5..20 }
+
   # Public Events: user has chosen to attend event: accepted is true
   # Private Events: user has accepted invite to event: accepted is true
   def events_attended
