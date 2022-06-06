@@ -1,13 +1,30 @@
-<div>
-  <h1 class="font-bold text-4xl">Users#show</h1>
+<div class="bg-white flex flex-col h-full py-10 px-24">
   <div class="">
-    <div class=""><%= @user.name %></div>
-    <div class="">Events:</div>
-    <div class=""><%= render @user.events_created %></div>
+    <%= render @user %>
   </div>
-  <div class="">Attending Events:</div>
-  <% @user.events_invited.each do |event| %>
-    <%= render event %>
-    <%= render 'attended_events/delete_button', resource: event %>
-  <% end %>
+  <div class="flex flex-col lg:flex-row py-4 w-full">
+    <div class="flex flex-col w-full">
+      <div class="">User Created Events:</div>
+      <div class="flex flex-col py-2">
+        <%= render @user.events_created %>
+      </div>
+    </div>
+    <div class="flex flex-col w-full">
+      <div class="">Attending Events:</div>
+      <div class="flex flex-col py-2">
+        <% @user.events_attended.each do |attended| %>
+          <%= render partial: attended, locals: { render_create: false } %>
+        <% end %>
+      </div>
+    </div>
+    <div class="flex flex-col w-full">
+      <div class="">Invited to Events:</div>
+      <div class="flex flex-col py-2">
+        <% @user.events_pending.each do |pending| %>
+          <%= render partial: pending, locals: { render_delete: false } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class=""><%= render 'events/event_bottom_bar' %></div>
 </div>
