@@ -1,6 +1,6 @@
-<nav class="bg-blue-300 w-full flex flex-row">
-  <div class='p-4 w-full max-w-xs'></div>
-  <ul class='flex flex-row font-bold text-2xl p-2 w-full'>
+<nav class="bg-blue-300 w-full flex flex-row justify-evenly">
+  <div class=''></div>
+  <ul class='flex flex-row font-bold text-2xl p-2 w-full max-w-screen-xl'>
     <li class='hover:text-white hover:bg-gray-600 rounded-md p-4 mr-auto'><%= link_to 'Private Events', root_path %></li>
     <% if user_signed_in? %>
       <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'><%= link_to 'Create Event', new_event_path %></li>
@@ -12,5 +12,5 @@
       <li class='hover:text-white hover:bg-gray-600 rounded-md p-4'><%= link_to 'Sign Up', new_user_registration_path %></li>
     <% end %>
   </ul>
-  <div class='p-4 w-full max-w-xs'></div>
+  <div class=''></div>
 </nav>

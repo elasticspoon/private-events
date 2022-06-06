@@ -1,19 +1,23 @@
-<div class="flex flex-col border-2 border-blue-500 p-2 m-2 rounded-md bg-blue-300 hover:border-blue-800 hover:shadow-xl">
+<% render_create = true unless local_assigns.key?(:render_create) %>
+<% render_delete = true unless local_assigns.key?(:render_delete) %>
+<div class="flex flex-col border-2 border-blue-500 p-2 mr-4 mb-4 rounded-md bg-blue-300 hover:border-blue-800 hover:shadow-xl">
   <%= link_to event do %>
-    <div class="flex flex-row w-full justify-between bg-green-300 border-green-500 border-2 rounded-md p-2">
+    <%= content_tag :div, class: "flex flex-row w-full justify-between border-2 rounded-md p-2" + event.event_color do %>
       <div><%= event.name.titleize %></div>
       <% if event.private %>
         <%= render "events/lock" %>
+      <% elsif event.past %>
+        <%= render "events/expired" %>
       <% end %>
-    </div>
+    <% end%>
   <% end %>
   <div class="">Time: <%= event.date.to_formatted_s(:long_ordinal) %></div>
   <div class="">Location: <%= event.location.titleize %></div>
   <div class="">Creator: <%= link_to event.creator.email, event.creator, class: "hover:text-white" %></div>
   <% if event.future %>
     <div class="flex flex-row mt-4 w-full">
-      <div class="ml-auto"><%= render 'attended_events/create_button', resource: event %></div>
-      <div class=""><%= render 'attended_events/delete_button', resource: event %></div>
+      <div class="ml-auto"><%= render 'attended_events/create_button', resource: event if render_create %></div>
+      <div class=""><%= render 'attended_events/delete_button', resource: event if render_delete %></div>
     </div>
   <% end %>
 </div>

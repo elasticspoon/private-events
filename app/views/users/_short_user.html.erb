@@ -1,8 +1,7 @@
-  
 <div class="flex flex-row justify-between border-2 p-2 my-2">
   <%= link_to user do %>
     <div class="flex flex-row items-center">
-      <div class="mr-2"><%= image_tag 'profile_picture_placeholder.png', size: '40x40', class: '' %></div>
+      <div class="mr-2"><%= image_tag 'profile_picture_placeholder.png', size: '40x40', style: 'border-radius: 9999px' %></div>
       <div class="text-center mr-2"><%= user.username.titleize %></div>
       <div class="text-center">(<%= user.email %>)</div>
     </div>
