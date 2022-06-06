@@ -41,4 +41,8 @@ class Event < ApplicationRecord
       INNER JOIN events ON attended_events.event_id = events.id
       WHERE \"attended_events\".\"accepted\" = false AND event_id = ?", id])
   end
+
+  def event_color
+    future ? ' bg-green-300 border-green-500' : ' bg-red-300 border-red-500'
+  end
 end
