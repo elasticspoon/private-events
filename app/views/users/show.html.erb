@@ -2,24 +2,24 @@
   <div class="">
     <%= render @user %>
   </div>
-  <div class="flex flex-col lg:flex-row py-4 w-full">
+  <div class="flex flex-col py-4 w-full">
     <div class="flex flex-col w-full">
-      <div class="">User Created Events:</div>
-      <div class="flex flex-col py-2">
+      <div class="text-xl font-extrabold p-2">User Created Events:</div>
+      <div class="flex flex-row py-2">
         <%= render @user.events_created %>
       </div>
     </div>
     <div class="flex flex-col w-full">
-      <div class="">Attending Events:</div>
-      <div class="flex flex-col py-2">
+      <div class="text-xl font-extrabold p-2">Attending Events:</div>
+      <div class="flex flex-row py-2">
         <% @user.events_attended.each do |attended| %>
           <%= render partial: attended, locals: { render_create: false } %>
         <% end %>
       </div>
     </div>
     <div class="flex flex-col w-full">
-      <div class="">Invited to Events:</div>
-      <div class="flex flex-col py-2">
+      <div class="text-xl font-extrabold p-2">Invited to Events:</div>
+      <div class="flex flex-row py-2">
         <% @user.events_pending.each do |pending| %>
           <%= render partial: pending, locals: { render_delete: false } %>
         <% end %>
