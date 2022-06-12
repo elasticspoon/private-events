@@ -1,23 +1,26 @@
 <% render_create = true unless local_assigns.key?(:render_create) %>
 <% render_delete = true unless local_assigns.key?(:render_delete) %>
-<div class="flex flex-col border-2 border-blue-500 p-2 mr-4 mb-4 rounded-md bg-blue-300 hover:border-blue-800 hover:shadow-xl">
-  <%= link_to event do %>
-    <%= content_tag :div, class: "flex flex-row w-full justify-between border-2 rounded-md p-2" + event.event_color do %>
-      <div><%= event.name.titleize %></div>
-      <% if event.private %>
-        <%= render "events/lock" %>
-      <% elsif event.past %>
-        <%= render "events/expired" %>
-      <% end %>
-    <% end%>
-  <% end %>
-  <div class="">Time: <%= event.date.to_formatted_s(:long_ordinal) %></div>
-  <div class="">Location: <%= event.location.titleize %></div>
-  <div class="">Creator: <%= link_to event.creator.email, event.creator, class: "hover:text-white" %></div>
-  <% if event.future %>
-    <div class="flex flex-row mt-4 w-full">
-      <div class="ml-auto"><%= render 'attended_events/create_button', resource: event if render_create %></div>
-      <div class=""><%= render 'attended_events/delete_button', resource: event if render_delete %></div>
-    </div>
-  <% end %>
+<div class="flex flex-col mr-4 mb-4 shadow-xl hover:shadow-xl">
+  <%= image_tag "event_placeholder.jpg", size: "20x20", class: "w-full border-2" %>
+  <div class="p-2">
+    <%= link_to event do %>
+      <%= content_tag :div, class: "flex flex-row w-full justify-between my-2" + event.event_color do %>
+        <div class="font-black text-lg"><%= event.name.titleize %></div>
+        <% if event.private %>
+          <%= render "events/lock" %>
+        <% elsif event.past %>
+          <%= render "events/expired" %>
+        <% end %>
+      <% end%>
+    <% end %>
+    <div class="text-yellow-500 font-bold my-2"><%= event.date.to_formatted_s(:long_ordinal) %></div>
+    <div class="my-2"><%= event.location.titleize %> - <%= event.location.titleize %></div>
+    <div class="font-bold my-2"><%= render partial: "users/short_user", locals: { user: event.creator } %></div>
+    <% if event.future %>
+      <div class="flex flex-row mt-4 w-full">
+        <div class="w-full text-center"><%= render 'attended_events/create_button', resource: event if render_create %></div>
+        <div class="w-full text-center"><%= render 'attended_events/delete_button', resource: event if render_delete %></div>
+      </div>
+    <% end %>
+  </div>
 </div>
