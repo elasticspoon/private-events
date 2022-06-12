@@ -1,31 +1,29 @@
-<div class="bg-white flex flex-col h-full py-10 px-24">
-  <div class=""><%= render partial: 'full_event', locals: { event: @event } %></div>
-  <% if current_user&.id == @event.creator.id %>
-    <div class="flex flex-row w-full justify-evenly py-8">
-      <%= link_to 'Edit Event', [:edit, @event], class: 'bg-green-400 rounded-md py-4 text-center w-full' %>
-      <div class="w-full ml-8">
-        <%= button_to 'Delete Event', @event, method: :delete, class: 'bg-red-500 rounded-md py-4 w-full text-center' %>
+<div class="bg-white flex flex-col">
+  <%= render partial: 'full_event', locals: { event: @event } %>
+  <%= render partial: 'event_invite_sticky_bar', locals: { event: @event } %>
+  <div class="px-16">
+    <div class="flex flex-row">
+      <div class="flex flex-col max-w-screen-lg w-full px-16 py-8">
+        <div class="font-extrabold text-3xl"><%= @event.name.titleize %></div>
+        <div class="font-extrabold mt-8">About this event</div>
+        <%= render 'event_placeholder_text' %>
+      </div>
+      <div class="px-8 mx-8 min-w-max">
+        <div class="py-16">
+          <div class="font-extrabold">Date and Time</div>
+          <div class=""><%= @event.date.to_formatted_s(:long_ordinal) %></div>
+        </div>
+        <div class="py-16">
+          <div class="font-extrabold">Location</div>
+          <div class=""><%= @event.location %></div>
+        </div>
       </div>
     </div>
-    <%= render 'attended_events/create_invite_form', resource: @event %>
-  <% end %>
-  <div class="flex flex-row py-4 w-full">
-    <div class="flex flex-col w-full mr-8">
-      <div class="">Attendees:</div>
-      <div class="flex flex-col py-2">
-        <% @event.accepted_invites.each do |attendee| %>
-          <%= render partial: 'users/short_user', locals: {user: attendee, show_revoke_button: current_user&.id == @event.creator.id} %>
-        <% end %>
-      </div>
-    </div>
-    <div class="flex flex-col w-full ml-8">
-      <div class="">Pending Invites:</div>
-      <div class="flex flex-col py-2">
-        <% @event.pending_invites.each do |pending| %>
-          <%= render partial: 'users/short_user', locals: {user: pending, show_revoke_button: current_user&.id == @event.creator.id} %>
-        <% end %>
-      </div>
+    <div class="bg-yellow-300 p-8">
+      <div class="font-extrabold text-2xl">Moderator Tools</div>
+      <%= render partial: 'creator_tools', locals: {event: @event} %>
+      <%= render partial: 'attendees_listing', locals: {event: @event} %>
     </div>
   </div>
-  <div class=""><%= render 'event_bottom_bar' %></div>
+  <%= render 'event_bottom_bar' %>
 </div>

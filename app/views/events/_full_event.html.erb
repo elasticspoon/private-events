@@ -1,20 +1,10 @@
-<div class="">
-  <div class="flex flex-col w-full justify-between">
-    <div class="flex flex-row w-full">
-      <div class="flex flex-col">
-        <div class='text-4xl font-bold mb-4'><%= event.name.titleize %></div>
-        <div class="">Time: <%= event.date.to_formatted_s(:long_ordinal) %></div>
-        <div class="">Location: <%= event.location.titleize %></div>
-        <div class="">Creator: <%= link_to event.creator.email, event.creator, class: "hover:text-white" %></div>
-        <% if event.future %>
-          <div class="flex flex-row w-full mt-auto">
-            <div class=""><%= render 'attended_events/create_button', resource: event %></div>
-            <div class=""><%= render 'attended_events/delete_button', resource: event %></div>
-          </div>
-        <% end %>
-      </div>
-      <div class="min-w-max ml-auto"><%= image_tag 'event_placeholder.jpg', size: '450x450', class: 'rounded-xl shadow-xl'%></div>
+<div class="flex flex-col w-full justify-between">
+  <div class="flex flex-row w-full">
+    <%= image_tag 'event_placeholder.jpg', class: "object-cover w-full h-72" %>
+    <div class="flex flex-col p-8 min-w-fit">
+      <div class="text-xl py-2"><%= event.date.to_formatted_s(:long_ordinal) %></div>
+      <div class='text-2xl font-bold py-2'><%= event.name.titleize %></div>
+      <div class="py-2"><%= render partial:"users/short_user", locals: { user: event.creator } %></div>
     </div>
-    <div class=""><%= render 'event_placeholder_text' %></div>
   </div>
 </div>
