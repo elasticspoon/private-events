@@ -1,0 +1,5 @@
+<% unless errors.empty? %>
+  <div id="error_explanation" class='bg-red-300 mt-2 rounded-md p-2'>
+    <%= errors.join(', ').capitalize %>.
+  </div>
+<% end %>

@@ -1,31 +1,38 @@
-<h2>Sign up</h2>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: {turbo: false}) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username, autofocus: true %>
+<div class="w-full flex flex-col items-center">
+  <div class="w-full sm:py-6 min-h-screen sm:max-w-md flex flex-col justify-center mx-6 mt-16">
+    <h2 class='mb-6 text-center text-5xl font-extrabold'>Welcome.</h2>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: {turbo: false}) do |form| %>
+      <div class="mb-4">
+        <%= form.label :name, class: 'block mb-1' %>
+        <%= form.text_field :name, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
+        <%= render 'users/inline_errors', errors: resource.errors[:name] %>
+      </div>
+      <div class="mb-4">
+        <%= form.label :username, class: 'block mb-1' %>
+        <%= form.text_field :username, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
+        <%= render 'users/inline_errors', errors: resource.errors[:username] %>
+      </div>
+      <div class="mb-4">
+        <%= form.label :email, class: 'block mb-1' %>
+        <%= form.email_field :email, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
+        <%= render 'users/inline_errors', errors: resource.errors[:email] %>
+      </div>
+      <div class="mb-4">
+        <%= form.label :password, class: 'block mb-1' %>
+        <%= form.password_field :password, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
+        <%= render 'users/inline_errors', errors: resource.errors[:password] %>
+      </div>
+      <div class="mb-4">
+        <%= form.label :password_confirmation, class: 'block mb-1' %>
+        <%= form.password_field :password_confirmation, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
+        <%= render 'users/inline_errors', errors: resource.errors[:password_confirmation] %>
+      </div>
+      <div class="mt-6">
+        <%= form.submit 'Sign Up', class: 'w-full inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-bold text-white capitalize transition disabled:opacity-25 focus:outline-none hover:bg-red-700 active:bg-red-700 focus:border-red-700 focus:ring focus:ring-red' %>
+      </div>
+      <div class="mt-6 text-center text-sm">
+        Have an existing account? <%= link_to 'Sign in.', new_user_session_path, class: 'underline font-bold' %>
+      </div>
+    <% end %>
   </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-<%= render "devise/shared/links" %>
+</div>

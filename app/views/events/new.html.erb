@@ -1,13 +1,18 @@
-<div class="">New Event Form</div>
-<div class="">
-  <%= form_with model: @event, data: {turbo: false}, class: 'flex flex-col max-w-lg' do |form| %>
-    <%= form.text_field :name, placeholder: 'Enter a name for the event...' %>
-    <%= form.text_field :desc, placeholder: 'Describe the event...' %>
-    <%= form.text_field :location, placeholder: 'Enter a location...' %>
-    <%= form.datetime_local_field :date %>
-    <%= form.check_box :private, checked: false %>
-    <%= form.label :private, 'Create private event' %>
-    <%= render "devise/shared/error_messages", resource: @event %>
-    <%= form.submit 'Submit'%>
-  <% end%>
+<div class="flex w-full flex-col items-center">
+  <div class="w-full min-h-screen py-6 sm:max-w-md flex flex-col justify-center mx-6 self-center">
+    <div class='mb-6 text-center text-5xl font-extrabold'>Create an Event!</div>
+    <%= form_with model: @event, data: {turbo: false}, class: 'flex flex-col py-16 gap-4 max-w-lg w-full' do |form| %>
+      <%= form.text_field :name, placeholder: 'Enter a name for the event...', class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 block w-full'%>
+      <%= form.text_field :desc, placeholder: 'Describe the event...', class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 block w-full' %>
+      <%= form.text_field :location, placeholder: 'Enter a location...', class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 block w-full' %>
+      <%= form.datetime_local_field :date, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 block w-full' %>
+      <div class="flex flex-row items-center">
+        <%= form.check_box :private, checked: false, class: 'border border-gray-500 text-red-600 shadow-sm focur:border-red-300 focus:ring focus:ring-red-200 focus:ring-opactity-50' %>
+        <%= form.label :private, 'Set event private', class: 'ml-2 block text-sm leading-5 text-gray-900' %>
+      </div>
+      <%= render "devise/shared/error_messages", resource: @event %>
+      <%= form.submit 'Submit', class: 'w-full inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-bold text-white capitalize transition disabled:opacity-25 focus:outline-none hover:bg-red-700 active:bg-red-700 focus:border-red-700 focus:ring focus:ring-red'%>
+    <% end%>
+  </div>
+  <%= render 'event_bottom_bar' %>
 </div>
