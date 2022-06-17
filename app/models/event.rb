@@ -1,4 +1,6 @@
 class Event < ApplicationRecord
+  AVAILIABLE_SETTINGS = %w[private protected public].freeze
+
   belongs_to :creator, class_name: 'User'
   has_many :attended_events, dependent: :destroy
   has_many :attendees, through: :attended_events, source: :user
@@ -9,6 +11,8 @@ class Event < ApplicationRecord
   validates :name, presence: true
   validates :desc, presence: true
   validates :private, presence: true, allow_blank: true
+  validates :display_privacy, inclusion: AVAILIABLE_SETTINGS
+  validates :attendee_privacy, inclusion: AVAILIABLE_SETTINGS
 
   def self.past
     where('date < ?', DateTime.now)

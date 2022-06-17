@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_12_020159) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_15_043912) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,6 +34,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_12_020159) do
     t.boolean "private"
     t.string "name"
     t.string "desc"
+    t.string "display_privacy"
+    t.string "attendee_privacy"
   end
 
   create_table "users", force: :cascade do |t|
