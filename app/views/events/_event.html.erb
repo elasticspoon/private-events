@@ -4,7 +4,7 @@
   <%= image_tag "event_placeholder.jpg", size: "20x20", class: "w-full border-2" %>
   <div class="p-2">
     <%= link_to event do %>
-      <%= content_tag :div, class: "flex flex-row w-full justify-between my-2" + event.event_color do %>
+      <%= content_tag :div, class: "flex flex-row w-full justify-between my-2" do %>
         <div class="font-black text-lg"><%= event.name.titleize %></div>
         <% if event.private %>
           <%= render "events/lock" %>

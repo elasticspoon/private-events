@@ -32,4 +32,16 @@ class User < ApplicationRecord
       INNER JOIN events ON attended_events.event_id = events.id
       WHERE \"attended_events\".\"accepted\" = false AND user_id = ?", id])
   end
+
+  def attending_event?(event_id)
+    events_attended.map(&:id).include?(event_id)
+  end
+
+  def pending_event?(event_id)
+    events_pending.map(&:id).include?(event_id)
+  end
+
+  def invited_event?(event_id)
+    events_invited_ids.include?(event_id)
+  end
 end

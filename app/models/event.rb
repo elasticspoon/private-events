@@ -22,6 +22,10 @@ class Event < ApplicationRecord
     where('date > ?', DateTime.now)
   end
 
+  def self.display_public
+    where(display_privacy: 'public')
+  end
+
   def future
     date > DateTime.now
   end
@@ -46,7 +50,19 @@ class Event < ApplicationRecord
       WHERE \"attended_events\".\"accepted\" = false AND event_id = ?", id])
   end
 
-  def event_color
-    future ? ' bg-green-300 border-green-500' : ' bg-red-300 border-red-500'
+  def attendee_display_perms?(current_user)
+    return true if attendee_privacy == 'public'
+    return true if attendee_privacy == 'protected' && current_user.invited_event?(id)
+    return true if current_user&.id == creator_id
+
+    false
+  end
+
+  def event_display_perms?(current_user)
+    return true if display_privacy == 'public'
+    return true if display_privacy == 'protected' && current_user.invited_event?(id)
+    return true if current_user&.id == creator_id
+
+    false
   end
 end
