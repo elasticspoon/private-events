@@ -65,4 +65,12 @@ class Event < ApplicationRecord
 
     false
   end
+
+  def event_view_perms?(current_user)
+    return true unless private
+    return true if private && current_user.invited_event?(id)
+    return true if current_user&.id == creator_id
+
+    false
+  end
 end

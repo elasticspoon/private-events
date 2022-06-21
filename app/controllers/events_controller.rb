@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_event, only: %i[show edit destroy update]
   before_action :build_event, only: %i[new create]
+  before_action :show_perms?, only: :show
   # before_action :event_owner?, only: %i[edit update destroy]
 
   def index
@@ -53,6 +54,13 @@ class EventsController < ApplicationController
     unless params[:user_id] == current_user.id.to_s
       redirect_back fallback_location: root_path,
                     alert: 'You do not have permission.'
+    end
+  end
+
+  def show_perms?
+    unless @event.event_view_perms?(current_user)
+      (redirect_to root_path,
+                   alert: 'You do not have permission to view that page.')
     end
   end
 end
