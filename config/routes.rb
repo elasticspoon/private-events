@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
+  post 'not_implemented', to: 'application#not_implemented'
   resources :users, only: :show
   resources :events
   resources :attended_events, only: :create
