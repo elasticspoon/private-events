@@ -3,7 +3,9 @@
     <%= notice %>
   </div>
 <% end %>
-<% if flash[:alert] %>
+<% if flash[:alert] && flash[:alert] == 'Not implemented.' %>
+  <%= render 'notices_not_implemented' %>
+<% elsif flash[:alert] %>
   <% [flash[:alert]].flatten.each do |alert| %>
     <div class="py-3 px-5 bg-red-200 text-red-900 text-sm border-b-2 border-red-300">
       <%= alert %>

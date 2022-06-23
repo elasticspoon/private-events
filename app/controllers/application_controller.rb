@@ -2,7 +2,8 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def not_implemented
-    flash[:alert] = 'Not yet implemented.'
+    flash.alert = 'Not implemented.'
+    redirect_back fallback_location: root_path
   end
 
   protected

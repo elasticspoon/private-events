@@ -1,8 +1,7 @@
 <div class="bg-white p-2">
-  <%= form_with model: Event.new, data: {turbo: false} do |f| %>
+  <%= form_with model: Event.new, url: not_implemented_path do |f| %>
     <div class="flex flex-row items-center">
-      <%= f.email_field :email, placeholder: 'Search events...', class: 'bg-none rounded-lg border-none', required: true %>
-      <%# f.submit "Send Invite", class: '' %>
+      <%= f.text_field :name, placeholder: 'Search events...', class: 'bg-none rounded-lg border-none', required: true %>
       <%= image_submit_tag 'magnifying-glass.png', class: 'h-6 w-6 ml-2' %>
     </div>
   <% end %>
