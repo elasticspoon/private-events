@@ -18,8 +18,8 @@
     <div class="font-bold my-2"><%= render partial: "users/short_user", locals: { user: event.creator } %></div>
     <% if event.future %>
       <div class="flex flex-row mt-4 w-full">
-        <div class="w-full text-center"><%= render 'attended_events/create_button', resource: event if render_create %></div>
-        <div class="w-full text-center"><%= render 'attended_events/delete_button', resource: event if render_delete %></div>
+        <%= render 'attended_events/create_button', resource: event if render_create %>
+        <%= render 'attended_events/delete_button', resource: event if render_delete %>
       </div>
     <% end %>
   </div>
