@@ -1,3 +1,4 @@
-<div class="bg-red-500 py-2 px-8 mr-2 rounded-md border-2 border-transparent hover:border-red-800 min-w-min">
-  <%= button_to 'Leave', attended_event_path(resource.id), method: :delete %>
+<div class="w-full">
+  <%= button_to 'Leave', attended_event_path(resource.id), method: :delete,
+  class: "bg-red-500 py-2 rounded-md border-2 border-transparent hover:border-red-800 min-w-min w-full" %>
 </div>
