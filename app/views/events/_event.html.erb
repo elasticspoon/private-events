@@ -2,7 +2,7 @@
 <% render_delete = true unless local_assigns.key?(:render_delete) %>
 <div class="flex flex-col mr-4 mb-4 shadow-xl hover:shadow-xl">
   <%= image_tag "event_placeholder.jpg", size: "20x20", class: "w-full border-2" %>
-  <div class="p-2">
+  <div class="flex flex-col p-2 h-full">
     <%= link_to event do %>
       <%= content_tag :div, class: "flex flex-row w-full justify-between my-2" do %>
         <div class="font-black text-lg"><%= event.name.titleize %></div>
@@ -13,11 +13,11 @@
         <% end %>
       <% end%>
     <% end %>
-    <div class="text-yellow-500 font-bold my-2"><%= event.date.to_formatted_s(:long_ordinal) %></div>
-    <div class="my-2"><%= event.location.titleize %> - <%= event.location.titleize %></div>
-    <div class="font-bold my-2"><%= render partial: "users/short_user", locals: { user: event.creator } %></div>
+    <div class="text-yellow-500 font-bold"><%= event.date.to_formatted_s(:long_ordinal) %></div>
+    <div class=""><%= event.location.titleize %> - <%= event.location.titleize %></div>
+    <div class="font-bold mt-auto"><%= render partial: "users/short_user", locals: { user: event.creator } %></div>
     <% if event.future %>
-      <div class="flex flex-row mt-4 w-full">
+      <div class="flex flex-row w-full">
         <%= render 'attended_events/create_button', resource: event if render_create %>
         <%= render 'attended_events/delete_button', resource: event if render_delete %>
       </div>
