@@ -1,6 +1,6 @@
             <% if flash[:notice] %>
   <div class="py-3 px-5 bg-green-200 text-green-900 text-sm border-b-2 border-green-600 w-full">
-    <%= notice %>
+    <%= format_flash_message(notice) %>
   </div>
 <% end %>
 <% if flash[:alert] && flash[:alert] == 'Not implemented.' %>
@@ -8,7 +8,7 @@
 <% elsif flash[:alert] %>
   <% [flash[:alert]].flatten.each do |alert| %>
     <div class="py-3 px-5 bg-red-200 text-red-900 text-sm border-b-2 border-red-300">
-      <%= alert %>
+      <%= format_flash_message(alert) %>
     </div>
   <% end%>
 <% end %>
