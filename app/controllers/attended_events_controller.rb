@@ -2,25 +2,21 @@ class AttendedEventsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    event = AttendedEvent.accept_or_create_invite(attended_event_params, current_user.id)
+    event = AttendedEvent.process_invite(attended_event_params, current_user.id)
 
     if event.errors.empty?
-      redirect_to event_path(event.event_id),
-                  notice: (event.accepted ? 'You are now attending the event.' : 'Invite created.')
+      redirect_to event_path(event.event_id), notice: event.generate_create_success_text
     else
-      redirect_to event_path(event.event_id), alert: event.errors.full_messages.join(' ')
+      redirect_back fallback_location: root_path, alert: event.generate_create_error_text
     end
   end
 
   def destroy
-    response = AttendedEvent.invite_destroyable?(params[:user_id] || current_user.id, params[:event_id],
-                                                 current_user.id)
-    if response[:result]
-      response[:result].destroy
-      redirect_to root_path, notice: response[:response]
-    else
-      redirect_to event_path(params[:event_id]), alert: response[:response]
-    end
+    flash_status, flash_response =
+      AttendedEvent.destroy_invite(params[:user_id], params[:event_id], current_user.id)
+
+    flash[flash_status] = flash_response
+    redirect_back fallback_location: root_path
   end
 
   private

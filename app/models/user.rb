@@ -13,8 +13,6 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { in: 3..20 }
   validates :username, uniqueness: true, length: { in: 5..20 }
 
-  # Public Events: user has chosen to attend event: accepted is true
-  # Private Events: user has accepted invite to event: accepted is true
   def events_attended
     Event.find_by_sql(["
       SELECT * FROM users
@@ -33,15 +31,15 @@ class User < ApplicationRecord
       WHERE \"attended_events\".\"accepted\" = false AND user_id = ?", id])
   end
 
-  def attending_event?(event_id)
+  def event_id_attending?(event_id)
     events_attended.map(&:id).include?(event_id)
   end
 
-  def pending_event?(event_id)
+  def event_id_pending?(event_id)
     events_pending.map(&:id).include?(event_id)
   end
 
-  def invited_event?(event_id)
+  def event_id_invited?(event_id)
     events_invited_ids.include?(event_id)
   end
 end

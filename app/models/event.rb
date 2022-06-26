@@ -50,25 +50,25 @@ class Event < ApplicationRecord
       WHERE \"attended_events\".\"accepted\" = false AND event_id = ?", id])
   end
 
-  def attendee_display_perms?(current_user)
+  def attendee_perms_display?(current_user)
     return true if attendee_privacy == 'public'
-    return true if attendee_privacy == 'protected' && current_user.invited_event?(id)
+    return true if attendee_privacy == 'protected' && current_user.event_id_invited?(id)
     return true if current_user&.id == creator_id
 
     false
   end
 
-  def event_display_perms?(current_user)
+  def user_perms_display?(current_user)
     return true if display_privacy == 'public'
-    return true if display_privacy == 'protected' && current_user.invited_event?(id)
+    return true if display_privacy == 'protected' && current_user.event_id_invited?(id)
     return true if current_user&.id == creator_id
 
     false
   end
 
-  def event_view_perms?(current_user)
+  def user_perms_view?(current_user)
     return true unless private
-    return true if private && current_user.invited_event?(id)
+    return true if private && current_user.event_id_invited?(id)
     return true if current_user&.id == creator_id
 
     false
