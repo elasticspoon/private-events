@@ -1,9 +1,10 @@
 <div class="">
   <p>Invite more people:</p>
-  <%= form_with model: AttendedEvent.new, data: {turbo: false} do |f| %>
-    <%= f.hidden_field :event_id, value: resource.id %>
+  <%= form_with url: attended_events_path, data: {turbo: false}, method: :post do |f| %>
+    <%= f.hidden_field 'attended_event[event_id]', value: resource.id %>
+    <%= f.hidden_field 'attended_event[accepted]', value: false %>
     <div class="flex flex-row">
-      <%= f.email_field :email, placeholder: 'Enter an email...', class: 'rounded-md mr-2', required: true %>
+      <%= email_field 'attended_event[identifier]', :email, placeholder: 'Enter an email...', class: 'rounded-md mr-2', required: true %>
       <%= f.submit "Send Invite", class: 'border-2 border-transparent rounded-md bg-green-400 px-4 hover:border-green-600 hover:text-white' %>
     </div>
   <% end %>
