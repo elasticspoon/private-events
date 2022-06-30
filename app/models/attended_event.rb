@@ -11,6 +11,8 @@ class AttendedEvent < ApplicationRecord
     invite_target_id = AttendedEvent.invite_target_id(params, curr_user)
     pending_invite = AttendedEvent.new({ event_id: params[:event_id], accepted: params[:accepted],
                                          user_id: invite_target_id })
+    # maybe the validation returns the response
+    # the save returns the key?
     pending_invite.validate_create_invite(curr_user)
     pending_invite.save_valid_invite
   end
@@ -22,6 +24,16 @@ class AttendedEvent < ApplicationRecord
     invite&.validate_invite_destroy(curr_user)
     invite&.destroy_valid_invite || nil
   end
+
+  # destroy
+  # sucess deleting an extended invite - invite revoked
+  # sucess leaving event - you are no longer attending
+  # failure invite nil - invite not found
+
+  # create
+  # sucess creating invite - invite created
+  # sucess joining event - now attending event
+  def generate_flash_response(_invite); end
 
   def self.invite_target_id(params, curr_user)
     return curr_user.id unless params[:identifier].present?
@@ -86,7 +98,7 @@ class AttendedEvent < ApplicationRecord
   def validate_user_destroy(curr_user); end
 
   def destroy_valid_invite
-    destroy if errors[:alert].empty?
+    destroy if errors.empty?
   end
 
   def save_valid_invite

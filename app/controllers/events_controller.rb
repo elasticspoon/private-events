@@ -46,14 +46,8 @@ class EventsController < ApplicationController
     params.require(:event).permit(:date, :location, :private, :desc, :name, :display_privacy, :attendee_privacy)
   end
 
+  #what is this here for?
   def build_event
     @event = current_user.events_created.build
-  end
-
-  def perms_show?
-    unless @event.user_perms_view?(current_user)
-      (redirect_to root_path,
-                   alert: 'You do not have permission to view that page.')
-    end
   end
 end

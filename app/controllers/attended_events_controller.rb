@@ -2,23 +2,24 @@ class AttendedEventsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    event = AttendedEvent.process_create_invite(attended_event_params, current_user)
-
-    if event.errors.empty?
-      redirect_to event_path(event.event_id), notice: event.generate_create_success_text
-    else
+    flash_response, flash_value = AttendedEvent.process_create_invite(attended_event_params, current_user)
+    if flash_response.is_a?(AttendedEvent)
+      flash.notice = flash_value
+      redirect_to event_path(flash_response.event_id)
+    elsif flash_response == :alert
+      flash[flash_response] = flash_value
       redirect_back fallback_location: root_path, alert: event.generate_create_error_text
+    else
+      raise Error
     end
   end
 
   def destroy
-    event = AttendedEvent.process_destroy_invite(attended_event_params, current_user)
+    flash_response, flash_value = AttendedEvent.process_destroy_invite(attended_event_params, current_user)
+    raise Error unless %i[alert notice].includes(flash_response)
 
-    if event.nil? || !event.errors.empty?
-      redirect_back fallback_location: root_path, alert: event&.errors || 'That invitation does not exist.'
-    else
-      redirect_back fallback_location: root_path, notice: 'Invite cancelled.'
-    end
+    flash[:flash_response] = flash_value
+    redirect_back fallback_location: root_path
   end
 
   private
