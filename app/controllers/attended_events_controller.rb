@@ -8,17 +8,16 @@ class AttendedEventsController < ApplicationController
       redirect_to event_path(flash_response.event_id)
     elsif flash_response == :alert
       flash[flash_response] = flash_value
-      redirect_back fallback_location: root_path, alert: event.generate_create_error_text
+      redirect_back fallback_location: root_path
     else
-      raise Error
+      raise "Invalid flash response: #{flash_response}"
     end
   end
 
   def destroy
     flash_response, flash_value = AttendedEvent.process_destroy_invite(attended_event_params, current_user)
-    raise Error unless %i[alert notice].includes(flash_response)
 
-    flash[:flash_response] = flash_value
+    flash[flash_response] = flash_value
     redirect_back fallback_location: root_path
   end
 

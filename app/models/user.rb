@@ -44,7 +44,7 @@ class User < ApplicationRecord
   end
 
   def event_perms(event_id)
-    return 'owner' if events_created_ids.include?(event_id)
+    return 'owner' if Event.find(event_id)&.creator_id == id
     return 'attendee' if event_id_attending?(event_id)
     return 'pending_invite' if event_id_pending?(event_id)
   end
