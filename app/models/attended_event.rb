@@ -153,7 +153,7 @@ class AttendedEvent < ApplicationRecord
   private
 
   def add_perms_error
-    errors.add :base, 'You do not have permission to perform this action'
+    errors.add :base
     'You do not have permission to perform this action'
   end
 end
