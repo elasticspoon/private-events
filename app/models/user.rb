@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :events_created, class_name: 'Event', foreign_key: 'creator_id'
+
   has_many :user_event_permissions, dependent: :destroy
   has_many :event_relations, through: :user_event_permissions, source: :event
 
@@ -21,20 +22,12 @@ class User < ApplicationRecord
     user_event_permissions.where(permission_type: 'accept_invite').includes(:event).map(&:event)
   end
 
-  def event_id_attending?(event_id)
-    user_event_permissions.where(event_id: event_id, permission_type: 'attend').exists?
-  end
-
-  def event_id_pending?(event_id)
-    event_id_invited?(event_id)
-  end
-
-  def event_id_invited?(event_id)
-    user_event_permissions.where(event_id: event_id, permission_type: 'accept_invite').exists?
-  end
-
   def held_event_perms(event_id, curr_user_id)
     perms = user_event_permissions.where(event_id: event_id).to_a.map(&:permission_type)
     id == curr_user_id ? perms << 'current_user' : perms
+  end
+
+  def user_has_permission?(permission_type, event_id)
+    user_event_permissions.where(event_id: event_id, permission_type: permission_type).any?
   end
 end
