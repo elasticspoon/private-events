@@ -32,7 +32,8 @@ class UserEventPermission < ApplicationRecord
     pending_permission = UserEventPermission.new({ event_id: params[:event_id],
                                                    permission_type: params[:permission_type],
                                                    user_id: permission_target_id })
-    flash_value = pending_permission.validate_permission(curr_user_id, :create)
+    valid_permission = pending_permission.validate_permission(curr_user_id, :create)
+    flash_value = generate_permission_response(valid_permission, :create)
     flash_status = pending_permission.save_valid_permission
     [flash_status, flash_value]
   end
@@ -44,7 +45,8 @@ class UserEventPermission < ApplicationRecord
                                              user_id: permission_target_id)
     return [:alert, 'Permission does not exist.'] if permission.nil?
 
-    flash_value = permission.validate_permission(curr_user_id, :destroy)
+    valid_permission = permission.validate_permission(curr_user_id, :destroy)
+    flash_value = generate_permission_response(valid_permission, :destroy)
     flash_status = permission.destroy_valid_permission
     [flash_status, flash_value]
   end
@@ -56,18 +58,22 @@ class UserEventPermission < ApplicationRecord
   ##############################################################################################
 
   # validates user has permission permission
-  def validate_permission(curr_user_id, action)
-    return errors.full_messages.join(', ') unless valid?
+  def generate_permission_response(has_perms, action)
+    case has_perms && valid?
+    when true
+      "Successfully #{pretty_action_to_s(action)} permission."
+    when false
+      errors.empty? ? 'You do not have permission to perform this action.' : errors.full_messages.join(', ')
+    else
+      raise 'Invalid permission response'
+    end
+  end
 
+  def validate_permission(curr_user_id, action)
     held_permissions = user.held_event_perms(event_id, curr_user_id)
     required_perms = event.required_perms_for_action(permission_type, action)
 
-    if required_perms.call(held_permissions)
-      "Successfully #{action}d permission."
-    else
-      errors.add(:base, 'Your permissions are insufficient.')
-      'Your permissions are insufficient.'
-    end
+    required_perms.call(held_permissions)
   end
 
   ##############################################################################################
@@ -119,5 +125,9 @@ class UserEventPermission < ApplicationRecord
     else
       :alert
     end
+  end
+
+  def pretty_action_to_s(action)
+    "#{action.to_s.sub(/e$/, '')}ed"
   end
 end
