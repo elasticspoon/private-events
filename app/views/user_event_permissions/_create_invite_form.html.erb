@@ -1,0 +1,11 @@
+<div class="">
+  <p>Invite more people:</p>
+  <%= form_with url: user_event_permissions_path, data: {turbo: false}, method: :post do |f| %>
+    <%= f.hidden_field 'user_event_permissions[event_id]', value: resource.id %>
+    <%= f.hidden_field 'user_event_permissions[permission_type]', value: false %>
+    <div class="flex flex-row">
+      <%= email_field 'user_event_permissions[identifier]', :email, placeholder: 'Enter an email...', class: 'rounded-md mr-2', required: true %>
+      <%= f.submit "Send Invite", class: 'border-2 border-transparent rounded-md bg-green-400 px-4 hover:border-green-600 hover:text-white' %>
+    </div>
+  <% end %>
+</div>

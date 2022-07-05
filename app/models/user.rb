@@ -3,49 +3,38 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  has_many :attended_events
-  has_many :events_created, class_name: 'Event', foreign_key: 'creator_id'
 
-  # Public Events: events a user has signed up for
-  # Private Events: events to which a user is invited, whether or not they have accepted
-  has_many :events_invited, through: :attended_events, source: :event
+  has_many :events_created, class_name: 'Event', foreign_key: 'creator_id'
+  has_many :user_event_permissions, dependent: :destroy
+  has_many :event_relations, through: :user_event_permissions, source: :event
 
   validates :name, presence: true, length: { in: 3..20 }
   validates :username, uniqueness: true, length: { in: 5..20 }
 
   def events_attended
-    Event.find_by_sql(["
-      SELECT * FROM users
-      INNER JOIN attended_events ON attended_events.user_id = users.id
-      INNER JOIN events ON attended_events.event_id = events.id
-      WHERE \"attended_events\".\"accepted\" = true AND user_id = ?", id])
+    user_event_permissions.where(permission_type: 'attend').includes(:event).map(&:event)
   end
 
   # Public Events: invite is extended but user has not yet accepted
   # Private Events: invite is extended but user has not yet accepted
   def events_pending
-    Event.find_by_sql(["
-      SELECT * FROM users
-      INNER JOIN attended_events ON attended_events.user_id = users.id
-      INNER JOIN events ON attended_events.event_id = events.id
-      WHERE \"attended_events\".\"accepted\" = false AND user_id = ?", id])
+    user_event_permissions.where(permission_type: 'accept_invite').includes(:event).map(&:event)
   end
 
   def event_id_attending?(event_id)
-    events_attended.map(&:id).include?(event_id)
+    user_event_permissions.where(event_id: event_id, permission_type: 'attend').exists?
   end
 
   def event_id_pending?(event_id)
-    events_pending.map(&:id).include?(event_id)
+    event_id_invited?(event_id)
   end
 
   def event_id_invited?(event_id)
-    events_invited_ids.include?(event_id)
+    user_event_permissions.where(event_id: event_id, permission_type: 'accept_invite').exists?
   end
 
-  def event_perms(event_id)
-    return 'owner' if Event.find(event_id)&.creator_id == id
-    return 'attendee' if event_id_attending?(event_id)
-    return 'pending_invite' if event_id_pending?(event_id)
+  def held_event_perms(event_id, curr_user_id)
+    perms = user_event_permissions.where(event_id: event_id).to_a.map(&:permission_type)
+    id == curr_user_id ? perms << 'current_user' : perms
   end
 end

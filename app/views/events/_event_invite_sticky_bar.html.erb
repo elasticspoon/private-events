@@ -3,11 +3,13 @@
   <div class="py-2 px-8">Like</div>
   <% if user_signed_in? && current_user.events_attended.include?(event) %>
     <div class="ml-auto w-full max-w-xs flex flex-row justify-center">
-      <%= button_to 'Leave', attended_events_url, params: { 'attended_event[event_id]': event.id}, method: :delete, class: 'py-2 mx-4 px-20  font-bold text-xl bg-red-500 rounded-md border-2 border-transparent hover:border-red-700 hover:text-white' %>
+      <%= button_to 'Leave', user_event_permissions_url, params: { 'user_event_permissions[event_id]': event.id,
+       'user_event_permissions[permission_type]': 'attend' }, method: :delete,
+        class: 'py-2 mx-4 px-20  font-bold text-xl bg-red-500 rounded-md border-2 border-transparent hover:border-red-700 hover:text-white' %>
     </div>
   <% else %>
     <div class="ml-auto w-full max-w-xs flex flex-row justify-center">
-      <%= button_to 'Register', :attended_events, params: { 'attended_event[event_id]': event.id, 'attended_event[accepted]': true }, method: :post, class: 'py-2 mx-4 px-20 bg-green-400 font-bold text-xl rounded-md  border-2 border-transparent hover:border-green-700 hover:text-white' %>
+      <%= button_to 'Register', :user_event_permissions, params: { 'user_event_permissions[event_id]': event.id, 'user_event_permissions[permission_type]': 'attend' }, method: :post, class: 'py-2 mx-4 px-20 bg-green-400 font-bold text-xl rounded-md  border-2 border-transparent hover:border-green-700 hover:text-white' %>
     </div>
   <% end%>
 </div>

@@ -1,0 +1,5 @@
+<div class="w-full">
+  <%= button_to 'Join', :user_event_permissions, method: :post,
+ params: { 'user_event_permissions[event_id]': resource.id, 'user_event_permissions[permission_type]': 'attend' },
+ class: "bg-green-400 py-2 rounded-md border-2 border-transparent hover:border-green-600 w-full" %>
+</div>

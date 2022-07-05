@@ -1,9 +1,8 @@
-class AttendedEventsController < ApplicationController
+class UserEventPermissionsController < ApplicationController
   before_action :authenticate_user!
-
   def create
-    flash_response, flash_value = AttendedEvent.process_create_invite(attended_event_params, current_user)
-    if flash_response.is_a?(AttendedEvent)
+    flash_response, flash_value = UserEventPermission.create_permission(user_event_perm_params, current_user.id)
+    if flash_response.is_a?(UserEventPermission)
       flash.notice = flash_value
       redirect_to event_path(flash_response.event_id)
     elsif flash_response == :alert
@@ -15,7 +14,7 @@ class AttendedEventsController < ApplicationController
   end
 
   def destroy
-    flash_response, flash_value = AttendedEvent.process_destroy_invite(attended_event_params, current_user)
+    flash_response, flash_value = UserEventPermission.destroy_permission(user_event_perm_params, current_user.id)
 
     flash[flash_response] = flash_value
     redirect_back fallback_location: root_path
@@ -23,7 +22,7 @@ class AttendedEventsController < ApplicationController
 
   private
 
-  def attended_event_params
-    params.require(:attended_event).permit(:event_id, :accepted, identifier: {})
+  def user_event_perm_params
+    params.require(:user_event_permissions).permit(:event_id, :permission_type, identifier: {})
   end
 end

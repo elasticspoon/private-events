@@ -1,0 +1,4 @@
+<div class="w-full">
+  <%= button_to 'Leave', user_event_permissions_url, params: { 'user_event_permissions[event_id]': resource.id, 'user_event_permissions[permission_type]': 'attend'},  method: :delete,
+  class: "bg-red-500 py-2 rounded-md border-2 border-transparent hover:border-red-800 min-w-min w-full" %>
+</div>
