@@ -2,9 +2,9 @@
   <div class="flex flex-row w-full">
     <%= image_tag 'event_placeholder.jpg', class: "object-cover w-full h-72" %>
     <div class="flex flex-col p-8 max-w-xs w-full">
-      <div class="text-xl py-2"><%= event.date.to_formatted_s(:long_ordinal) %></div>
-      <div class='text-2xl font-bold py-2'><%= event.name.titleize %></div>
-      <div class="py-2"><%= render partial:"users/short_user", locals: { user: event.creator } %></div>
+      <div class="text-xl py-2"><%= resource.date.to_formatted_s(:long_ordinal) %></div>
+      <div class='text-2xl font-bold py-2'><%= resource.name.titleize %></div>
+      <div class="py-2"><%= render "users/short_user", resource: resource.creator %></div>
     </div>
   </div>
 </div>

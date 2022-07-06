@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   # before_action :event_owner?, only: %i[edit update destroy]
 
   def index
-    @events = Event.includes(:creator, :attendees).all
+    @events = Event.includes(:creator, :user_event_permissions).all
   end
 
   def show; end
@@ -39,7 +39,7 @@ class EventsController < ApplicationController
   private
 
   def find_event
-    @event = Event.includes(:creator, :attendees).find(params[:id])
+    @event = Event.includes(:creator, :user_event_permissions).find(params[:id])
   end
 
   def event_params
@@ -47,7 +47,7 @@ class EventsController < ApplicationController
   end
 
   def perms_show?
-    unless @event.user_perms_view?(current_user)
+    unless @event.joinable_by?(current_user)
       (redirect_to root_path,
                    alert: 'You do not have permission to view that page.')
     end

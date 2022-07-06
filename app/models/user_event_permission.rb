@@ -33,7 +33,7 @@ class UserEventPermission < ApplicationRecord
                                                    permission_type: params[:permission_type],
                                                    user_id: permission_target_id })
     valid_permission = pending_permission.validate_permission(curr_user_id, :create)
-    flash_value = generate_permission_response(valid_permission, :create)
+    flash_value = pending_permission.generate_permission_response(valid_permission, :create)
     flash_status = pending_permission.save_valid_permission
     [flash_status, flash_value]
   end
@@ -46,7 +46,7 @@ class UserEventPermission < ApplicationRecord
     return [:alert, 'Permission does not exist.'] if permission.nil?
 
     valid_permission = permission.validate_permission(curr_user_id, :destroy)
-    flash_value = generate_permission_response(valid_permission, :destroy)
+    flash_value = permission.generate_permission_response(valid_permission, :destroy)
     flash_status = permission.destroy_valid_permission
     [flash_status, flash_value]
   end

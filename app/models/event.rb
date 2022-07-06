@@ -50,38 +50,23 @@ class Event < ApplicationRecord
   end
 
   def accepted_invites
-    user_event_permissions.where(permission_type: 'attend').includes(:user).map(&:user)
+    user_event_permissions.where(permission_type: 'attend').includes(:user)
   end
 
   def pending_invites
-    user_event_permissions.where(permission_type: 'accept_invite').includes(:user).map(&:user)
+    user_event_permissions.where(permission_type: 'accept_invite').includes(:user)
   end
 
-  # needs fixing some day
-  def privacy_perms(privacy_type, current_user)
-    held_perms = current_user.held_event_perms(id, current_user.id)
-    case privacy_type
-    when 'private'
-      one_required(held_perms, %w[attend accept_invite moderate owner])
-    when 'protected'
-      one_required(held_perms, %w[attend accept_invite moderate owner])
-    when 'public'
-      true
-    else
-      raise 'Invalid attendee_privacy'
-    end
-  end
-
-  def attendee_perms_display?(current_user)
+  def attending_viewable_by?(current_user)
     privacy_perms(attendee_privacy, current_user)
   end
 
-  def user_perms_display?(current_user)
+  def viewable_by?(current_user)
     privacy_perms(display_privacy, current_user)
   end
 
-  def user_perms_view?(current_user)
-    privacy_perms(event_privacy || 'public', current_user)
+  def joinable_by?(current_user)
+    privacy_perms(event_privacy, current_user)
   end
 
   # looks up required permissions to 'action' a permission of specified perm_type
@@ -100,6 +85,10 @@ class Event < ApplicationRecord
     end
   end
 
+  def private?
+    event_privacy == 'private'
+  end
+
   private
 
   def all_required(held_perms, required_perms)
@@ -108,5 +97,21 @@ class Event < ApplicationRecord
 
   def one_required(held_perms, required_perms)
     (held_perms & required_perms).any?
+  end
+
+  # needs fixing some day
+  # generic function to check a user's permissions for an event
+  def privacy_perms(privacy_type, current_user)
+    return true if privacy_type == 'public'
+
+    held_perms = current_user.held_event_perms(id, current_user.id)
+    case privacy_type
+    when 'private'
+      one_required(held_perms, %w[attend accept_invite moderate owner])
+    when 'protected'
+      one_required(held_perms, %w[attend accept_invite moderate owner])
+    else
+      raise 'Invalid attendee_privacy'
+    end
   end
 end

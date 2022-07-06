@@ -1,5 +1,7 @@
-<div class="bg-red-500 rounded-md text-center p-2">
-  <%= button_to 'Revoke', :user_event_permissions, params: { 'user_event_permissions[event_id]': resource.event_id,
+<% if can_revoke_invite?(resource.event_id) %>
+  <div class="bg-red-500 rounded-md text-center p-2">
+    <%= button_to 'Revoke', :user_event_permissions, params: { 'user_event_permissions[event_id]': resource.event_id,
    'user_event_permissions[identifier[user_id]]': resource.user_id, 
     'user_event_permissions[permission_type]': 'attend' }, method: :delete %>
-</div>
+  </div>
+<% end %>

@@ -1,18 +1,20 @@
-<div class="flex flex-row py-4 w-full">
-  <div class="flex flex-col w-full mr-8">
-    <div class="">Attendees:</div>
-    <div class="flex flex-col py-2">
-      <% event.accepted_invites.each do |attendee| %>
-        <%= render partial: 'users/short_user', locals: {user: attendee, show_revoke_button: current_user&.id == @event.creator.id} %>
-      <% end %>
+<% if resource.attending_viewable_by?(current_user)%>
+  <div class="flex flex-row py-4 w-full">
+    <div class="flex flex-col w-full mr-8">
+      <div class="">Attendees:</div>
+      <div class="flex flex-col py-2">
+        <% resource.accepted_invites.each do |attendee| %>
+          <%= render 'user_event_permissions/short_permission', resource: attendee %>
+        <% end %>
+      </div>
+    </div>
+    <div class="flex flex-col w-full ml-8">
+      <div class="">Pending Invites:</div>
+      <div class="flex flex-col py-2">
+        <% resource.pending_invites.each do |pending| %>
+          <%= render 'user_event_permissions/short_permission', resource: pending %>
+        <% end %>
+      </div>
     </div>
   </div>
-  <div class="flex flex-col w-full ml-8">
-    <div class="">Pending Invites:</div>
-    <div class="flex flex-col py-2">
-      <% event.pending_invites.each do |pending| %>
-        <%= render partial: 'users/short_user', locals: {user: pending, show_revoke_button: current_user&.id == @event.creator.id} %>
-      <% end %>
-    </div>
-  </div>
-</div>
+<% end%>
