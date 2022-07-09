@@ -43,7 +43,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:date, :location, :private, :desc, :name, :display_privacy, :attendee_privacy)
+    params.require(:event).permit(:date, :location, :event_privacy, :desc, :name, :display_privacy, :attendee_privacy)
   end
 
   def perms_show?

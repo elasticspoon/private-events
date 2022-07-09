@@ -1,10 +1,6 @@
 module UserEventPermissionsHelper
-  def can_revoke_invite?(event_id)
-    current_user.holds_permission_currently?('owner', event_id) ||
-      current_user.holds_permission_currently?('moderate', event_id)
-  end
-
-  def can_join?(event)
-    current_user.holds_permission_currently?('accept_invite', event.id)
+  def generate_perms_invite_form(event, method, submit_text, class_value)
+    render partial: 'user_event_permissions/generic_perm_button',
+           locals: { event: event, method: method, submit_text: submit_text, class_value: class_value }
   end
 end

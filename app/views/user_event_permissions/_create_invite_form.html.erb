@@ -1,4 +1,4 @@
-<% unless resource.past %>
+<% unless resource.past? %>
   <div class="">
     <p>Invite more people:</p>
     <%= form_with url: user_event_permissions_path, data: {turbo: false}, method: :post do |f| %>

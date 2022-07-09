@@ -1,0 +1,5 @@
+<%= form_with url: user_event_permissions_url, scope: :user_event_permissions, method: method do |form| %>
+  <%= form.hidden_field :event_id, value: resource.id %>
+  <%= form.hidden_field :permission_type, value: 'attend' %>
+  <%= yield form %>
+<% end %>

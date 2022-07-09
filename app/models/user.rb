@@ -16,6 +16,19 @@ class User < ApplicationRecord
     user_event_permissions.where(permission_type: 'attend').includes(:event).map(&:event)
   end
 
+  def attending?(event_id)
+    holds_permission_currently?('attend', event_id)
+  end
+
+  def can_join?(event_id)
+    holds_permission_currently?('accept_invite', event_id)
+  end
+
+  def can_moderate?(event_id)
+    holds_permission_currently?('owner', event_id) ||
+      holds_permission_currently?('moderate', event_id)
+  end
+
   # Public Events: invite is extended but user has not yet accepted
   # Private Events: invite is extended but user has not yet accepted
   def events_pending
@@ -28,6 +41,8 @@ class User < ApplicationRecord
     perms = user_event_permissions.where(event_id: permssion_tar_event_id).to_a.map(&:permission_type)
     id == curr_user_id ? perms << 'current_user' : perms
   end
+
+  private
 
   def holds_permission_currently?(permission_type, event_id)
     user_event_permissions.where(event_id: event_id, permission_type: permission_type).any?

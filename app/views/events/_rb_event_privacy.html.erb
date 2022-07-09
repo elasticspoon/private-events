@@ -2,15 +2,15 @@
   <div class="p-2 text-xl font-bold">Event Options</div>
   <div class="bg-white grid grid-cols-2 items-center">
     <div class="">
-      <%= resource.radio_button :private, 'false', class: 'peer sr-only', checked: true %>
-      <%= resource.label :private, 'Public', value: 'false', class: 'flex flex-col border-2 border-transparent rounded-lg peer-checked:border-blue-400 p-4 m-4 hover:shadow-xl'  do %>
+      <%= resource.radio_button :event_privacy, 'public', class: 'peer sr-only', checked: true %>
+      <%= resource.label :event_privacy, 'Public', value: 'false', class: 'flex flex-col border-2 border-transparent rounded-lg peer-checked:border-blue-400 p-4 m-4 hover:shadow-xl'  do %>
         <div class="font-bold text-xl">Public</div>
         <div class="text-sm">Visible to all</div>
       <% end %>
     </div>
     <div class="">
-      <%= resource.radio_button :private, 'true', class: 'peer sr-only' %>
-      <%= resource.label :private, 'Private', value: 'true', class: 'flex flex-col border-2 border-transparent rounded-lg peer-checked:border-blue-400 p-4 m-4 hover:shadow-xl'  do %>
+      <%= resource.radio_button :event_privacy, 'private', class: 'peer sr-only' %>
+      <%= resource.label :event_privacy, 'Private', value: 'private', class: 'flex flex-col border-2 border-transparent rounded-lg peer-checked:border-blue-400 p-4 m-4 hover:shadow-xl'  do %>
         <div class="font-bold text-xl">Private</div>
         <div class="text-sm">Visible to those with invites</div>
       <% end %>

@@ -29,6 +29,8 @@ class Event < ApplicationRecord
   validates :display_privacy, inclusion: AVAILIABLE_SETTINGS
   validates :attendee_privacy, inclusion: AVAILIABLE_SETTINGS
 
+  after_commit :make_owner_permission, on: :create
+
   def self.past
     where('date < ?', DateTime.now)
   end
@@ -41,11 +43,11 @@ class Event < ApplicationRecord
     where(display_privacy: 'public')
   end
 
-  def future
+  def future?
     date > DateTime.now
   end
 
-  def past
+  def past?
     date < DateTime.now
   end
 
@@ -58,15 +60,15 @@ class Event < ApplicationRecord
   end
 
   def attending_viewable_by?(current_user)
-    privacy_perms(attendee_privacy, current_user)
+    perms_for_event_setting?(current_user, attendee_privacy)
   end
 
   def viewable_by?(current_user)
-    privacy_perms(display_privacy, current_user)
+    perms_for_event_setting?(current_user, display_privacy)
   end
 
   def joinable_by?(current_user)
-    privacy_perms(event_privacy, current_user)
+    perms_for_event_setting?(current_user, event_privacy)
   end
 
   # looks up required permissions to 'action' a permission of specified perm_type
@@ -85,10 +87,6 @@ class Event < ApplicationRecord
     end
   end
 
-  def private?
-    event_privacy == 'private'
-  end
-
   private
 
   def all_required(held_perms, required_perms)
@@ -99,13 +97,22 @@ class Event < ApplicationRecord
     (held_perms & required_perms).any?
   end
 
+  def make_owner_permission
+    user_event_permissions.create(user_id: creator_id, permission_type: 'owner')
+  end
+
   # needs fixing some day
   # generic function to check a user's permissions for an event
-  def privacy_perms(privacy_type, current_user)
-    return true if privacy_type == 'public'
+  def perms_for_event_setting?(current_user, event_setting)
+    return true if event_setting == 'public'
+    return false if current_user.nil?
 
     held_perms = current_user.held_event_perms(id, current_user.id)
-    case privacy_type
+    perms_allow_setting?(event_setting, held_perms)
+  end
+
+  def perms_allow_setting?(event_setting, held_perms)
+    case event_setting
     when 'private'
       one_required(held_perms, %w[attend accept_invite moderate owner])
     when 'protected'

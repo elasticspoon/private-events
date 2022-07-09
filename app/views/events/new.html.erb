@@ -1,7 +1,7 @@
 <div class="flex w-full flex-col items-center">
   <div class="w-full min-h-screen py-6 sm:max-w-lg flex flex-col justify-center mx-6 self-center">
     <div class='mb-6 text-center text-5xl font-extrabold'>Create an Event!</div>
-    <%= render 'event_form', resource: @event %>
+    <%= render partial: 'event_form', locals: { resource: @event, method: :post } %>
   </div>
   <%= render 'event_bottom_bar' %>
 </div>

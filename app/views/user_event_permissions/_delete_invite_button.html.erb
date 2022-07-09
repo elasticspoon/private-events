@@ -1,7 +1,10 @@
-<% if can_revoke_invite?(resource.event_id) %>
-  <div class="bg-red-500 rounded-md text-center p-2">
-    <%= button_to 'Revoke', :user_event_permissions, params: { 'user_event_permissions[event_id]': resource.event_id,
-   'user_event_permissions[identifier[user_id]]': resource.user_id, 
-    'user_event_permissions[permission_type]': 'attend' }, method: :delete %>
+<% if current_user&.can_moderate?(resource.event_id) %>
+  <div class="bg-red-500 py-2 px-4 rounded-md border-2 border-transparent hover:border-red-800 h-min" >
+    <%= form_with url: user_event_permissions_url, scope: :user_event_permissions, method: :delete do |form| %>
+      <%= form.hidden_field :event_id, value: resource.event_id %>
+      <%= form.hidden_field 'identifier[user_id]', value: resource.user_id %>
+      <%= form.hidden_field :permission_type, value: resource.permission_type %>
+      <%= form.submit 'Revoke' %>
+    <% end %>
   </div>
 <% end %>
