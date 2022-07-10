@@ -1,5 +1,0 @@
-<% unless event.past? %>
-  <%= render layout: 'layouts/generic_perm_button', locals: { resource: event, method: :post } do |form| %>
-    <%= form.submit 'Register' %>
-  <% end %>
-<% end %>

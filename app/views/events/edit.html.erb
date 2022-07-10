@@ -3,5 +3,5 @@
     <div class='mb-6 text-center text-5xl font-extrabold'>Editing: <%= @event.name.titleize %></div>
     <%= render partial: 'event_form', locals: { resource: @event, method: :put } %>
   </div>
-  <%= render 'event_bottom_bar' %>
+  <%= render 'bottom_bar' %>
 </div>

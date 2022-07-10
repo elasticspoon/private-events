@@ -13,8 +13,8 @@
       <div class=""><%= event.location.titleize %> - <%= event.location.titleize %></div>
       <div class="font-bold mt-auto"><%= render "users/short_user", resource: event.creator %></div>
       <div class="flex flex-row w-full">
-        <%= render 'user_event_permissions/create_button', resource: event %>
-        <%= render 'user_event_permissions/delete_button', resource: event  %>
+        <%= render 'user_event_permissions/curr_user_join_button.html', resource: event %>
+        <%= render 'user_event_permissions/curr_user_leave_button.html', resource: event  %>
       </div>
     </div>
   </div>

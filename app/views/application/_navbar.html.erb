@@ -4,7 +4,7 @@
     <div class='hover:text-white hover:bg-gray-600 rounded-md p-4 mr-4'>
       <%= link_to 'Private Events', root_path %>
     </div>
-    <div class='mr-auto'><%= render 'events/search_event_form' %></div>
+    <div class='mr-auto'><%= render 'events/search_form' %></div>
     <% if user_signed_in? %>
       <%= link_to 'Create Event', new_event_path, class: "hover:text-white hover:bg-gray-600 rounded-md p-4" %>
       <%= link_to edit_user_registration_path, class: "hover:text-white hover:bg-gray-600 rounded-md p-2" do %>

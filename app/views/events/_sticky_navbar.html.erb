@@ -1,18 +1,15 @@
-<%# TODO: 
- - Refactor the user_signed in line to avoid the and
-      - potentially maybe add method to event %>
 <div class="w-full flex flex-row py-2 border-y-1 border-black shadow-xl sticky top-20 bg-white">
   <div class="py-2 px-8">Upload</div>
   <div class="py-2 px-8">Like</div>
   <% if current_user&.attending?(resource.id) %>
     <div class="ml-auto w-full max-w-xs flex flex-row justify-center">
-      <%= render layout: 'layouts/generic_perm_button', locals: { resource: resource, method: :delete } do |form| %>
+      <%= render layout: 'layouts/generic_attend_perm_button', locals: { resource: resource, method: :delete } do |form| %>
         <%= form.submit 'Leave', class: "py-2 mx-4 px-20  font-bold text-xl bg-red-500 rounded-md border-2 border-transparent hover:border-red-700 hover:text-white" %>
       <% end %>
     </div>
   <% else %>
     <div class="ml-auto w-full max-w-xs flex flex-row justify-center">
-      <%= render layout: 'layouts/generic_perm_button', locals: { resource: resource, method: :post } do |form| %>
+      <%= render layout: 'layouts/generic_attend_perm_button', locals: { resource: resource, method: :post } do |form| %>
         <%= form.submit 'Register', class: "py-2 mx-4 px-20 bg-green-400 font-bold text-xl rounded-md  border-2 border-transparent hover:border-green-700 hover:text-white" %>
       <% end %>
     </div>
