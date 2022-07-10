@@ -45,6 +45,6 @@ class User < ApplicationRecord
   private
 
   def holds_permission_currently?(permission_type, event_id)
-    user_event_permissions.where(event_id: event_id, permission_type: permission_type).any?
+    user_event_permissions.where(event_id:, permission_type:).any?
   end
 end
