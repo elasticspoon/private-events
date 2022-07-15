@@ -10,41 +10,50 @@ class User < ApplicationRecord
   has_many :event_relations, through: :user_event_permissions, source: :event
 
   validates :name, presence: true, length: { in: 3..20 }
-  validates :username, uniqueness: true, length: { in: 5..20 }
+  validates :username, presence: true, uniqueness: true, length: { minimum: 5 }
 
   def events_attended
     user_event_permissions.where(permission_type: 'attend').includes(:event).map(&:event)
   end
 
-  def attending?(event_id)
-    holds_permission_currently?('attend', event_id)
-  end
-
-  def can_join?(event_id)
-    holds_permission_currently?('accept_invite', event_id)
-  end
-
-  def can_moderate?(event_id)
-    holds_permission_currently?('owner', event_id) ||
-      holds_permission_currently?('moderate', event_id)
-  end
-
-  # Public Events: invite is extended but user has not yet accepted
-  # Private Events: invite is extended but user has not yet accepted
   def events_pending
     user_event_permissions.where(permission_type: 'accept_invite').includes(:event).map(&:event)
   end
 
+  def attending?(event_id)
+    holds_permission_currently?(event_id, 'attend')
+  end
+
+  def invite?(event_id)
+    holds_permission_currently?(event_id, 'accept_invite')
+  end
+
+  def can_moderate?(event_id)
+    holds_permission_currently?(event_id, 'moderate', 'owner')
+  end
+
+  def can_join?(event)
+    return false if attending?(event.id)
+    return true if event.event_privacy == 'public' || event.event_privacy == 'protected'
+
+    holds_permission_currently?(event.id, 'accept_invite', 'moderate', 'owner')
+  end
+
   # returns an array of permissions that the current user holds
   # for the prospective permission being acted on
-  def held_event_perms(permssion_tar_event_id, curr_user_id)
-    perms = user_event_permissions.where(event_id: permssion_tar_event_id).to_a.map(&:permission_type)
-    id == curr_user_id ? perms << 'current_user' : perms
+  def held_event_perms(permssion_tar_event_id)
+    user_event_permissions.where(event_id: permssion_tar_event_id).to_a.map(&:permission_type)
+  end
+
+  def self.held_event_perms(user, event_id)
+    return nil if user.nil?
+
+    user.user_event_permissions.where(event_id:).to_a.map(&:permission_type)
   end
 
   private
 
-  def holds_permission_currently?(permission_type, event_id)
+  def holds_permission_currently?(event_id, *permission_type)
     user_event_permissions.where(event_id:, permission_type:).any?
   end
 end
