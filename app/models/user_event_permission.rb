@@ -84,12 +84,11 @@ class UserEventPermission < ApplicationRecord
   # we are fine with user_id being nil since permission could
   # be extended to a user that does not exist
   def self.identifier_id(params)
-    found_id = nil
-    found_id = params[:user_id] if found_id.nil? && params[:user_id].present?
+    found_id = []
+    found_id.push(params[:user_id]) if params[:user_id].present?
+    found_id.push(User.find_by(email: params[:email])&.id) if params[:email].present?
 
-    found_id = User.find_by(email: params[:email]).id if found_id.nil? && params[:email].present?
-
-    found_id || raise("Invalid parameters #{params.inspect}")
+    found_id.length == 1 ? found_id.first : raise("Invalid parameters #{params.inspect}")
   end
 
   # identifier should never have more than 1 value
