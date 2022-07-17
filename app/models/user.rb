@@ -41,10 +41,7 @@ class User < ApplicationRecord
 
   # returns an array of permissions that the current user holds
   # for the prospective permission being acted on
-  def held_event_perms(permssion_tar_event_id)
-    user_event_permissions.where(event_id: permssion_tar_event_id).to_a.map(&:permission_type)
-  end
-
+  # assumes event_id is valid
   def self.held_event_perms(user, event_id)
     return nil if user.nil?
 

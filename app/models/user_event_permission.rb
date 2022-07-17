@@ -27,47 +27,71 @@ class UserEventPermission < ApplicationRecord
   # validate new permission
   # save new permission
   # return flash response
-  def self.create_permission(params, curr_user_id)
-    permission_target_id = UserEventPermission.invite_target_id(params, curr_user_id)
-    pending_permission = UserEventPermission.new({ event_id: params[:event_id],
-                                                   permission_type: params[:permission_type],
-                                                   user_id: permission_target_id })
-    valid_permission = pending_permission.validate_permission(curr_user_id, :create)
-    flash_value = pending_permission.generate_permission_response(valid_permission, :create)
-    flash_status = pending_permission.save_valid_permission
-    [flash_status, flash_value]
+  def self.create_permission(params, curr_user)
+    permission_target_id = UserEventPermission.invite_target_id(params, curr_user.id)
+    permission = UserEventPermission.new({ event_id: params[:event_id],
+                                           permission_type: params[:permission_type],
+                                           user_id: permission_target_id })
+    permission.execute_action_by_tar(:create, curr_user)
   end
 
-  def self.destroy_permission(params, curr_user_id)
-    permission_target_id = UserEventPermission.invite_target_id(params, curr_user_id)
+  def self.destroy_permission(params, curr_user)
+    permission_target_id = UserEventPermission.invite_target_id(params, curr_user.id)
     permission = UserEventPermission.find_by(event_id: params[:event_id],
                                              permission_type: params[:permission_type],
                                              user_id: permission_target_id)
     return [:alert, 'Permission does not exist.'] if permission.nil?
 
-    valid_permission = permission.validate_permission(curr_user_id, :destroy)
-    flash_value = permission.generate_permission_response(valid_permission, :destroy)
-    flash_status = permission.destroy_valid_permission
+    permission.execute_action_by_tar(:destroy, curr_user)
+  end
+
+  def execute_action_by_tar(action, curr_user)
+    validate_permission(curr_user, action)
+    flash_value = generate_permission_response(action)
+    flash_status = generate_permission_status(action)
     [flash_status, flash_value]
   end
 
   # validates user has permission permission
-  def generate_permission_response(has_perms, action)
-    case has_perms && valid?
-    when true
+  def generate_permission_response(action)
+    if valid?
       "Successfully #{pretty_action_to_s(action)} permission."
-    when false
-      errors.empty? ? 'You do not have permission to perform this action.' : errors.full_messages.join(', ')
+    elsif !errors.empty?
+      errors.full_messages.join(', ')
     else
       raise 'Invalid permission response'
     end
   end
 
-  def validate_permission(_curr_user_id, action)
-    held_permissions = user.held_event_perms(event_id)
+  def generate_permission_status(action)
+    case action
+    when :create
+      save_valid_permission
+    when :destroy
+      destroy_valid_permission
+    else
+      raise 'Invalid permission status'
+    end
+  end
+
+  def validate_permission(curr_user, action)
+    held_permissions = User.held_event_perms(curr_user, event_id)
+    held_permissions.push('current_user') if curr_user == user
     required_perms = event.required_perms_for_action(permission_type, action)
 
-    required_perms.call(held_permissions)
+    validate_held_vs_req(held_permissions, required_perms)
+  end
+
+  # assumes required_perms is an array of arrays
+  # each array in req perms is a set of perms that allow a particular action
+  # if held perms is a subset of any req perm array then the action is valid
+  def validate_held_vs_req(held_permissions, required_permissions_arrays)
+    required_permissions_arrays.each do |required_perms|
+      common_vals = held_permissions & required_perms
+      return true if common_vals.is_a?(Array) && common_vals.length == required_perms.length
+    end
+    errors.add :base, 'You do not have permission to perform this action.'
+    false
   end
 
   ##############################################################################################
@@ -100,6 +124,8 @@ class UserEventPermission < ApplicationRecord
 
     raise 'Invalid identifier'
   end
+
+  private
 
   def save_valid_permission
     if errors.empty?

@@ -241,4 +241,24 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#self.held_event_perms', subsets: :included do
+    before(:each) do
+      @user = test_user
+      @event = test_event
+    end
+    context 'when user is nil' do
+      it { expect(User.held_event_perms(nil, @event)).to be_nil }
+    end
+    context 'when user is not nil' do
+      let(:permission_type) { double('permission_type', permission_type: nil) }
+      let(:to_a) { double('to_a', to_a: [permission_type]) }
+      let(:where) { double('where', where: to_a) }
+      it do
+        allow(@user).to receive(:user_event_permissions).and_return(where)
+        expect(@user).to receive(:user_event_permissions)
+        User.held_event_perms(@user, @event)
+      end
+    end
+  end
 end

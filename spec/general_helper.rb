@@ -14,7 +14,7 @@ module GeneralHelper
   end
 
   def self.perms(event_privacy)
-    attend_perm = event_privacy == 'public' ? [] : ['accept_invite']
+    attend_perm = event_privacy == 'private' ? ['accept_invite'] : []
     {
       create: {
         'moderate' => [['owner'], 'all_required'],
@@ -25,6 +25,22 @@ module GeneralHelper
         'moderate' => [['owner'], 'one_required'],
         'attend' => [%w[current_user moderate owner], 'one_required'],
         'accept_invite' => [%w[moderate owner], 'one_required']
+      }
+    }.freeze
+  end
+
+  def self.perms_copy(event_privacy)
+    attend_perm = event_privacy == 'private' ? ['accept_invite'] : []
+    {
+      create: {
+        'moderate' => [['owner']],
+        'attend' => [attend_perm],
+        'accept_invite' => [['moderate'], ['owner']]
+      },
+      destroy: {
+        'moderate' => ['owner'],
+        'attend' => [['current_user'], ['moderate'], ['owner']],
+        'accept_invite' => [['moderate'], ['owner']]
       }
     }.freeze
   end

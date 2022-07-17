@@ -62,20 +62,8 @@ class Event < ApplicationRecord
     user.can_join?(self)
   end
 
-  # looks up required permissions to 'action' a permission of specified perm_type
-  # returns a proc requiring either all or any of the required perms
-  # proc takes a block with held perms
-  # returns if held perms fulfil requirements
   def required_perms_for_action(perm_type, action)
-    req_perms, method = required_permissions.dig(action, perm_type)
-    case method
-    when 'all_required'
-      proc { |held_perms| all_required(held_perms, req_perms) }
-    when 'one_required'
-      proc { |held_perms| one_required(held_perms, req_perms) }
-    else
-      raise "Invalid method: [#{action}, #{perm_type}]"
-    end
+    required_permissions.dig(action, perm_type) || (raise "Invalid perm type: #{perm_type} or action: #{action}")
   end
 
   private
@@ -102,8 +90,8 @@ class Event < ApplicationRecord
     when 'protected'
       !held_perms.nil?
     when 'private'
-      !held_perms.nil? && one_required(held_perms,
-                                       %w[attend accept_invite moderate owner])
+      !held_perms.nil? &&
+        one_required(held_perms, %w[attend accept_invite moderate owner])
     else
       raise 'Invalid attendee_privacy'
     end
@@ -122,17 +110,17 @@ class Event < ApplicationRecord
   end
 
   def set_required_perms
-    attend_perm = event_privacy == 'public' ? [] : ['accept_invite']
+    attend_perm = event_privacy == 'private' ? %w[accept_invite current_user] : ['current_user']
     default_perms = {
       create: {
-        'moderate' => [['owner'], 'all_required'],
-        'attend' => [attend_perm, 'all_required'],
-        'accept_invite' => [%w[moderate owner], 'one_required']
+        'moderate' => [['owner']],
+        'attend' => [attend_perm],
+        'accept_invite' => [['moderate'], ['owner']]
       },
       destroy: {
-        'moderate' => [['owner'], 'one_required'],
-        'attend' => [%w[current_user moderate owner], 'one_required'],
-        'accept_invite' => [%w[moderate owner], 'one_required']
+        'moderate' => ['owner'],
+        'attend' => [['current_user'], ['moderate'], ['owner']],
+        'accept_invite' => [['moderate'], ['owner']]
       }
     }.freeze
     @required_permissions = default_perms

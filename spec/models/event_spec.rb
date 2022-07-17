@@ -159,65 +159,29 @@ RSpec.describe Event, type: :model, subsets: :included do
     end
   end
 
-  # what does this need to test?
-  # recieves a perm type: 'owner', 'moderate', 'accept_invite', 'attend'
-  # and action: :create, :destroy
-  # cases to check:
-  # perm type: bad, action: bad
-  # perm type: good, action: bad
-  # perm type: bad, action: good
-  # check that all_req or one_req method is called
-  # check it gets correct args
   describe '#required_perms_for_action' do
     before(:each) do
       @user = test_user
       @event = test_event
     end
     context 'when perm type or action is bad' do
-      [['attend', :invalid], ['invalid', :invalid], ['invalid', :create]].each do |perm_type, action|
+      [['attend', :invalid], ['invalid', :invalid], ['invalid', :create]]
+        .each do |perm_type, action|
         context "when perm_type: #{perm_type}, action: #{action}" do
           it do
-            expect do
-              @event.required_perms_for_action(perm_type, action)
-            end.to raise_error RuntimeError, "Invalid method: [#{action}, #{perm_type}]"
+            expect { @event.required_perms_for_action(perm_type, action) }
+              .to raise_error RuntimeError, "Invalid perm type: #{perm_type} or action: #{action}"
           end
         end
       end
     end
     context 'when perm type is good' do
-      %w[private protected public].each do |privacy|
-        context "when privacy setting is #{privacy}" do
-          let(:priv_set) { privacy }
-          GeneralHelper.perms(privacy).each_pair do |action, p_type|
-            context "when action: #{action}" do
-              p_type.each_pair do |perm_type, args|
-                context "when perm_type: #{perm_type}", subsets: :included do
-                  before(:each) do
-                    @resulting_proc = @event.required_perms_for_action(perm_type, action.to_sym)
-                  end
-                  case args[1]
-                  when 'one_required'
-                    context 'when only 1 perm is required' do
-                      GeneralHelper.array_subsets(args[0]).each do |potential_perms|
-                        it "#{potential_perms} are #{potential_perms.any? ? 'valid' : 'invalid'}" do
-                          expect(@resulting_proc.call(potential_perms)).to be potential_perms.any?
-                        end
-                      end
-                    end
-                  when 'all_required'
-                    context 'when all perms are required' do
-                      GeneralHelper.array_subsets(args[0]).each do |potential_perms|
-                        it "#{potential_perms} are #{potential_perms.length == args[0].length}" do
-                          expect(@resulting_proc.call(potential_perms)).to be potential_perms.length == args[0].length
-                        end
-                      end
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
+      it do
+        some_hash = {}
+        allow(@event).to receive(:required_permissions).and_return(some_hash)
+        allow(some_hash).to receive(:dig).and_return('some val')
+        expect(some_hash).to receive(:dig).with('some_perm_type', 'some action')
+        @event.required_perms_for_action('some action', 'some_perm_type')
       end
     end
   end
@@ -234,22 +198,8 @@ RSpec.describe Event, type: :model, subsets: :included do
     end
     context 'after event is saved' do
       before(:each) { @event = test_event }
-      context 'privacy setting: public' do
-        let(:priv_set) { 'public' }
-        let(:attend_perm) { [[], 'all_required'] }
-        it { expect(@event.required_permissions).to eq expected_perms }
-      end
-      context 'privacy setting: private or protected' do
-        let(:attend_perm) { [['accept_invite'], 'all_required'] }
-        context 'privacy setting: private' do
-          let(:priv_set) { 'private' }
-          it { expect(@event.required_permissions).to eq expected_perms }
-        end
-        context 'privacy setting: protected' do
-          let(:priv_set) { 'protected' }
-          it { expect(@event.required_permissions).to eq expected_perms }
-        end
-      end
+
+      it { expect(@event.required_permissions).to_not be_falsey }
     end
   end
 end

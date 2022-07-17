@@ -69,48 +69,52 @@ RSpec.describe UserEventPermission, type: :model do
     end
   end
 
-  describe '#save_valid_permission' do
+  describe '#generate_permission_status' do
     before(:each) do
       @test_perm = test_perm
       allow(@test_perm).to receive(:user).and_return(mock_user)
       allow(@test_perm).to receive(:event).and_return(mock_event)
     end
-    it 'should return :alert if errors not empty' do
-      allow(@test_perm).to receive(:errors).and_return([1])
-      expect(@test_perm.save_valid_permission).to eq(:alert)
+    describe 'action is create' do
+      let(:action) { :create }
+      it 'should return :alert if errors not empty' do
+        allow(@test_perm).to receive(:errors).and_return([1])
+        expect(@test_perm.generate_permission_status(action)).to eq(:alert)
+      end
+      it 'should return UserEventPermission if errors empty' do
+        allow(@test_perm).to receive(:errors).and_return([])
+        allow(@test_perm).to receive(:save).and_return(true)
+        expect(@test_perm.generate_permission_status(action)).to eq(@test_perm)
+      end
+      it 'should call save on the UserEventPermission' do
+        allow(@test_perm).to receive(:errors).and_return([])
+        expect(@test_perm).to receive(:save)
+        @test_perm.generate_permission_status(action)
+      end
     end
-    it 'should return UserEventPermission if errors empty' do
-      allow(@test_perm).to receive(:errors).and_return([])
-      allow(@test_perm).to receive(:save).and_return(true)
-      expect(@test_perm.save_valid_permission).to eq(@test_perm)
+    describe 'action is destroy' do
+      let(:action) { :destroy }
+      it 'should return :alert if errors not empty' do
+        allow(@test_perm).to receive(:errors).and_return([1])
+        expect(@test_perm.generate_permission_status(action)).to eq(:alert)
+      end
+      it 'should return :notice if errors empty' do
+        allow(@test_perm).to receive(:errors).and_return([])
+        allow(@test_perm).to receive(:destroy).and_return(true)
+        expect(@test_perm.generate_permission_status(action)).to eq(:notice)
+      end
+      it 'should call destroy on the UserEventPermission' do
+        allow(@test_perm).to receive(:errors).and_return([])
+        expect(@test_perm).to receive(:destroy)
+        @test_perm.generate_permission_status(action)
+      end
     end
-    it 'should call save on the UserEventPermission' do
-      allow(@test_perm).to receive(:errors).and_return([])
-      expect(@test_perm).to receive(:save)
-      @test_perm.save_valid_permission
-    end
-  end
-
-  # test for destroy valid permission
-  describe '#destroy_valid_permission' do
-    before(:each) do
-      @test_perm = test_perm
-      allow(@test_perm).to receive(:user).and_return(mock_user)
-      allow(@test_perm).to receive(:event).and_return(mock_event)
-    end
-    it 'should return :alert if errors not empty' do
-      allow(@test_perm).to receive(:errors).and_return([1])
-      expect(@test_perm.destroy_valid_permission).to eq(:alert)
-    end
-    it 'should return :notice if errors empty' do
-      allow(@test_perm).to receive(:errors).and_return([])
-      allow(@test_perm).to receive(:destroy).and_return(true)
-      expect(@test_perm.destroy_valid_permission).to eq(:notice)
-    end
-    it 'should call destroy on the UserEventPermission' do
-      allow(@test_perm).to receive(:errors).and_return([])
-      expect(@test_perm).to receive(:destroy)
-      @test_perm.destroy_valid_permission
+    describe 'action is not create or destroy' do
+      let(:action) { :update }
+      it do
+        expect { @test_perm.generate_permission_status(action) }
+          .to raise_error RuntimeError, 'Invalid permission status'
+      end
     end
   end
 
@@ -217,13 +221,12 @@ RSpec.describe UserEventPermission, type: :model do
   end
 
   # generate permission response
+  # a lack of perms should be a in errors
   # input:
-  # - boolean value has_perms
   # - symbol action (:create, :destroy)
-  # if instance of permission is valid and has perms, return sucess response
-  # if doesnt have perms or invalid
-  #   - if has errors then return errors
-  #  - if doesnt have errors then return text
+  # if instance of permission is valid return sucess response with correct action verb
+  # if valid is false and has errors then return errors
+  # not sure if can be invalid and have no errors but what if
   # raise error if neither
   describe '#self.generate_permission_response' do
     before(:each) do
@@ -231,31 +234,228 @@ RSpec.describe UserEventPermission, type: :model do
       allow(@test_perm).to receive(:errors).and_return(errors)
       allow(@test_perm).to receive(:valid?).and_return(valid)
     end
-    context 'when has_perms is true' do
-      context 'when valid? is true' do
-        let(:valid) { true }
-        let(:errors) { "doesn't matter" }
-        it { expect(@test_perm.generate_permission_response(true, :create)).to include 'Success' }
-      end
-      context 'when valid? is false (making errors not empty)' do
+    context 'when valid? is true' do
+      let(:valid) { true }
+      let(:errors) { "doesn't matter" }
+      it { expect(@test_perm.generate_permission_response(:create)).to include 'Success' }
+    end
+    context 'when valid? is false' do
+      context 'and errors is not empty' do
         let(:valid) { false }
         let(:errors) { double('Errors', empty?: false, full_messages: ['bad']) }
-        it { expect(@test_perm.generate_permission_response(true, :create)).to eq('bad') }
+        it { expect(@test_perm.generate_permission_response(:create)).to eq('bad') }
       end
-    end
-    context 'when has_perms is false' do
-      context 'when valid? is true' do
-        let(:valid) { true }
-        let(:errors) { [] } # empty errors
+      context 'and errors is empty' do
+        let(:valid) { false }
+        let(:errors) { double('Errors', empty?: true) }
         it do
-          expect(@test_perm.generate_permission_response(false, :create))
-            .to include('You do not have permission to perform this action')
+          expect { @test_perm.generate_permission_response(:create) }
+            .to raise_error RuntimeError, 'Invalid permission response'
         end
       end
-      context 'when valid? is false (making errors not empty)' do
-        let(:valid) { false }
-        let(:errors) { double('Errors', empty?: false, full_messages: ['bad']) }
-        it { expect(@test_perm.generate_permission_response(false, :create)).to eq('bad') }
+    end
+  end
+
+  # validate given user has permissions to perform action on perm instance
+  # input: curr_user, action (:create, :destroy)
+  # obtain permissions current user has on perm instance
+  # obtain required permissions for action and permission type
+
+  # make sure to account for current_user being nil
+  describe '#self.validate_permission' do
+    let(:mock_event) { instance_double(Event, required_perms_for_action: req_perms) }
+    let(:req_perms) { double('Perm', call: nil) }
+    before(:each) do
+      @test_perm = test_perm
+      allow(@test_perm).to receive(:event).and_return(mock_event)
+      allow(@test_perm).to receive(:user).and_return(mock_user)
+      allow(@test_perm).to receive(:validate_held_vs_req).and_return('')
+    end
+    it do
+      allow(User).to receive(:held_event_perms)
+      expect(User).to receive(:held_event_perms).with('fake_user_id', nil)
+      @test_perm.validate_permission('fake_user_id', 'fake_action')
+    end
+    context "when current user has same id as perm's user" do
+      it do
+        some_array = []
+        allow(User).to receive(:held_event_perms).and_return(some_array)
+        expect { @test_perm.validate_permission(mock_user, 'fake_action') }
+          .to change { some_array.size }.from(0).to(1)
+      end
+    end
+    context 'when current user has different id as perm\'s user' do
+      it do
+        some_array = []
+        allow(User).to receive(:held_event_perms).and_return(some_array)
+        expect { @test_perm.validate_permission('different', 'fake_action') }
+          .to_not(change { some_array.size })
+      end
+    end
+    it do
+      allow(User).to receive(:held_event_perms)
+      allow(@test_perm).to receive(:permission_type).and_return('fake_type')
+      expect(mock_event).to receive(:required_perms_for_action).with('fake_type', 'fake_action')
+      @test_perm.validate_permission('fake_user_id', 'fake_action')
+    end
+    it do
+      allow(User).to receive(:held_event_perms).and_return([])
+      allow(@test_perm).to receive(:permission_type).and_return('fake_type')
+      expect(@test_perm).to receive(:validate_held_vs_req).with([], req_perms)
+      @test_perm.validate_permission('fake_user_id', 'fake_action')
+    end
+  end
+
+  # validate held permissions are a subset of a required permission array
+  # input: held_perms, array of arrays of req_perms
+  # assumption: req perms is never nil
+  # if held perms match any of the req perm arrays in full then valid
+  # invalid otherwise
+  describe '#self.validate_held_vs_req' do
+    before(:each) do
+      @test_perm = test_perm
+      allow(@test_perm).to receive(:errors).and_return(double('error', add: nil))
+    end
+    context 'when held perms is nil' do
+      let(:held_perms) { nil }
+      let(:req_perms) { [['fake_perm']] }
+      it { expect(@test_perm.validate_held_vs_req(held_perms, req_perms)).to be false }
+      it do
+        expect(@test_perm.errors).to receive(:add)
+          .with(:base, 'You do not have permission to perform this action.')
+        @test_perm.validate_held_vs_req(held_perms, req_perms)
+      end
+    end
+    context 'when held perms is empty' do
+      context 'req perms is empty' do
+        let(:held_perms) { [] }
+        let(:req_perms) { [[]] }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, req_perms)).to be true }
+      end
+      context 'req perms is not empty' do
+        let(:held_perms) { [] }
+        let(:req_perms) { [['fake_perm']] }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, req_perms)).to be false }
+        it do
+          expect(@test_perm.errors).to receive(:add)
+            .with(:base, 'You do not have permission to perform this action.')
+          @test_perm.validate_held_vs_req(held_perms, req_perms)
+        end
+      end
+    end
+    context 'when only 1 held perm' do
+      let(:held_perms) { ['fake_perm'] }
+      context 'req perms is empty' do
+        let(:req_perms) { [[]] }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, req_perms)).to be true }
+      end
+      context 'req perms is not empty' do
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [['fake_perm']])).to be true }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [%w[fake_perm fake]])).to be false }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [['fake_perm'], %w[fake_perm fake]])).to be true }
+      end
+    end
+    context 'when multiple held perms' do
+      let(:held_perms) { %w[fake_perm fake_perm2] }
+      context 'req perms is empty' do
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [[]])).to be true }
+      end
+      context 'one req perm' do
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [['fake_perm']])).to be true }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [['fake_perm2']])).to be true }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [%w[fake]])).to be false }
+      end
+      context 'multiple req perms' do
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [%w[fake_perm fake_perm2]])).to be true }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [%w[fake_perm2 fake_perm]])).to be true }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [['test'], %w[fake_perm fake_perm2]])).to be true }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [%w[fake_perm2 fake_perm], ['test']])).to be true }
+        it { expect(@test_perm.validate_held_vs_req(held_perms, [%w[fake_perm fake_perm2 fake]])).to be false }
+      end
+    end
+  end
+
+  describe '#execute_action_by_tar' do
+    before(:each) do
+      @test_perm = test_perm
+      allow(@test_perm).to receive(:validate_permission)
+      allow(@test_perm).to receive(:generate_permission_response).and_return('fake_response')
+      allow(@test_perm).to receive(:generate_permission_status).and_return('fake_status')
+    end
+    it do
+      expect(@test_perm).to receive(:validate_permission).with('fake_user_id', 'fake_action')
+      @test_perm.execute_action_by_tar('fake_action', 'fake_user_id')
+    end
+    it do
+      expect(@test_perm).to receive(:generate_permission_response).with('fake_action')
+      @test_perm.execute_action_by_tar('fake_action', 'fake_user_id')
+    end
+    it do
+      expect(@test_perm).to receive(:generate_permission_status).with('fake_action')
+      @test_perm.execute_action_by_tar('fake_action', 'fake_user_id')
+    end
+    it { expect(@test_perm.execute_action_by_tar('', '')).to eq(%w[fake_status fake_response]) }
+  end
+
+  describe '#self.destroy_permission' do
+    describe 'calls the correct methods' do
+      let(:params) { { event_id: 'some_id', permission_type: 'some_type' } }
+      let(:nil_val) { false }
+      let(:tar_id) { 'some_tar_id' }
+      let(:curr_user) { double('user', id: 'some_user_id') }
+      before(:each) do
+        allow(UserEventPermission).to receive(:invite_target_id).and_return(tar_id)
+        allow(UserEventPermission).to receive(:find_by)
+          .and_return(double('pend_perm', nil?: nil_val, execute_action_by_tar: 'test'))
+      end
+      it do
+        expect(UserEventPermission).to receive(:invite_target_id).with(params, curr_user.id)
+        UserEventPermission.destroy_permission(params, curr_user)
+      end
+      it do
+        expect(UserEventPermission).to receive(:find_by).with(event_id: 'some_id', permission_type: 'some_type',
+                                                              user_id: tar_id)
+        UserEventPermission.destroy_permission(params, curr_user)
+      end
+      it do
+        perm = UserEventPermission.new
+        allow(UserEventPermission).to receive(:find_by).and_return(perm)
+        expect(perm).to receive(:execute_action_by_tar).with(:destroy, curr_user)
+        UserEventPermission.destroy_permission(params, curr_user)
+      end
+      context 'when find_by does not find a permission' do
+        let(:nil_val) { true }
+        it do
+          expect(UserEventPermission.destroy_permission(params, curr_user))
+            .to eq([:alert, 'Permission does not exist.'])
+        end
+      end
+    end
+  end
+  describe '#self.create_permission' do
+    describe 'calls the correct methods' do
+      let(:params) { { event_id: 'some_id', permission_type: 'some_type' } }
+      let(:tar_id) { 'some_tar_id' }
+      let(:curr_user) { double('user', id: 'some_user_id') }
+      before(:each) do
+        allow(UserEventPermission).to receive(:invite_target_id).and_return(tar_id)
+        allow(UserEventPermission).to receive(:new)
+          .and_return(double('perm', execute_action_by_tar: 'test'))
+      end
+      it do
+        expect(UserEventPermission).to receive(:invite_target_id).with(params, curr_user.id)
+        UserEventPermission.create_permission(params, curr_user)
+      end
+      it do
+        expect(UserEventPermission).to receive(:new)
+          .with(event_id: 'some_id', permission_type: 'some_type', user_id: tar_id)
+        UserEventPermission.create_permission(params, curr_user)
+      end
+      it do
+        perm = UserEventPermission.new
+        allow(UserEventPermission).to receive(:new).and_return(perm)
+        expect(perm).to receive(:execute_action_by_tar).with(:create, curr_user)
+        UserEventPermission.create_permission(params, curr_user)
       end
     end
   end
