@@ -21,7 +21,7 @@ class Event < ApplicationRecord
   attr_reader :required_permissions
 
   def self.past
-    where('date < ?', DateTime.now)
+    where('date <= ?', DateTime.now)
   end
 
   def self.future
@@ -68,12 +68,8 @@ class Event < ApplicationRecord
 
   private
 
-  def all_required(held_perms, required_perms)
-    held_perms & required_perms == required_perms
-  end
-
-  def one_required(held_perms, required_perms)
-    (held_perms & required_perms).any?
+  def private_allowed?(held_perms)
+    (held_perms & %w[attend accept_invite moderate owner]).any?
   end
 
   # needs fixing some day
@@ -90,8 +86,7 @@ class Event < ApplicationRecord
     when 'protected'
       !held_perms.nil?
     when 'private'
-      !held_perms.nil? &&
-        one_required(held_perms, %w[attend accept_invite moderate owner])
+      !held_perms.nil? && private_allowed?(held_perms)
     else
       raise 'Invalid attendee_privacy'
     end

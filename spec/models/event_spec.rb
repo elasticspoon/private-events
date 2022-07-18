@@ -19,20 +19,6 @@ RSpec.describe Event, type: :model, subsets: :included do
   let(:test_perm) do
     generate_perms(test_user.id, test_event.id, test_perm_type)
   end
-  let(:expected_perms) do
-    {
-      create: {
-        'moderate' => [['owner'], 'all_required'],
-        'attend' => attend_perm,
-        'accept_invite' => [%w[moderate owner], 'one_required']
-      },
-      destroy: {
-        'moderate' => [['owner'], 'one_required'],
-        'attend' => [%w[current_user moderate owner], 'one_required'],
-        'accept_invite' => [%w[moderate owner], 'one_required']
-      }
-    }
-  end
   let(:attend_perm) do
     [
       priv_set == 'public' ? [] : ['accept_invite'],
@@ -94,6 +80,66 @@ RSpec.describe Event, type: :model, subsets: :included do
         let(:test_perm_type) { 'accept_invite' }
         it do
           expect { test_perm }.to change { @event.pending_invites.count }.by(1)
+        end
+      end
+    end
+    context '#self.past' do
+      context 'when there are no past events' do
+        it do
+          UserEventPermission.destroy_all
+          Event.destroy_all
+          expect(Event.past).to be_empty
+        end
+      end
+
+      context 'when there are past events' do
+        let(:params_event) do
+          { name: 'test', desc: 'te', date: DateTime.now - 1.day, location: 'test', creator_id: test_user.id,
+            event_privacy: priv_set, display_privacy: priv_set, attendee_privacy: priv_set }
+        end
+        it do
+          expect { Event.create(params_event) }.to change { Event.past.count }.by(1)
+        end
+        it do
+          expect(Event.create(params_event).past?).to be true
+        end
+      end
+    end
+    context '#self.future' do
+      context 'when there are no future events' do
+        it do
+          UserEventPermission.destroy_all
+          Event.destroy_all
+          expect(Event.display_public).to be_empty
+        end
+      end
+
+      context 'when there are future events' do
+        let(:priv_set) { 'public' }
+        before(:each) do
+          UserEventPermission.destroy_all
+          Event.destroy_all
+        end
+        it do
+          expect { Event.create(params_event) }.to change { Event.display_public.count }.by(1)
+        end
+      end
+    end
+    context '#self.display_public' do
+      context 'when there are no public events' do
+        it { expect(Event.future).to be_empty }
+      end
+
+      context 'when there are future events' do
+        let(:params_event) do
+          { name: 'test', desc: 'te', date: DateTime.now + 1.day, location: 'test', creator_id: test_user.id,
+            event_privacy: priv_set, display_privacy: priv_set, attendee_privacy: priv_set }
+        end
+        it do
+          expect { Event.create(params_event) }.to change { Event.future.count }.by(1)
+        end
+        it do
+          expect(Event.create(params_event).future?).to be true
         end
       end
     end
