@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   # before_action :event_owner?, only: %i[edit update destroy]
 
   def index
-    @events = Event.includes(:creator, :user_event_permissions).all
+    @events = Event.includes(:creator).all
   end
 
   def show; end
@@ -39,7 +39,7 @@ class EventsController < ApplicationController
   private
 
   def find_event
-    @event = Event.includes(:creator, :user_event_permissions).find(params[:id])
+    @event = Event.includes(:creator).find(params[:id])
   end
 
   def event_params

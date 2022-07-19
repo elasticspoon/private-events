@@ -90,6 +90,7 @@ class Event < ApplicationRecord
   # generic function to check a user's permissions for an event
   def perms_for_event_setting?(current_user, event_setting)
     held_perms = User.held_event_perms(current_user, id)
+    # held_perms = user_event_permissions.where(user_id: current_user).pluck(:permission_type)
     perms_allow_setting?(event_setting, held_perms)
   end
 

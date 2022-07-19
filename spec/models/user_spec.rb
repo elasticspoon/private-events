@@ -251,8 +251,7 @@ RSpec.describe User, type: :model do
       it { expect(User.held_event_perms(nil, @event)).to be_nil }
     end
     context 'when user is not nil' do
-      let(:permission_type) { double('permission_type', permission_type: nil) }
-      let(:to_a) { double('to_a', to_a: [permission_type]) }
+      let(:to_a) { double('pluck', pluck: ['stuff']) }
       let(:where) { double('where', where: to_a) }
       it do
         allow(@user).to receive(:user_event_permissions).and_return(where)

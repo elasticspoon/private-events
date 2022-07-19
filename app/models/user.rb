@@ -45,7 +45,7 @@ class User < ApplicationRecord
   def self.held_event_perms(user, event_id)
     return nil if user.nil?
 
-    user.user_event_permissions.where(event_id:).to_a.map(&:permission_type)
+    user.user_event_permissions.where(event_id:).pluck(:permission_type)
   end
 
   private

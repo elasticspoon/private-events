@@ -72,3 +72,4 @@ gem "guard-livereload"
 gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'rspec-rails', '~> 5.1', '>= 5.1.2'
 gem 'shoulda-matchers', '~> 5.1'
+gem 'bullet', '~> 7.0', '>= 7.0.2'
