@@ -236,16 +236,16 @@ RSpec.describe Event, type: :model, subsets: :included do
   # when saved event has permissions
   # if private or protected perms to attend :accept_invite, :current_user
   # otherwise, just :current_user
-  describe 'required perms set on event creation' do
-    before(:each) { @user = test_user }
-    context 'before event is saved' do
-      let(:test_event) { Event.new(params_event) }
-      it { expect(test_event.required_permissions).to be_falsey }
-    end
-    context 'after event is saved' do
-      before(:each) { @event = test_event }
+  # describe 'required perms set on event creation' do
+  #   before(:each) { @user = test_user }
+  #   context 'before event is saved' do
+  #     let(:test_event) { Event.new(params_event) }
+  #     it { expect(test_event.required_permissions).to be_falsey }
+  #   end
+  #   context 'after event is saved' do
+  #     before(:each) { @event = test_event }
 
-      it { expect(@event.required_permissions).to_not be_falsey }
-    end
-  end
+  #     it { expect(@event.required_permissions).to_not be_falsey }
+  #   end
+  # end
 end

@@ -16,9 +16,7 @@ class Event < ApplicationRecord
   validates :display_privacy, inclusion: AVAILIABLE_SETTINGS
   validates :attendee_privacy, inclusion: AVAILIABLE_SETTINGS
 
-  after_commit :do_creation_tasks, on: :create
-
-  attr_reader :required_permissions
+  after_commit :make_owner_permission, on: :create
 
   def self.past
     where('date <= ?', DateTime.now)
@@ -66,6 +64,22 @@ class Event < ApplicationRecord
     required_permissions.dig(action, perm_type) || (raise "Invalid perm type: #{perm_type} or action: #{action}")
   end
 
+  def required_permissions
+    attend_perm = event_privacy == 'private' ? %w[accept_invite current_user] : ['current_user']
+    {
+      create: {
+        'moderate' => [['owner']],
+        'attend' => [attend_perm],
+        'accept_invite' => [['moderate'], ['owner']]
+      },
+      destroy: {
+        'moderate' => ['owner'],
+        'attend' => [['current_user'], ['moderate'], ['owner']],
+        'accept_invite' => [['moderate'], ['owner']]
+      }
+    }.freeze
+  end
+
   private
 
   def private_allowed?(held_perms)
@@ -96,28 +110,10 @@ class Event < ApplicationRecord
   ######################### Setup Tasks #############################
   ###################################################################
   def do_creation_tasks
-    make_owner_permission
     set_required_perms
   end
 
   def make_owner_permission
     user_event_permissions.create(user_id: creator_id, permission_type: 'owner')
-  end
-
-  def set_required_perms
-    attend_perm = event_privacy == 'private' ? %w[accept_invite current_user] : ['current_user']
-    default_perms = {
-      create: {
-        'moderate' => [['owner']],
-        'attend' => [attend_perm],
-        'accept_invite' => [['moderate'], ['owner']]
-      },
-      destroy: {
-        'moderate' => ['owner'],
-        'attend' => [['current_user'], ['moderate'], ['owner']],
-        'accept_invite' => [['moderate'], ['owner']]
-      }
-    }.freeze
-    @required_permissions = default_perms
   end
 end

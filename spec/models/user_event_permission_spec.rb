@@ -232,24 +232,23 @@ RSpec.describe UserEventPermission, type: :model do
     before(:each) do
       @test_perm = test_perm
       allow(@test_perm).to receive(:errors).and_return(errors)
-      allow(@test_perm).to receive(:valid?).and_return(valid)
     end
-    context 'when valid? is true' do
+    context 'when valid is true' do
       let(:valid) { true }
       let(:errors) { "doesn't matter" }
-      it { expect(@test_perm.generate_permission_response(:create)).to include 'Success' }
+      it { expect(@test_perm.generate_permission_response(:create, valid)).to include 'Success' }
     end
-    context 'when valid? is false' do
+    context 'when valid is false' do
       context 'and errors is not empty' do
         let(:valid) { false }
         let(:errors) { double('Errors', empty?: false, full_messages: ['bad']) }
-        it { expect(@test_perm.generate_permission_response(:create)).to eq('bad') }
+        it { expect(@test_perm.generate_permission_response(:create, valid)).to eq('bad') }
       end
       context 'and errors is empty' do
         let(:valid) { false }
         let(:errors) { double('Errors', empty?: true) }
         it do
-          expect { @test_perm.generate_permission_response(:create) }
+          expect { @test_perm.generate_permission_response(:create, valid) }
             .to raise_error RuntimeError, 'Invalid permission response'
         end
       end
@@ -376,18 +375,35 @@ RSpec.describe UserEventPermission, type: :model do
   end
 
   describe '#execute_action_by_tar' do
+    let(:valid) { true }
     before(:each) do
       @test_perm = test_perm
-      allow(@test_perm).to receive(:validate_permission)
+      allow(@test_perm).to receive(:validate_permission).and_return(valid)
+      allow(@test_perm).to receive(:valid?).and_return(valid)
       allow(@test_perm).to receive(:generate_permission_response).and_return('fake_response')
       allow(@test_perm).to receive(:generate_permission_status).and_return('fake_status')
     end
-    it do
-      expect(@test_perm).to receive(:validate_permission).with('fake_user_id', 'fake_action')
-      @test_perm.execute_action_by_tar('fake_action', 'fake_user_id')
+    context 'when valid' do
+      let(:valid) { true }
+      it do
+        expect(@test_perm).to receive(:validate_permission).with('fake_user_id', 'fake_action')
+        @test_perm.execute_action_by_tar('fake_action', 'fake_user_id')
+      end
     end
+    context 'when invalid' do
+      let(:valid) { false }
+      it do
+        expect(@test_perm).to receive(:valid?)
+        @test_perm.execute_action_by_tar('fake_action', 'fake_user_id')
+      end
+      it do
+        expect(@test_perm).to_not receive(:validate_permission)
+        @test_perm.execute_action_by_tar('fake_action', 'fake_user_id')
+      end
+    end
+
     it do
-      expect(@test_perm).to receive(:generate_permission_response).with('fake_action')
+      expect(@test_perm).to receive(:generate_permission_response).with('fake_action', valid)
       @test_perm.execute_action_by_tar('fake_action', 'fake_user_id')
     end
     it do
@@ -456,6 +472,149 @@ RSpec.describe UserEventPermission, type: :model do
         allow(UserEventPermission).to receive(:new).and_return(perm)
         expect(perm).to receive(:execute_action_by_tar).with(:create, curr_user)
         UserEventPermission.create_permission(params, curr_user)
+      end
+    end
+  end
+
+  describe 'Integration Tests' do
+    let(:priv_set) { 'public' }
+    let(:event_perms) { [] }
+    let(:nil_val) { false }
+    let(:perm_type) { 'attend' }
+    let(:curr_id) { test_user.id }
+    let(:params_user) { { name: 'test', username: 'tester', password: 'tester', email: 'abc@gmail.com' } }
+    let(:params_event) do
+      { name: 'test', desc: 'te', date: DateTime.now, location: 'test', creator_id: test_user.id,
+        event_privacy: priv_set, display_privacy: priv_set, attendee_privacy: priv_set }
+    end
+    let(:test_user) { User.create(params_user) }
+    let(:test_event) { Event.create(params_event) }
+    let(:current_user) { instance_double(User, id: curr_id, nil?: nil_val) }
+    let(:params) do
+      ActionController::Parameters.new({ event_id: test_event.id, permission_type: perm_type,
+                                         identifier: { user_id: test_user.id } })
+    end
+    describe 'create_permission' do
+      before(:each) do
+        @user = test_user
+        @event = test_event
+        UserEventPermission.destroy_all
+        allow(User).to receive(:held_event_perms).and_return(event_perms)
+      end
+      context 'no perms' do
+        it do
+          expect { UserEventPermission.create_permission(params, current_user) }
+            .to_not(change { UserEventPermission.first })
+        end
+      end
+      context 'perms: current_user' do
+        let(:event_perms) { ['current_user'] }
+        it do
+          expect { UserEventPermission.create_permission(params, current_user) }
+            .to change { UserEventPermission.first&.permission_type }.from(nil).to(perm_type)
+        end
+        it do
+          UserEventPermission.create_permission(params, current_user)
+          expect(UserEventPermission.create_permission(params, current_user)[0])
+            .to eq(:alert)
+        end
+        context 'pirvate event' do
+          let(:priv_set) { 'private' }
+          it do
+            expect(UserEventPermission.create_permission(params, current_user)[0])
+              .to eq(:alert)
+          end
+          context 'perms: current_user, accept_invite' do
+            let(:event_perms) { %w[current_user accept_invite] }
+            it do
+              expect { UserEventPermission.create_permission(params, current_user) }
+                .to change { UserEventPermission.first&.permission_type }.from(nil).to(perm_type)
+            end
+          end
+        end
+      end
+      context 'perms: owner' do
+        let(:event_perms) { ['owner'] }
+        it do
+          expect(UserEventPermission.create_permission(params, current_user)[0])
+            .to eq(:alert)
+        end
+      end
+      context 'perms: current_user, owner' do
+        let(:event_perms) { %w[current_user owner] }
+        it do
+          expect { UserEventPermission.create_permission(params, current_user) }
+            .to change { UserEventPermission.first&.permission_type }.from(nil).to(perm_type)
+        end
+        it do
+          UserEventPermission.create_permission(params, current_user)
+          expect(UserEventPermission.create_permission(params, current_user)[0])
+            .to eq(:alert)
+        end
+      end
+      context 'when creating a moderator permission' do
+        let(:perm_type) { 'moderate' }
+        context 'when the user has no perms' do
+          it do
+            expect { UserEventPermission.create_permission(params, current_user) }
+              .to_not(change { UserEventPermission.first&.permission_type })
+          end
+        end
+        context 'when the user has a perm' do
+          let(:event_perms) { ['owner'] }
+          it do
+            expect { UserEventPermission.create_permission(params, current_user) }
+              .to change { UserEventPermission.first&.permission_type }.from(nil).to(perm_type)
+          end
+        end
+      end
+    end
+    describe 'destroy_permission' do
+      before(:each) do
+        @user = test_user
+        @event = test_event
+        UserEventPermission.destroy_all
+        allow(User).to receive(:held_event_perms).and_return(event_perms)
+        @test_perm = UserEventPermission.create(event_id: @event.id,
+                                                user_id: @user.id, permission_type: perm_type)
+      end
+      context 'no perms' do
+        it do
+          expect { UserEventPermission.destroy_permission(params, current_user) }
+            .to_not(change { UserEventPermission.first })
+        end
+      end
+      context 'perms: current_user' do
+        let(:event_perms) { ['current_user'] }
+        it do
+          expect { UserEventPermission.destroy_permission(params, current_user) }
+            .to change { UserEventPermission.first&.permission_type }.from(perm_type).to(nil)
+        end
+        it do
+          UserEventPermission.destroy_permission(params, current_user)
+          expect(UserEventPermission.destroy_permission(params, current_user)[0])
+            .to eq(:alert)
+        end
+      end
+      context 'perms: moderate' do
+        let(:event_perms) { ['moderate'] }
+        it do
+          expect { UserEventPermission.destroy_permission(params, current_user) }
+            .to change { UserEventPermission.first&.permission_type }.from(perm_type).to(nil)
+        end
+        it do
+          UserEventPermission.destroy_permission(params, current_user)
+          expect(UserEventPermission.destroy_permission(params, current_user)[0])
+            .to eq(:alert)
+        end
+      end
+      context 'perms: ATTEND' do
+        let(:event_perms) { ['attend'] }
+
+        it do
+          expect(UserEventPermission.destroy_permission(params, current_user)[0])
+            .to eq(:alert)
+        end
       end
     end
   end

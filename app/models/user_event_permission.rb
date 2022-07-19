@@ -46,15 +46,15 @@ class UserEventPermission < ApplicationRecord
   end
 
   def execute_action_by_tar(action, curr_user)
-    validate_permission(curr_user, action)
-    flash_value = generate_permission_response(action)
+    validity = valid? && validate_permission(curr_user, action)
+    flash_value = generate_permission_response(action, validity)
     flash_status = generate_permission_status(action)
     [flash_status, flash_value]
   end
 
   # validates user has permission permission
-  def generate_permission_response(action)
-    if valid?
+  def generate_permission_response(action, valid)
+    if valid
       "Successfully #{pretty_action_to_s(action)} permission."
     elsif !errors.empty?
       errors.full_messages.join(', ')
