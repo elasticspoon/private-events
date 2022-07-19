@@ -1,4 +1,4 @@
-<% unless resource.past? %>
+<% unless resource.past? || current_user&.attending?(resource.id) %>
   <div class="w-full">
     <%= render layout: 'layouts/generic_attend_perm_button', locals: { resource: resource, method: :post } do |form| %>
       <%= form.submit 'Join', class: "bg-green-400 py-2 rounded-md border-2 border-transparent hover:border-green-600 w-full" %>

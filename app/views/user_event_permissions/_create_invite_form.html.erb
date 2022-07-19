@@ -1,4 +1,4 @@
-<% unless resource.past? %>
+<% if resource.future? && current_user&.can_moderate?(resource.id) %>
   <div class="">
     <p>Invite more people:</p>
     <%= form_with url: user_event_permissions_path, data: {turbo: false}, method: :post do |f| %>

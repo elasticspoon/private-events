@@ -35,7 +35,7 @@ class Event < ApplicationRecord
   end
 
   def past?
-    date < DateTime.now
+    date <= DateTime.now
   end
 
   def accepted_invites
@@ -64,6 +64,8 @@ class Event < ApplicationRecord
     required_permissions.dig(action, perm_type) || (raise "Invalid perm type: #{perm_type} or action: #{action}")
   end
 
+  private
+
   def required_permissions
     attend_perm = event_privacy == 'private' ? %w[accept_invite current_user] : ['current_user']
     {
@@ -79,8 +81,6 @@ class Event < ApplicationRecord
       }
     }.freeze
   end
-
-  private
 
   def private_allowed?(held_perms)
     (held_perms & %w[attend accept_invite moderate owner]).any?
@@ -109,10 +109,6 @@ class Event < ApplicationRecord
   ###################################################################
   ######################### Setup Tasks #############################
   ###################################################################
-  def do_creation_tasks
-    set_required_perms
-  end
-
   def make_owner_permission
     user_event_permissions.create(user_id: creator_id, permission_type: 'owner')
   end

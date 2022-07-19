@@ -1,7 +1,7 @@
 class UserEventPermissionsController < ApplicationController
   before_action :authenticate_user!
   def create
-    flash_response, flash_value = UserEventPermission.create_permission(user_event_perm_params, current_user.id)
+    flash_response, flash_value = UserEventPermission.create_permission(user_event_perm_params, current_user)
     if flash_response.is_a?(UserEventPermission)
       flash.notice = flash_value
       redirect_to event_path(flash_response.event_id)
@@ -14,7 +14,7 @@ class UserEventPermissionsController < ApplicationController
   end
 
   def destroy
-    flash_response, flash_value = UserEventPermission.destroy_permission(user_event_perm_params, current_user.id)
+    flash_response, flash_value = UserEventPermission.destroy_permission(user_event_perm_params, current_user)
 
     flash[flash_response] = flash_value
     redirect_back fallback_location: root_path

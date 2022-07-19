@@ -1,3 +1,4 @@
+<% if current_user&.can_moderate?(resource.id) %>
 <div class="bg-yellow-300 p-8">
   <div class="font-extrabold text-2xl">Moderator Tools</div>
   <div class="flex flex-row w-full justify-evenly py-8">
@@ -8,3 +9,4 @@
   </div>
   <%= render 'user_event_permissions/create_invite_form', resource: resource %>
 </div>
+<% end %>

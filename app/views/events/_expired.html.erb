@@ -1,4 +1,4 @@
-<% unless resource.past? %>
+<% if resource.past? %>
   <div class="flex items-center justify-center">
     <div class="relative flex flex-col items-center group">
       <%= image_tag "hourglass_icon", size: "10x10" %>

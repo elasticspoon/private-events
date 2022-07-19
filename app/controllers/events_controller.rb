@@ -47,7 +47,7 @@ class EventsController < ApplicationController
   end
 
   def perms_show?
-    unless @event.joinable_by?(current_user)
+    unless @event.viewable_by?(current_user)
       (redirect_to root_path,
                    alert: 'You do not have permission to view that page.')
     end
