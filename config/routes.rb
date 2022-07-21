@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   post 'not_implemented', to: 'application#not_implemented'
   resources :users, only: :show
   resources :events
-  resources :attended_events, only: :create
-  delete 'attended_events', to: 'attended_events#destroy', as: :attended_event
+  resources :user_event_permissions, only: :create
+  delete 'user_event_permissions', to: 'user_event_permissions#destroy'
+
   root 'events#index'
 end

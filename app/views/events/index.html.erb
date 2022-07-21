@@ -3,19 +3,15 @@
     <div class="flex flex-col p-6 mx-8 border-b-8">
       <div class="text-black font-bold text-3xl mb-6">Upcoming Events</div>
       <div class="grid grid-cols-3 justify-items-center ">
-        <% @events.future.each do |event| %>
-          <%= render_permitted_event(event) %>
-        <% end %>
+        <%= render @events.future %>
       </div>
     </div>
     <div class="flex flex-col p-6 mx-8 border-b-8">
       <div class="text-black font-bold text-3xl mb-6">Past Events</div>
       <div class="grid grid-cols-3 justify-items-center ">
-        <% @events.past.each do |event| %>
-          <%= render_permitted_event(event) %>
-        <% end %>
+        <%= render @events.past %>
       </div>
     </div>
-    <%= render 'event_bottom_bar' %>
+    <%= render 'bottom_bar' %>
   </div>
 </div>

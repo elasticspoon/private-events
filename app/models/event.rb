@@ -1,21 +1,25 @@
 class Event < ApplicationRecord
   AVAILIABLE_SETTINGS = %w[private protected public].freeze
-
+  # maybe include some sort of proc to indicate wether user needs
+  # all or any of the required perms to perform action
   belongs_to :creator, class_name: 'User'
-  has_many :attended_events, dependent: :destroy
-  has_many :attendees, through: :attended_events, source: :user
+
+  has_many :user_event_permissions, dependent: :destroy
+  has_many :user_relations, through: :user_event_permissions, source: :user
 
   validates :date, presence: true
   validates :location, presence: true
   validates :creator_id, presence: true
   validates :name, presence: true
   validates :desc, presence: true
-  validates :private, presence: true, allow_blank: true
+  validates :event_privacy, inclusion: { in: AVAILIABLE_SETTINGS }
   validates :display_privacy, inclusion: AVAILIABLE_SETTINGS
   validates :attendee_privacy, inclusion: AVAILIABLE_SETTINGS
 
+  after_commit :make_owner_permission, on: :create
+
   def self.past
-    where('date < ?', DateTime.now)
+    where('date <= ?', DateTime.now)
   end
 
   def self.future
@@ -26,51 +30,92 @@ class Event < ApplicationRecord
     where(display_privacy: 'public')
   end
 
-  def future
+  def future?
     date > DateTime.now
   end
 
-  def past
-    date < DateTime.now
+  def past?
+    date <= DateTime.now
   end
 
   def accepted_invites
-    User.find_by_sql(["
-      SELECT * FROM users
-      INNER JOIN attended_events ON attended_events.user_id = users.id
-      INNER JOIN events ON attended_events.event_id = events.id
-      WHERE \"attended_events\".\"accepted\" = true AND event_id = ?", id])
+    user_event_permissions.where(permission_type: 'attend').includes(:user)
   end
 
   def pending_invites
-    User.find_by_sql(["
-      SELECT * FROM users
-      INNER JOIN attended_events ON attended_events.user_id = users.id
-      INNER JOIN events ON attended_events.event_id = events.id
-      WHERE \"attended_events\".\"accepted\" = false AND event_id = ?", id])
+    user_event_permissions.where(permission_type: 'accept_invite').includes(:user)
   end
 
-  def attendee_perms_display?(current_user)
-    return true if attendee_privacy == 'public'
-    return true if attendee_privacy == 'protected' && current_user.event_id_invited?(id)
-    return true if current_user&.id == creator_id
-
-    false
+  def attending_viewable_by?(user)
+    perms_for_event_setting?(user, attendee_privacy)
   end
 
-  def user_perms_display?(current_user)
-    return true if display_privacy == 'public'
-    return true if display_privacy == 'protected' && current_user.event_id_invited?(id)
-    return true if current_user&.id == creator_id
-
-    false
+  def viewable_by?(user)
+    perms_for_event_setting?(user, display_privacy)
   end
 
-  def user_perms_view?(current_user)
-    return true unless private
-    return true if private && current_user.event_id_invited?(id)
-    return true if current_user&.id == creator_id
+  def editable_by?(user)
+    user&.can_edit?(self)
+  end
 
-    false
+  def joinable_by?(user)
+    # return false if user.nil?
+
+    # user.can_join?(self)
+    user&.can_join?(self)
+  end
+
+  def required_perms_for_action(perm_type:, action:)
+    required_permissions.dig(action, perm_type) || (raise "Invalid perm type: #{perm_type} or action: #{action}")
+  end
+
+  private
+
+  def required_permissions
+    attend_perm = event_privacy == 'private' ? %w[accept_invite current_user] : ['current_user']
+    {
+      create: {
+        'moderate' => [['owner']],
+        'attend' => [attend_perm],
+        'accept_invite' => [['moderate'], ['owner']]
+      },
+      destroy: {
+        'moderate' => [['owner']],
+        'attend' => [['current_user'], ['moderate'], ['owner']],
+        'accept_invite' => [['moderate'], ['owner']]
+      }
+    }.freeze
+  end
+
+  def private_allowed?(held_perms)
+    (held_perms & %w[attend accept_invite moderate owner]).any?
+  end
+
+  # needs fixing some day
+  # generic function to check a user's permissions for an event
+  def perms_for_event_setting?(current_user, event_setting)
+    held_perms = User.held_event_perms(current_user, id)
+    # held_perms = user_event_permissions.where(user_id: current_user).pluck(:permission_type)
+    perms_allow_setting?(event_setting, held_perms)
+  end
+
+  def perms_allow_setting?(event_setting, held_perms)
+    case event_setting
+    when 'public'
+      true
+    when 'protected'
+      !held_perms.nil?
+    when 'private'
+      !held_perms.nil? && private_allowed?(held_perms)
+    else
+      raise 'Invalid attendee_privacy'
+    end
+  end
+
+  ###################################################################
+  ######################### Setup Tasks #############################
+  ###################################################################
+  def make_owner_permission
+    user_event_permissions.create(user_id: creator_id, permission_type: 'owner')
   end
 end

@@ -1,13 +1,15 @@
-<div class="flex items-center justify-center">
-  <div class="relative flex flex-col items-center group">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 20 20" fill="currentColor">
-      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-    </svg>
-    <div class="absolute hidden flex-col bottom-0 items-center mb-6 group-hover:flex min-w-max">
-      <div class="relative z-10 p-2 text-md text-black leading-none whitespace-no-wrap bg-white shadow-lg rounded-md w-full ">
-        This is a private event. You may only join if you recieve an invitation from the event owner.
+<% unless resource.viewable_by?(current_user) %>
+  <div class="flex items-center justify-center">
+    <div class="relative flex flex-col items-center group">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+      </svg>
+      <div class="absolute hidden flex-col bottom-0 items-center mb-6 group-hover:flex min-w-max">
+        <div class="relative z-10 p-2 text-md text-black leading-none whitespace-no-wrap bg-white shadow-lg rounded-md w-full ">
+          This is a private event. You may only join if you recieve an invitation from the event owner.
+        </div>
+        <div class="w-3 h-3 -mt-2 rotate-45 bg-white"></div>
       </div>
-      <div class="w-3 h-3 -mt-2 rotate-45 bg-white"></div>
     </div>
   </div>
-</div>
+<% end %>

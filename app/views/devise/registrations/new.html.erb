@@ -1,32 +1,7 @@
 <div class="w-full flex flex-col items-center">
   <div class="w-full sm:py-6 min-h-screen sm:max-w-md flex flex-col justify-center mx-6">
     <h2 class='mb-6 text-center text-5xl font-extrabold'>Welcome.</h2>
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: {turbo: false}) do |form| %>
-      <div class="mb-4">
-        <%= form.label :name, class: 'block mb-1' %>
-        <%= form.text_field :name, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
-        <%= render 'users/inline_errors', errors: resource.errors[:name] %>
-      </div>
-      <div class="mb-4">
-        <%= form.label :username, class: 'block mb-1' %>
-        <%= form.text_field :username, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
-        <%= render 'users/inline_errors', errors: resource.errors[:username] %>
-      </div>
-      <div class="mb-4">
-        <%= form.label :email, class: 'block mb-1' %>
-        <%= form.email_field :email, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
-        <%= render 'users/inline_errors', errors: resource.errors[:email] %>
-      </div>
-      <div class="mb-4">
-        <%= form.label :password, class: 'block mb-1' %>
-        <%= form.password_field :password, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
-        <%= render 'users/inline_errors', errors: resource.errors[:password] %>
-      </div>
-      <div class="mb-4">
-        <%= form.label :password_confirmation, class: 'block mb-1' %>
-        <%= form.password_field :password_confirmation, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
-        <%= render 'users/inline_errors', errors: resource.errors[:password_confirmation] %>
-      </div>
+    <%= render layout: 'layouts/registation_form', locals: {resource: resource, method: :post}  do |form| %>
       <div class="mt-6">
         <%= form.submit 'Sign Up', class: 'w-full inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-bold text-white capitalize transition disabled:opacity-25 focus:outline-none hover:bg-red-700 active:bg-red-700 focus:border-red-700 focus:ring focus:ring-red' %>
       </div>

@@ -1,0 +1,12 @@
+<% if current_user&.can_moderate?(resource.event_id) %>
+  <div class="bg-red-500 py-2 px-4 rounded-md border-2 border-transparent hover:border-red-800 h-min" >
+    <%= form_with url: user_event_permissions_url, scope: :user_event_permissions, method: :delete do |form| %>
+      <%= form.hidden_field :event_id, value: resource.event_id %>
+      <%= form.hidden_field 'identifier[user_id]', value: resource.user_id %>
+      <%# In theory this could be an issue, because this could revoke perms other than just attend or accept inv %>
+      <%# not sure what the best apporach is, maybe have a different route for creating user permed users?  %>
+      <%= form.hidden_field :permission_type, value: resource.permission_type %>
+      <%= form.submit 'Revoke' %>
+    <% end %>
+  </div>
+<% end %>

@@ -12,19 +12,15 @@
     <div class="flex flex-col w-full">
       <div class="text-xl font-extrabold p-2">Attending Events:</div>
       <div class="grid grid-cols-3 justify-items-center gap-y-8">
-        <% @user.events_attended.each do |attended| %>
-          <%= render partial: attended, locals: { render_create: false } %>
-        <% end %>
+        <%= render @user.events_attended %>
       </div>
     </div>
     <div class="flex flex-col w-full">
       <div class="text-xl font-extrabold p-2">Invited to Events:</div>
       <div class="grid grid-cols-3 justify-items-center">
-        <% @user.events_pending.each do |pending| %>
-          <%= render partial: pending, locals: { render_delete: false } %>
-        <% end %>
+        <%= render @user.events_pending %>
       </div>
     </div>
   </div>
-  <div class=""><%= render 'events/event_bottom_bar' %></div>
+  <div class=""><%= render 'events/bottom_bar' %></div>
 </div>

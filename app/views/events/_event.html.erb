@@ -1,26 +1,21 @@
-<% render_create = true unless local_assigns.key?(:render_create) %>
-<% render_delete = true unless local_assigns.key?(:render_delete) %>
-<div class="flex flex-col mr-4 mb-4 shadow-xl hover:shadow-xl">
-  <%= image_tag "event_placeholder.jpg", size: "20x20", class: "w-full border-2" %>
-  <div class="flex flex-col p-2 h-full">
-    <%= link_to event do %>
-      <%= content_tag :div, class: "flex flex-row w-full justify-between my-2" do %>
-        <div class="font-black text-lg"><%= event.name.titleize %></div>
-        <% if event.private %>
-          <%= render "events/lock" %>
-        <% elsif event.past %>
-          <%= render "events/expired" %>
-        <% end %>
-      <% end%>
-    <% end %>
-    <div class="text-yellow-500 font-bold"><%= event.date.to_formatted_s(:long_ordinal) %></div>
-    <div class=""><%= event.location.titleize %> - <%= event.location.titleize %></div>
-    <div class="font-bold mt-auto"><%= render partial: "users/short_user", locals: { user: event.creator } %></div>
-    <% if event.future %>
+<% if event.viewable_by?(current_user) %>
+  <div class="flex flex-col mr-4 mb-4 shadow-xl hover:shadow-xl">
+    <%= image_tag "event_placeholder.jpg", size: "20x20", class: "w-full border-2" %>
+    <div class="flex flex-col p-2 h-full">
+      <%= link_to event do %>
+        <%= content_tag :div, class: "flex flex-row w-full justify-between my-2" do %>
+          <div class="font-black text-lg"><%= event.name.titleize %></div>
+          <%= render "events/lock", resource: event %>
+          <%= render "events/expired", resource: event %>
+        <% end%>
+      <% end %>
+      <div class="text-yellow-500 font-bold"><%= event.date.to_formatted_s(:long_ordinal) %></div>
+      <div class=""><%= event.location.titleize %> - <%= event.location.titleize %></div>
+      <div class="font-bold mt-auto"><%= render "users/short_user", resource: event.creator %></div>
       <div class="flex flex-row w-full">
-        <%= render 'attended_events/create_button', resource: event if render_create %>
-        <%= render 'attended_events/delete_button', resource: event if render_delete %>
+        <%= render 'user_event_permissions/curr_user_join_button', resource: event %>
+        <%= render 'user_event_permissions/curr_user_leave_button', resource: event  %>
       </div>
-    <% end %>
+    </div>
   </div>
-</div>
+<% end %>

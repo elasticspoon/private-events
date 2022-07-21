@@ -1,15 +1,9 @@
-<% show_revoke_button = false unless local_assigns.key?(:show_revoke_button) %>
-<div class="flex flex-row justify-between my-2">
-  <%= link_to user do %>
-    <div class="flex flex-row items-center">
-      <div class="mr-2"><%= image_tag 'profile_picture_placeholder.png', size: '40x40', style: 'border-radius: 9999px' %></div>
-      <div class="flex flex-col">
-        <div class="font-extrabold"><%= user.username.titleize %></div>
-        <div class="font-medium">3.4k Followers</div>
-      </div>
+<%= link_to resource do %>
+  <div class="flex flex-row items-center my-2">
+    <div class="mr-2"><%= image_tag 'profile_picture_placeholder.png', size: '40x40', style: 'border-radius: 9999px' %></div>
+    <div class="flex flex-col">
+      <div class="font-extrabold"><%= resource.username.titleize %></div>
+      <div class="font-medium">3.4k Followers</div>
     </div>
-  <% end %>
-  <% if show_revoke_button %>
-    <div class=""><%= render 'attended_events/delete_invite_button', resource: user %></div>
-  <% end%>
-</div>
+  </div>
+<% end %>

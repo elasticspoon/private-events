@@ -1,11 +1,13 @@
-<div class="flex items-center justify-center">
-  <div class="relative flex flex-col items-center group">
-    <%= image_tag "hourglass_icon", size: "10x10" %>
-    <div class="absolute hidden flex-col bottom-0 items-center mb-6 group-hover:flex min-w-max">
-      <div class="relative z-10 p-2 text-md text-black leading-none whitespace-no-wrap bg-white shadow-lg rounded-md w-full ">
-        This event has already passed. You cannot sign up for it any more.
+<% if resource.past? %>
+  <div class="flex items-center justify-center">
+    <div class="relative flex flex-col items-center group">
+      <%= image_tag "hourglass_icon", size: "10x10" %>
+      <div class="absolute hidden flex-col bottom-0 items-center mb-6 group-hover:flex min-w-max">
+        <div class="relative z-10 p-2 text-md text-black leading-none whitespace-no-wrap bg-white shadow-lg rounded-md w-full ">
+          This event has already passed. You cannot sign up for it any more.
+        </div>
+        <div class="w-3 h-3 -mt-2 rotate-45 bg-white"></div>
       </div>
-      <div class="w-3 h-3 -mt-2 rotate-45 bg-white"></div>
     </div>
   </div>
-</div>
+<% end %>

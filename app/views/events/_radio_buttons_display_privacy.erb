@@ -1,0 +1,26 @@
+<div class="flex flex-col">
+  <div class="p-2 text-xl font-bold">Event Display Options</div>
+  <div class="bg-white grid grid-cols-3 items-center">
+    <div class="">
+      <%= resource.radio_button :display_privacy, 'public', class: 'peer sr-only', checked: true %>
+      <%= resource.label :display_privacy, 'Public', value: 'public', class: 'flex flex-col border-2 border-transparent rounded-lg peer-checked:border-blue-400 p-4 m-4 hover:shadow-xl'  do %>
+        <div class="font-bold text-xl">Public</div>
+        <div class="text-sm">Visible to all</div>
+      <% end %>
+    </div>
+    <div class="">
+      <%= resource.radio_button :display_privacy, 'protected', class: 'peer sr-only' %>
+      <%= resource.label :display_privacy, 'Protected', value: 'protected', class: 'flex flex-col border-2 border-transparent rounded-lg peer-checked:border-blue-400 p-4 m-4 hover:shadow-xl'  do %>
+        <div class="font-bold text-xl">Protected</div>
+        <div class="text-sm">Visible to users</div>
+      <% end %>
+    </div>
+    <div class="">
+      <%= resource.radio_button :display_privacy, 'private', class: 'peer sr-only' %>
+      <%= resource.label :display_privacy, 'Private', value: 'private', class: 'flex flex-col border-2 border-transparent rounded-lg peer-checked:border-blue-400 p-4 m-4 hover:shadow-xl'  do %>
+        <div class="font-bold text-xl">Private</div>
+        <div class="text-sm">Visible to attendees</div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,12 @@
 <div class="bg-white flex flex-col">
-  <%= render partial: 'full_event', locals: { event: @event } %>
-  <%= render partial: 'event_invite_sticky_bar', locals: { event: @event } %>
+  <%= render 'full_event', resource: @event %>
+  <%= render 'sticky_navbar', resource: @event %>
   <div class="px-16">
     <div class="flex flex-row">
       <div class="flex flex-col max-w-screen-lg w-full px-16 py-8">
         <div class="font-extrabold text-3xl"><%= @event.name.titleize %></div>
         <div class="font-extrabold mt-8">About this event</div>
-        <%= render 'event_placeholder_text' %>
+        <%= render 'placeholder_text' %>
       </div>
       <div class="px-8 mx-8 min-w-max">
         <div class="py-16">
@@ -19,13 +19,8 @@
         </div>
       </div>
     </div>
-    <% if current_user&.id == @event.creator.id %>
-      <div class="bg-yellow-300 p-8">
-        <div class="font-extrabold text-2xl">Moderator Tools</div>
-        <%= render partial: 'creator_tools', locals: {event: @event} %>
-      </div>
-    <% end %>
-    <%= render_with_attendee_perms(@event) %>
+    <%= render 'mod_tools', resource: @event %>
+    <%= render 'events/potential_participant_listing', resource: @event %>
   </div>
-  <%= render 'event_bottom_bar' %>
+  <%= render 'bottom_bar' %>
 </div>

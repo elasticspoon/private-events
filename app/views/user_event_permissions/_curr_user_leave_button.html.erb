@@ -1,0 +1,7 @@
+<% if resource.future? && current_user&.attending?(resource.id) %>
+  <div class="w-full">
+    <%= render layout: 'layouts/generic_attend_perm_button', locals: { resource: resource, method: :delete } do |form| %>
+      <%= form.submit 'Leave', class: "bg-red-500 py-2 rounded-md border-2 border-transparent hover:border-red-800 min-w-min w-full" %>
+    <% end %>
+  </div>
+<% end %>
