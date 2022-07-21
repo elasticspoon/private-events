@@ -54,13 +54,18 @@ class Event < ApplicationRecord
     perms_for_event_setting?(user, display_privacy)
   end
 
-  def joinable_by?(user)
-    return false if user.nil?
-
-    user.can_join?(self)
+  def editable_by?(user)
+    user&.can_edit?(self)
   end
 
-  def required_perms_for_action(perm_type, action)
+  def joinable_by?(user)
+    # return false if user.nil?
+
+    # user.can_join?(self)
+    user&.can_join?(self)
+  end
+
+  def required_perms_for_action(perm_type:, action:)
     required_permissions.dig(action, perm_type) || (raise "Invalid perm type: #{perm_type} or action: #{action}")
   end
 
@@ -75,7 +80,7 @@ class Event < ApplicationRecord
         'accept_invite' => [['moderate'], ['owner']]
       },
       destroy: {
-        'moderate' => ['owner'],
+        'moderate' => [['owner']],
         'attend' => [['current_user'], ['moderate'], ['owner']],
         'accept_invite' => [['moderate'], ['owner']]
       }

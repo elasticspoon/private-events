@@ -84,7 +84,7 @@ RSpec.describe UserEventPermission, type: :model do
       it 'should return UserEventPermission if errors empty' do
         allow(@test_perm).to receive(:errors).and_return([])
         allow(@test_perm).to receive(:save).and_return(true)
-        expect(@test_perm.generate_permission_status(action)).to eq(@test_perm)
+        expect(@test_perm.generate_permission_status(action)).to eq(:notice)
       end
       it 'should call save on the UserEventPermission' do
         allow(@test_perm).to receive(:errors).and_return([])
@@ -294,7 +294,7 @@ RSpec.describe UserEventPermission, type: :model do
     it do
       allow(User).to receive(:held_event_perms)
       allow(@test_perm).to receive(:permission_type).and_return('fake_type')
-      expect(mock_event).to receive(:required_perms_for_action).with('fake_type', 'fake_action')
+      expect(mock_event).to receive(:required_perms_for_action).with(perm_type: 'fake_type', action: 'fake_action')
       @test_perm.validate_permission('fake_user_id', 'fake_action')
     end
     it do

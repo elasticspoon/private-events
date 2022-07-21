@@ -32,6 +32,10 @@ class User < ApplicationRecord
     holds_permission_currently?(event_id, 'moderate', 'owner')
   end
 
+  def can_edit?(event_id)
+    holds_permission_currently?(event_id, 'owner')
+  end
+
   def can_join?(event)
     return false if attending?(event.id)
     return true if event.event_privacy == 'public' || event.event_privacy == 'protected'

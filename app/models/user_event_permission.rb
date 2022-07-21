@@ -77,7 +77,7 @@ class UserEventPermission < ApplicationRecord
   def validate_permission(curr_user, action)
     held_permissions = User.held_event_perms(curr_user, event_id)
     held_permissions.push('current_user') if curr_user == user
-    required_perms = event.required_perms_for_action(permission_type, action)
+    required_perms = event.required_perms_for_action(perm_type: permission_type, action:)
 
     validate_held_vs_req(held_permissions, required_perms)
   end
@@ -130,7 +130,7 @@ class UserEventPermission < ApplicationRecord
   def save_valid_permission
     if errors.empty?
       save
-      self
+      :notice
     else
       :alert
     end

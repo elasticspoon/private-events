@@ -158,7 +158,7 @@ RSpec.describe Event, type: :model, subsets: :included do
         context 'when user is nil' do
           it { expect(@event.attending_viewable_by?(nil)).to be privacy == 'public' }
           it { expect(@event.viewable_by?(nil)).to be privacy == 'public' }
-          it { expect(@event.joinable_by?(nil)).to be false }
+          it { expect(@event.joinable_by?(nil)).to be_falsey }
         end
         context 'when user is not nil' do
           before(:each) do
@@ -215,7 +215,7 @@ RSpec.describe Event, type: :model, subsets: :included do
         .each do |perm_type, action|
         context "when perm_type: #{perm_type}, action: #{action}" do
           it do
-            expect { @event.required_perms_for_action(perm_type, action) }
+            expect { @event.required_perms_for_action(perm_type:, action:) }
               .to raise_error RuntimeError, "Invalid perm type: #{perm_type} or action: #{action}"
           end
         end
@@ -226,8 +226,24 @@ RSpec.describe Event, type: :model, subsets: :included do
         some_hash = {}
         allow(@event).to receive(:required_permissions).and_return(some_hash)
         allow(some_hash).to receive(:dig).and_return('some val')
-        expect(some_hash).to receive(:dig).with('some_perm_type', 'some action')
-        @event.required_perms_for_action('some action', 'some_perm_type')
+        expect(some_hash).to receive(:dig).with('some action', 'some_perm_type')
+        @event.required_perms_for_action(action: 'some action', perm_type: 'some_perm_type')
+      end
+    end
+    describe '#required_permissions' do
+      %i[create destroy].each do |action|
+        %w[attend accept_invite moderate].each do |perm_type|
+          context "when action: #{action}, perm_type: #{perm_type}" do
+            it do
+              expect(@event.required_perms_for_action(action:, perm_type:)).to be_a Array
+            end
+            it do
+              @event.required_perms_for_action(action:, perm_type:).each do |perm_arr|
+                expect(perm_arr).to be_a Array
+              end
+            end
+          end
+        end
       end
     end
   end
