@@ -32,3 +32,4 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+rails_best_practices_output.html

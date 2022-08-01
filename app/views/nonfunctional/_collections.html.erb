@@ -1,0 +1,26 @@
+<div class="flex flex-col w-full px-10 py-7">
+  <span class="font-bold text-2xl">Hand-picked</span>
+  <div class="flex flex-row justify-between items-center">
+    <span class="font-bold text-[28px] leading-9 text-[#d1410c]">Collections</span>
+    <div class="flex flex-row text-black">
+      <div class="p-4 mr-2 text-[#a9a8b3]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-5 " fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+      </div>
+      <div class="p-4 text-[#39364f]">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="h-6 w-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <span class="font-normal text-sm text-[#6f7287]">
+    Discover more of the best in food, music, wellness, and more with our curated event collections
+  </span>
+  <div class="flex flex-row overflow-x-scroll mt-2">
+    <% 5.times do %>
+      <%= render 'nonfunctional/collection_card' %>
+    <% end %>
+  </div>
+</div>

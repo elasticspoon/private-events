@@ -9,16 +9,12 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-  <body>
-    <main class="h-full min-h-screen w-screen flex flex-col bg-gray-300">
-      <%= render 'navbar' %>
+  <body class="h-full w-full">
+    <main class="h-full min-h-screen w-full flex flex-col bg-white">
+      <%= render 'navbar/navbar' %>
       <%= render 'notices' %>
-      <div class="w-full flex flex-row justify-evenly">
-        <div class=""></div>
-        <div class="w-full max-w-screen-xl">
-          <%= yield %>
-        </div>
-        <div class=""></div>
+      <div class="w-full">
+        <%= yield %>
       </div>
     </main>
   </body>

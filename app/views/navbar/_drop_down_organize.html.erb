@@ -1,0 +1,19 @@
+<div class="group hidden lg:flex flex-col h-full justify-center items-center" >
+  <div class="hover:bg-gray-100 h-full w-full flex flex-row justify-center items-center px-5">
+    <span>Organize</span>
+    <div class="relative top-[2px] left-[3px] text-[#6f7287] w-4 h-4">
+      <%= render 'navbar/chevron_svg' %>
+    </div>
+  </div>
+  <ul class="hidden absolute min-w-[250px] self-end bg-white text-sm font-normal group-hover:block" style="top: 72px">
+    <li class="px-5 py-4 hover:cursor-pointer text-gray-500 hover:text-gray-800 hover:bg-gray-100">
+      <%= link_to 'Why Eventbrite?', not_implemented_path %>
+    </li>
+    <li class="px-5 py-4 hover:cursor-pointer text-gray-500 hover:text-gray-800 hover:bg-gray-100">
+      <%= link_to 'Pricing', not_implemented_path %>
+    </li>
+    <li class="px-5 py-4 hover:cursor-pointer text-gray-500 hover:text-gray-800 hover:bg-gray-100">
+      <%= link_to 'Resources', not_implemented_path %>
+    </li>
+  </ul>
+</div>
