@@ -1,10 +1,14 @@
-<div class="flex flex-col w-full justify-between">
-  <div class="flex flex-row w-full">
-    <%= image_tag 'event_placeholder.jpg', class: "object-cover w-full h-72" %>
-    <div class="flex flex-col p-8 max-w-xs w-full">
-      <div class="text-xl py-2"><%= resource.date.to_formatted_s(:long_ordinal) %></div>
-      <div class='text-2xl font-bold py-2'><%= resource.name.titleize %></div>
-      <div class="py-2"><%= render "users/short_user", resource: resource.creator %></div>
+<div class="grid grid-cols-3 w-full">
+  <div class="col-span-2"><%= image_tag 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F232537269%2F213108451434%2F1%2Foriginal.20220218-133834?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C4%2C1200%2C600&s=794247e3cf87ee6921e07ddc98336609' %></div>
+  <div class="flex flex-col pb-5 px-[30px] pt-[30px] w-full bg-[#eeedef] justify-between relative">
+    <div class="flex flex-col">
+      <div class="flex flex-col text-[#39364f] absolute">
+        <span class="text-[13px] font-semibold leading-4 "><%= resource.date.strftime("%b").upcase %></span>
+        <span class="text-[17px] font-normal leading-5"><%= resource.date.strftime("%e") %></span>
+      </div>
+      <span class='text-[#1e0a3c] text-base font-semibold pb-[2px] max-h-32 pt-16'><%= resource.name.titleize %></span>
+      <div class="py-2"><%= render "users/short_user_alt_two", resource: resource.creator %></div>
     </div>
+    <div class="flex"><span><%= resource.price %></span></div>
   </div>
 </div>

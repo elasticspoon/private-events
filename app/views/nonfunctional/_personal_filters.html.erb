@@ -9,16 +9,12 @@
   <div class="flex flex-col overflow-x-scroll">
     <div class="flex flex-row">
       <% 10.times do %>
-        <div class="font-normal text-base text-[#39364f] border-2 rounded-full h-11 px-4 mb-4 mr-4 bg-white flex items-center min-w-fit ">
-          <span><%= ['Comedy', 'Food', 'Education', 'Pop', 'Startups & Small Business'].sample %></span>
-        </div>
+        <%= render partial: 'tag', locals: { tag_text: ['Comedy', 'Food', 'Education', 'Pop', 'Startups & Small Business'].sample } %>
       <% end %>
     </div>
     <div class="flex flex-row">
       <% 10.times do %>
-        <div class="font-normal text-base text-[#39364f] border-2 rounded-full h-11 px-4 mb-4 mr-4 bg-white flex items-center min-w-fit ">
-          <span><%= ['Comedy', 'Food', 'Education', 'Pop', 'Startups & Small Business'].sample %></span>
-        </div>
+        <%= render partial: 'tag', locals: { tag_text: ['Comedy', 'Food', 'Education', 'Pop', 'Startups & Small Business'].sample } %>
       <% end %>
     </div>
   </div>

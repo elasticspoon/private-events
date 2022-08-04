@@ -1,0 +1,25 @@
+<div class="flex">
+  <div class="pr-3 pt-1">
+    <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor">
+      <defs><path id="calendar-fill_svg__24_small_calendar_fill-a" d="M14 0h1v2h5v4H0V2h5V0h1v2h8V0zM0 20V7h20v13H0zm13-10v2h2v-2h-2zm-4 0v2h2v-2H9zm-4 0v2h2v-2H5zm8 4v2h2v-2h-2zm-4 0v2h2v-2H9zm-4 0v2h2v-2H5z"></path></defs>
+      <g fill="none" fill-rule="evenodd" transform="translate(2 2)">
+        <mask id="calendar-fill_svg__24_small_calendar_fill-b" fill="#fff"><use xlink:href="#calendar-fill_svg__24_small_calendar_fill-a"></use></mask>
+        <use fill="#45494E" xlink:href="#calendar-fill_svg__24_small_calendar_fill-a"></use>
+        <g mask="url(#calendar-fill_svg__24_small_calendar_fill-b)"><path fill="#000" d="M-2-2h24v24H-2z"></path></g>
+      </g>
+    </svg>
+  </div>
+  <div class="flex flex-col w-full">
+    <div class="">
+      <h3 class="font-semibold text-base mb-2 leading-6">Date and Time</h3>
+    </div>
+    <div class="text-[#39364f] font-normal text-sm"><%= resource.date.strftime("%a, %B %-d, %Y") %></div>
+    <div class="text-[#39364f] font-normal text-sm">
+      <%= resource.created_at.strftime("%l:%M %p") %>-<%= resource.date.strftime("%l:%M %p %Z") %>
+    </div>
+    <div class="flex border border-[#dbdae3] w-full items-center justify-between h-[46px] p-3 mt-6 mb-2 text-[#39364f] rounded-[1px]">
+      <span class="font-normal text-sm">Select a different date</span>
+      <div class="h-4 w-4 text-current"><%= render 'navbar/chevron_svg' %></div>
+    </div>
+  </div>
+</div>

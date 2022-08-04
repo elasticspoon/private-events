@@ -1,5 +1,4 @@
 <div class="flex flex-row">
-  <% if true %>
-    <span class="bg-[#6f7287] text-white border-2 border-white rounded-full font-semibold text-sm px-2 pb-[2px] pt-[1px]">Sales Ended</span>
-  <% end%>
+  <%= render 'expired', resource: resource %>
+  <%= render 'lock', resource: resource %>
 </div>

@@ -38,6 +38,11 @@ class Event < ApplicationRecord
     date <= DateTime.now
   end
 
+  # Should be overwitten in the future
+  def price
+    'Free'
+  end
+
   def accepted_invites
     user_event_permissions.where(permission_type: 'attend').includes(:user)
   end
