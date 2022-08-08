@@ -1,5 +1,8 @@
-<div class="flex flex-col h-full w-full items-center">
-  <div class="bg-white flex flex-col max-w-7xl items-center">
+<div class="flex flex-col h-full w-full items-center bg-[#f8f7fa] relative pt-10">
+  <div class="w-full top-0 z-0 hidden lg:block absolute h-[470px] overflow-hidden">
+    <%= image_tag @event.image_url, size: '50x25', class: 'w-[200%] filter', style: "filter: blur(50px)" %>
+  </div>
+  <div class="bg-white flex flex-col max-w-5xl items-center z-20 rounded shadow-sm">
     <%= render 'full_event', resource: @event %>
     <%= render 'sticky_navbar', resource: @event %>
     <div class="px-2 pb-5">
@@ -20,8 +23,10 @@
       </div>
     </div>
     <%= render 'listing_map', resource: @event %>
-    <%= render 'mod_tools', resource: @event %>
-    <%= render 'events/potential_participant_listing', resource: @event %>
-    <%= render 'bottom_bar' %>
+    <%= render 'organizer_listing', resource: @event %>
+    <%# render 'mod_tools', resource: @event %>
+    <%# render 'events/potential_participant_listing', resource: @event %>
   </div>
+  <%= render 'event_carousel', resource: @event %>
+  <%= render 'bottom_bar' %>
 </div>

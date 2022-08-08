@@ -3,8 +3,7 @@
     <div class="flex flex-col h-full shadow-2xl shadow-gray-200 hover:shadow-gray-400">
       <div class="w-full relative">
         <%= link_to event do %>
-          <%= image_tag "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F219765149%2F291099437342%2F1%2Foriginal.20220128-010041?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C268%2C2048%2C1024&s=6e4df73b75bfc346275a65aaf2835680",
-        class: 'w-full' %>
+          <%= image_tag event.image_url %>
         <% end %>
         <div class="absolute -top-4 -right-3"><%= render 'event_tags_bar', resource: event %></div>
         <%= render 'user_event_permissions/heart_perm_button', resource: event %>
@@ -12,8 +11,14 @@
       <%= link_to event do %>
         <div class="flex flex-col px-4 py-6">
           <div class="font-bold text-xl overflow-hidden"><%= event.name.titleize %></div>
-          <div class="text-[#d1410c] font-semibold text-base pb-1 pt-2"><%= event.date.to_formatted_s(:long_ordinal) %> + 
-            <%= rand(99) %> more events </div>
+          <div class="text-[#d1410c] font-semibold text-base pb-1 pt-2">
+            <% if event.date.to_a[3..] == Time.now.to_a[3..] %>
+              Today at<%= event.date.strftime(" %I:%M %p") %>
+            <% else %>
+              <%= event.date.strftime("%a, %b %e, %I:%M %p") %>
+            <% end%>
+            + <%= rand(99) %> more events 
+          </div>
           <div class="over-hidden text-base font-normal text-gray-400"><%= event.location.titleize %> - <%= event.location.titleize %></div>
           <div class="pt-1">
             <%= render "users/short_user_alt", resource: event.creator %>
