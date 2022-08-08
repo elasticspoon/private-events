@@ -5,6 +5,9 @@ class EventsController < ApplicationController
   before_action :perms_show?, only: :show
   before_action :perms_edit?, only: %i[edit update destroy]
 
+  layout 'event_layout'
+  layout 'index_layout', only: :index
+
   def index
     @events = Event.includes(:creator).all
   end
