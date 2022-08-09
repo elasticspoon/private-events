@@ -1,11 +1,12 @@
 <% if event.viewable_by?(current_user) %>
-  <div class="p-4 h-full">
-    <div class="flex flex-col h-full shadow-2xl shadow-gray-200 hover:shadow-gray-400">
+  <div class="h-full <%= 'p-4' unless local_assigns[:is_event_view] %>">
+    <div class="flex flex-col h-full shadow-2xl shadow-gray-200 
+    <%= 'hover:shadow-gray-400' unless local_assigns[:is_event_view] %>">
       <div class="w-full relative">
         <%= link_to event do %>
           <%= image_tag event.image_url %>
         <% end %>
-        <div class="absolute -top-4 -right-3"><%= render 'event_tags_bar', resource: event %></div>
+        <div class="absolute -top-4 -right-3"><%= render 'events/event_tags_bar', resource: event %></div>
         <%= render 'user_event_permissions/heart_perm_button', resource: event %>
       </div>
       <%= link_to event do %>

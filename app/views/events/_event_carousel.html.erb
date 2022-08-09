@@ -14,7 +14,7 @@
       </div>
     </div>
   </div>
-  <div class="grid grid-cols-3">
-    <%= render Event.includes(:creator).limit(3) %>
+  <div class="grid grid-cols-3 gap-5">
+    <%= render partial: Event.includes(:creator).limit(3), locals: {is_event_view: true} %>
   </div>
 </div>

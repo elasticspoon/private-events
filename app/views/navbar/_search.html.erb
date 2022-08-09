@@ -1,17 +1,21 @@
-<div class="flex-grow max-h-[56px]">
-  <%= link_to not_implemented_path, class: "hidden lg:flex flex-row flex-grow max-w-[472px] max-h-[48px] items-center bg-gray-100 mb-2" do %>
-      <div class= 'flex items-center justify-center my-3 ml-3'>
-        <svg id="magnifying-glass-chunky_svg__eds-icon--magnifying-glass-chunky_svg" x="0" y="0" viewBox="0 0 24 24" class="h-6 w-6" style="fill: #a9a8b3">
+<div class="flex flex-grow">
+  <%= link_to not_implemented_path, class: "hidden lg:flex flex-row flex-grow max-w-[472px] max-h-[46px] items-center bg-[#f8f7fa] py-[5px]" do %>
+    <div class= 'flex items-center justify-center my-3 ml-3'>
+      <svg id="magnifying-glass-chunky_svg__eds-icon--magnifying-glass-chunky_svg" x="0" y="0" viewBox="0 0 24 24" class="h-6 w-6" style="fill: #a9a8b3">
         <path id="magnifying-glass-chunky_svg__eds-icon--magnifying-glass-chunky_base" fill-rule="evenodd" clip-rule="evenodd" d="M10 14c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm3.5.9c-1 .7-2.2 1.1-3.5 1.1-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6c0 1.3-.4 2.5-1.1 3.4l5.1 5.1-1.5 1.5-5-5.1z"></path>
-        </svg>
-      </div>
-      <span class='hidden lg:block bg-gray-100 border-none text-sm text-gray-300 px-2 py-3'>Search events</span>
+      </svg>
+    </div>
+    <span class='hidden lg:block bg-[#f8f7fa] border-none text-sm text-gray-300 px-2 py-3'>Search events</span>
   <% end %>
 </div>
-<%= form_with url: not_implemented_path, class: 'min-w-[72px] h-full ml-auto hover:bg-gray-100 lg:hidden flex items-center justify-center' do |f| %>
- <%= f.button do %>
-  <svg id="magnifying-glass-chunky_svg__eds-icon--magnifying-glass-chunky_svg" x="0" y="0" viewBox="0 0 24 24" class="h-6 w-6" style="fill: #a9a8b3">
+<div class="ml-auto lg:hidden flex h-full
+<%= local_assigns[:is_event_view] ? 'text-[#39364f]' : 'min-w-[72px] hover:bg-[#f8f7fa]'  %>">
+  <%= form_with url: not_implemented_path,
+  class: 'w-full h-full flex items-center justify-center' do |f| %>
+    <%= f.button do %>
+      <svg id="magnifying-glass-chunky_svg__eds-icon--magnifying-glass-chunky_svg" x="0" y="0" viewBox="0 0 24 24" class="h-6 w-6" style="fill: currentColor">
         <path id="magnifying-glass-chunky_svg__eds-icon--magnifying-glass-chunky_base" fill-rule="evenodd" clip-rule="evenodd" d="M10 14c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm3.5.9c-1 .7-2.2 1.1-3.5 1.1-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6c0 1.3-.4 2.5-1.1 3.4l5.1 5.1-1.5 1.5-5-5.1z"></path>
-        </svg>
+      </svg>
+    <% end %>
   <% end %>
-<% end %>
+</div>

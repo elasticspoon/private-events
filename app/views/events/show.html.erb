@@ -1,8 +1,8 @@
-<div class="flex flex-col h-full w-full items-center bg-[#f8f7fa] relative pt-10">
-  <div class="w-full top-0 z-0 hidden lg:block absolute h-[470px] overflow-hidden">
+<div class="flex flex-col h-full w-full items-center bg-[#f8f7fa] relative lg:pt-10">
+  <div class="w-full top-0 hidden lg:block absolute h-[470px] overflow-hidden">
     <%= image_tag @event.image_url, size: '50x25', class: 'w-[200%] filter', style: "filter: blur(50px)" %>
   </div>
-  <div class="bg-white flex flex-col max-w-5xl items-center z-20 rounded shadow-sm">
+  <div class="bg-white flex flex-col max-w-5xl items-center rounded shadow-sm lg:z-10">
     <%= render 'full_event', resource: @event %>
     <%= render 'sticky_navbar', resource: @event %>
     <div class="px-2 pb-5">
@@ -28,5 +28,4 @@
     <%# render 'events/potential_participant_listing', resource: @event %>
   </div>
   <%= render 'event_carousel', resource: @event %>
-  <%= render 'bottom_bar' %>
 </div>
