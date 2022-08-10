@@ -1,0 +1,12 @@
+<%= render 'navbar/drop_down_dots' %>
+<%= render 'navbar/drop_down_organize' %>
+<%= render 'navbar/drop_down_help' %>
+<%= link_to new_event_path, class: 'hidden px-5 h-full lg:flex items-center hover:bg-[#f8f7fa] text-[#3d64ff]' do %>
+  <span>Create an event</span>
+<% end %>
+<%= link_to new_user_session_path, class: "hover:bg-[#f8f7fa] px-3 lg:px-5 h-full flex flex-col justify-center" do %>
+  <span>Log In</span>
+<% end %>
+<%= link_to new_user_registration_path, class: "hover:bg-[#f8f7fa] px-3 lg:px-5 h-full flex flex-col justify-center" do %>
+  <span>Sign Up</span>
+<% end %>
