@@ -1,0 +1,6 @@
+<%= link_to new_event_path, class: 'hidden px-5 h-full lg:flex items-center hover:text-[#39364f]' do %>
+  <span>Browse Events</span>
+<% end %>
+<div class="hidden lg:flex h-full"><%= render partial: 'navbar/drop_down_organize', layout:'navbar/dropdown_layout', locals: { is_event_view: true} %></div>
+<div class="hidden lg:flex  h-full"><%= render partial: 'navbar/drop_down_help', layout:'navbar/dropdown_layout', locals: {is_event_view: true} %></div>
+<div class="lg:hidden flex  h-full"><%= render partial: 'navbar/drop_down_event', layout:'navbar/dropdown_layout', locals: { is_event_view: true} %></div>

@@ -1,21 +1,8 @@
-<div class="group hidden lg:flex flex-col h-full justify-center items-center" >
-  <div class="h-full w-full flex flex-row justify-center items-center px-5 hover:bg-gray-100
-  <%= local_assigns[:is_event_view] ? 'text-[#6f7287] hover:text-[#39364f]' : 'text-[#39364f] '  %>">
-    <span>Organize</span>
-    <div class="relative top-0 left-[3px] w-4 h-4">
-      <%= render 'navbar/chevron_svg' %>
-    </div>
-  </div>
-  <ul class="hidden absolute min-w-[250px] self-end bg-white text-sm font-normal group-hover:block shadow-sm
-   <%= local_assigns[:is_event_view] ? 'top-[60px]' : 'top-[72px]'  %>">
-    <li class="px-5 py-4 hover:cursor-pointer text-gray-500 hover:text-gray-800 hover:bg-gray-100">
-      <%= link_to 'Why Eventbrite?', not_implemented_path %>
-    </li>
-    <li class="px-5 py-4 hover:cursor-pointer text-gray-500 hover:text-gray-800 hover:bg-gray-100">
-      <%= link_to 'Pricing', not_implemented_path %>
-    </li>
-    <li class="px-5 py-4 hover:cursor-pointer text-gray-500 hover:text-gray-800 hover:bg-gray-100">
-      <%= link_to 'Resources', not_implemented_path %>
-    </li>
-  </ul>
-</div>
+<% set_content_for :label do %>
+  <span class="hidden lg:block">Organize</span>
+<% end %>
+<% set_content_for :list do %>
+  <li><%= link_to 'Why Eventbrite?', not_implemented_path %></li>
+  <li><%= link_to 'Pricing', not_implemented_path %></li>
+  <li><%= link_to 'Resources', not_implemented_path %></li>
+<% end %>

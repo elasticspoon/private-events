@@ -1,30 +1,73 @@
-<div class="w-full flex flex-col items-center">
-  <div class="w-full min-h-screen py-6 sm:max-w-md flex flex-col justify-center mx-6">
-    <h2 class='mb-6 text-center text-5xl font-extrabold'>Welcome.</h2>
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false}) do |form| %>
-      <div class="field mb-4">
-        <%= form.label :email, class: 'block mb-1' %>
-        <%= form.email_field :email, autocomplete: 'email', autofocus: true, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
-      </div>
-      <div class="field mb-4">
-        <%= form.label :password, class: 'block mb-1' %>
-        <%= form.password_field :password, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full'%>
-      </div>
-      <div class="mt-6 flex items-center justify-between">
-        <% if devise_mapping.rememberable? %>
-          <div class="flex items-center">
-            <%= form.check_box :remember_me, class: 'border border-gray-500 text-red-600 shadow-sm focur:border-red-300 focus:ring focus:ring-red-200 focus:ring-opactity-50'%>
-            <%= form.label :remember_me, 'Remember me', class: 'ml-2 block text-sm leading-5 text-gray-900' %>
+<div class="flex h-full min-h-screen lg:grid grid-cols-2">
+  <div class="flex w-full justify-center items-center">
+    <div class="flex flex-col w-full max-w-sm ">
+      <%= link_to root_path do %>
+        <div class="mb-6">
+          <svg viewBox="0 0 200 36" class="h-[20px] text-cur", style="fill: #f05537">
+            <g fill-rule="evenodd"><g><g transform="translate(.347)">
+                  <path d="M185.945 17.513c2.693-.61 5.381.495 6.878 2.584l-11.905 2.693c.411-2.52 2.333-4.668 5.027-5.277zm6.944 9.91a6.57 6.57 0 01-3.979 2.679c-2.711.614-5.417-.51-6.908-2.626l11.942-2.702 1.945-.44 3.719-.841a11.782 11.782 0 00-.31-2.372c-1.513-6.426-8.055-10.432-14.611-8.949-6.556 1.484-10.644 7.896-9.13 14.321 1.513 6.426 8.055 10.433 14.61 8.95 3.864-.875 6.869-3.46 8.377-6.751l-5.655-1.269z"></path><path id="logo-wordmark-brand_svg__Fill-10" d="M164.788 35.118V18.082h-3.677v-5.804h3.677V4.289h6.244v7.989h4.69v5.804h-4.69v17.036z"></path><path d="M152.86 35.118h6.03v-22.84h-6.03v22.84zm-.785-30.853c0-2.114 1.667-3.7 3.825-3.7 2.157 0 3.775 1.586 3.775 3.7 0 2.115-1.618 3.748-3.775 3.748-2.158 0-3.825-1.633-3.825-3.748zM150.76 12.342c-3.082.16-4.9.633-6.75 1.973v-2.037h-6.026v22.84h6.026v-11.2c0-3.524.86-5.529 6.75-5.726v-5.85zM117.16 24.057c.15 3.333 3.051 6.128 6.602 6.128 3.601 0 6.552-2.942 6.552-6.422 0-3.432-2.95-6.373-6.552-6.373-3.551 0-6.452 2.843-6.602 6.128v.539zm-5.88 11.061V1.38l6.03-1.364v13.962c1.863-1.49 4.07-2.115 6.472-2.115 6.864 0 12.355 5.286 12.355 11.918 0 6.583-5.491 11.965-12.355 11.965-2.403 0-4.609-.624-6.472-2.114v1.487h-6.03z"></path><path id="logo-wordmark-brand_svg__Fill-1" d="M98.445 35.118V17.965h-3.677v-5.687h3.677V4.283l6.244-1.413v9.408h4.69v5.687h-4.69v17.153z"></path><path d="M87.394 35.118V22.915c0-4.421-2.402-5.382-4.805-5.382-2.402 0-4.805.913-4.805 5.286v12.299h-6.03v-22.84h6.03v1.699c1.324-.961 2.942-2.115 6.13-2.115 5.098 0 9.51 2.932 9.51 10.092v13.164h-6.03zM56.484 17.513c2.694-.61 5.382.495 6.878 2.584L51.458 22.79c.41-2.52 2.332-4.668 5.026-5.277zm6.945 9.91a6.57 6.57 0 01-3.98 2.679c-2.711.614-5.416-.51-6.907-2.626l11.942-2.702 1.944-.44 3.72-.841a11.782 11.782 0 00-.31-2.372c-1.514-6.426-8.056-10.432-14.612-8.949-6.556 1.484-10.644 7.896-9.13 14.321 1.513 6.426 8.055 10.433 14.611 8.95 3.863-.875 6.868-3.46 8.376-6.751l-5.654-1.269z"></path><path id="logo-wordmark-brand_svg__Fill-2" d="M31.89 35.118l-9.364-22.84h6.57l5.932 15.49 5.982-15.49h6.57l-9.365 22.84z"></path><path d="M10.703 17.507c2.694-.61 5.382.495 6.878 2.584L5.677 22.785c.41-2.52 2.332-4.668 5.026-5.278zm6.945 9.91a6.57 6.57 0 01-3.98 2.68c-2.71.613-5.416-.51-6.907-2.626l11.942-2.702 1.945-.44 3.718-.842a11.782 11.782 0 00-.31-2.371c-1.513-6.426-8.055-10.433-14.61-8.95C2.888 13.65-1.2 20.063.314 26.489c1.514 6.426 8.055 10.432 14.611 8.949 3.864-.874 6.869-3.46 8.376-6.75l-5.654-1.27z"></path>
+                </g></g></g></svg>
+        </div>
+      <% end %>
+      <h1 class="mb-10 font-extrabold text-[54px] leading-[64px]">Log in</h1>
+      <div class="">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false}) do |form| %>
+          <div class="mb-2 border-[1px] border-[#dbdae3] flex flex-col font-normal min-h-[44px] rounded-sm">
+            <%= form.label :email, value: 'Email address', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287]' %>
+            <%= form.email_field :email, autocomplete: 'email', class: 'border-none px-3 pt-[18px] pb-[6px] text-sm '%>
+          </div>
+          <div class=" border-[1px] border-[#dbdae3] flex flex-col font-norma  min-h-[44px]l rounded-sm">
+            <%= form.label :password, class: 'absolute  px-3 pt-[2px] text-xs text-[#6f7287]' %>
+            <%= form.password_field :password, class: 'border-none px-3 pt-[18px] pb-[6px] text-sm '%>
+          </div>
+          <div class="my-4 bg-[#d1410c] w-full flex items-center justify-center min-h-[44px] rounded cursor-pointer">
+            <%= form.submit 'Log in', class: 'font-semibold text-sm text-white' %>
           </div>
         <% end %>
-        <%= link_to 'Forgot your password?', new_user_session_path, class: 'text-sm hover:underline' %>
       </div>
-      <div class="mt-6">
-        <%= form.submit 'Sign In', class: 'w-full inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-bold text-white capitalize transition disabled:opacity-25 focus:outline-none hover:bg-red-700 active:bg-red-700 focus:border-red-700 focus:ring focus:ring-red' %>
+      <div class="flex flex-col text-[#39364f]">
+        <div class="flex flex-col items-center relative pt-5 pb-6 justify-center">
+          <div class="flex justify-center">
+            <span class="z-20 border-[1px] border-[#a9a8b3] rounded-full px-3 pb-1 bg-white text-[#6f7287] text-sm font-semibold min-w-[22px]">or</span>
+          </div>
+          <div class="flex w-full absolute h-full items-center justify-center z-10">
+            <div class="h-[1px] bg-[#a9a8b3] w-full"></div>
+          </div>
+        </div>
+        <div class=" border-[1px] border-[#dbdae3] flex font-normal min-h-[44px] rounded-sm justify-center items-center mb-3 cursor-pointer">
+          <span class="font-semibold text-sm">Email me a login link</span>
+        </div>
+        <div class=" border-[1px] border-[#dbdae3] flex font-normal min-h-[44px] rounded-sm justify-center items-center mb-9 cursor-pointer">
+          <div class="pr-4">
+            <svg class= "h-6 w-6"fill="none">
+              <g clip-path="url(#logo-google_svg__clip0)"><path d="M21.99 12.108c0-.84-.069-1.452-.216-2.088H12.2v3.79h5.62c-.113.943-.725 2.362-2.084 3.315l-.02.127 3.028 2.349.21.021c1.926-1.782 3.037-4.404 3.037-7.514" fill="#4285F4"></path><path d="M12.2 22.096c2.753 0 5.064-.908 6.753-2.474l-3.218-2.497c-.862.602-2.017 1.021-3.536 1.021-2.697 0-4.985-1.781-5.801-4.244l-.12.01-3.148 2.44-.041.115c1.677 3.337 5.122 5.63 9.11 5.63z" fill="#34A853"></path><path d="M6.397 13.902a6.298 6.298 0 01-.34-2.02c0-.704.125-1.385.33-2.02l-.007-.136-3.187-2.48-.104.05A10.238 10.238 0 002 11.881c0 1.646.397 3.201 1.088 4.586l3.308-2.565" fill="#FBBC05"></path><path d="M12.2 5.616c1.914 0 3.206.829 3.942 1.521l2.879-2.814c-1.768-1.646-4.068-2.656-6.822-2.656-3.988 0-7.433 2.292-9.11 5.63L6.386 9.86c.828-2.463 3.116-4.245 5.813-4.245" fill="#EB4335"></path></g><defs><clipPath id="logo-google_svg__clip0"><path fill="#fff" transform="translate(2 1.667)" d="M0 0h20v20.5H0z"></path></clipPath></defs>
+            </svg>
+          </div>
+          <span class="font-semibold text-sm">Sign in with Google</span>
+        </div>
+        <span>Other login methods</span>
+        <div class="flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px]">
+          <div class="">
+            <svg class="h-12 w-12" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="24" fill="#1877F2"></circle><path fill-rule="evenodd" clip-rule="evenodd" d="M28.2792 24.7233L28.8493 20.9515H25.2831V18.5038C25.2831 17.4719 25.7812 16.466 27.3786 16.466H29V13.2549C29 13.2549 27.5285 13 26.1217 13C23.1845 13 21.2648 14.8064 21.2648 18.0767V20.9515H18V24.7233H21.2648V33.8415C21.9195 33.9457 22.5905 34 23.274 34C23.9575 34 24.6285 33.9457 25.2831 33.8415V24.7233H28.2792Z" fill="white"></path>
+            </svg>
+          </div>
+          <div class="">
+            <svg class="h-12 w-12" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="24" fill="#4B4D63"></circle><path fill-rule="evenodd" clip-rule="evenodd" d="M28.0125 13C27.0152 13.0459 25.7905 13.6789 25.0648 14.5159C24.4073 15.2627 23.8409 16.4617 23.9993 17.6147C25.1108 17.7056 26.2666 17.0496 26.9701 16.2127C27.6727 15.3528 28.1488 14.1768 28.0125 13V13ZM27.9904 17.8416C26.4258 17.6827 24.9294 18.7686 24.1356 18.7686C23.3418 18.7686 22.1171 17.8637 20.8251 17.8866C19.1242 17.9316 17.5597 18.8816 16.6756 20.3974C14.9296 23.4742 16.2446 27.9988 17.9676 30.4867C18.8065 31.6857 19.8269 33.0656 21.1419 32.9976C22.4118 32.9526 22.8879 32.1836 24.4303 32.1836C25.9497 32.1836 26.4028 32.9976 27.7409 32.9755C29.101 32.9526 29.9629 31.7307 30.8019 30.5097C31.7771 29.1068 32.1629 28.5868 32.185 28.5188C32.1629 28.4959 29.532 26.641 29.4868 23.6322C29.4638 21.0984 31.5505 19.8774 31.6638 19.8095C30.4842 18.0905 28.6479 17.8637 27.9904 17.8416V17.8416Z" fill="white"></path>
+            </svg>
+          </div>
+        </div>
+        <%= link_to 'Sign up', new_user_registration_path, class: 'text-[#3659e3] font-semibold text-sm' %>
       </div>
-      <div class="mt-6 text-center text-sm">
-        Don't have an account? <%= link_to 'Sign up.', new_user_registration_path, class: 'underline font-bold' %>
-      </div>
-    <% end %>
+    </div>
+  </div>
+  <div class="bg-cover hidden lg:block h-full bg-center relative"
+   style="background-image: url('https://cdn.evbstatic.com/s3-build/perm_001/0fff4c/django/images/login/lateral-image-2-hd.jpg')">
+    <div class="flex flex-col items-end absolute right-12 bottom-36 text-white text-xs font-normal">
+      <span class="font-extrabold">Hungry Pop</span>
+      <span class="">Keste</span>
+      <span class="">New York, NY</span>
+    </div>
   </div>
 </div>

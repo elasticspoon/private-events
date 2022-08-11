@@ -1,0 +1,12 @@
+<% unless user_signed_in? %>
+  <li>
+    <%= link_to new_user_session_path, class: "hidden lg:flex px-5 h-full  flex-col justify-center hover:text-[#39364f]" do %>
+      <span>Log In</span>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to new_user_registration_path, class: "hidden lg:flex px-5 h-full  flex-col justify-center hover:text-[#39364f]" do %>
+      <span>Sign Up</span>
+    <% end %>
+  </li>
+<% end %>

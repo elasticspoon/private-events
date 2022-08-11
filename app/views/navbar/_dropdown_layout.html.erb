@@ -1,15 +1,13 @@
-<div class="group  flex-col h-full justify-center items-center" >
-  <div class="h-full w-full flex flex-row justify-center items-center px-5 hover:bg-gray-100
+<div class="group flex-col h-full justify-center items-center relative" >
+  <div class="h-full w-full flex flex-row justify-center items-center px-3 lg:px-5 hover:bg-gray-100
   <%= local_assigns[:is_event_view] ? 'text-[#6f7287] hover:text-[#39364f]' : 'text-[#39364f] ' %>">
     <%= content_for :picture %>
-    <div class="hidden lg:flex  items-center">
-      <%= content_for :label %>
-      <div class="relative text-current w-4 h-4 text-[#6f7287] ml-1">
-        <%= render 'navbar/chevron_svg' %>
-      </div>
+    <%= content_for :label %>
+    <div class="hidden lg:block ml-1">
+      <%= render 'navbar/chevron_svg' %>
     </div>
   </div>
-  <ul class="hidden absolute right-0 min-w-[250px] self-end bg-white text-sm font-normal group-hover:block shadow-sm
+  <ul class="hidden absolute min-w-[250px] right-0 self-end bg-white text-sm font-normal group-hover:block shadow-sm
   [&>*]:text-gray-500 [&>*]:px-5 [&>*]:py-4 [&>*:hover]:cursor-pointer  [&>*:hover]:text-gray-800 [&>*:hover]:bg-gray-100
     <%= local_assigns[:is_event_view] ? 'top-[60px]' : 'top-[72px]'  %> ">
     <%= content_for :list %>
