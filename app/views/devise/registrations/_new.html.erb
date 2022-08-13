@@ -11,7 +11,7 @@
   <%= render 'devise/shared/fb_circle_button' %>
 <% end %>
 <% set_content_for :page_form do %>
-  <%= render partial: 'users/existing_email_alert', locals: { resource: resource} %>
+  <%= render partial: 'existing_email_alert', locals: { resource: resource} %>
   <%= form_for(resource, url: new_user_registration_path, data: { turbo: false}) do |form| %>
     <div class="mb-2 border-[1px] border-[#dbdae3] flex flex-col font-normal min-h-[44px] rounded-sm">
       <%= form.label :email, value: 'Email address', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287]' %>
