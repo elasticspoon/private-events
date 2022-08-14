@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   devise_scope :user do
     post 'users/sign_up' => 'users/registrations#create'
     put 'users/sign_up' => 'users/registrations#check'
-    get 'users/register' => 'users/registrations#new'
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
