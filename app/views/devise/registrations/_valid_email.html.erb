@@ -5,18 +5,15 @@
   </div>
 <% end %>
 <% content_for :page_form do %>
-  <%= form_for(resource, url: new_user_registration_path, data: { turbo: false}) do |form| %>
+  <%= form_for(resource, as: resource_name, url: new_registration_path(resource_name), data: { turbo: false}) do |form| %>
     <div class="flex flex-col">
-      <div class="flex items-center justify-between border-[1px] border-[#dbdae3] bg-[#f8f7fa]">
+      <div class="flex items-center justify-between border-[1px] border-[#dbdae3] bg-[#f8f7fa] ">
         <div class=" flex flex-col font-normal h-[48px] rounded-sm" >
           <%= form.label :email, value: 'Email address', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287]' %>
-          <%= form.email_field :email, class: 'border-none px-3 pt-[18px] pb-[6px] text-sm bg-[#f8f7fa]' %>
+          <%= form.hidden_field :email, value: resource[:email] %>
+          <%= form.email_field :email, class: 'border-none px-3 pt-[18px] pb-[6px] text-sm bg-[#f8f7fa] focus:outline-none', disabled: 'true' %>
         </div>
         <%= render 'devise/registrations/edit_email_button' %>
-      </div>
-      <div class="mt-2 border-[1px] border-[#dbdae3] flex flex-col font-normal h-[48px] rounded-sm relative justify-center" >
-        <%= form.password_field :password, class: 'border-transparent border-[1px] px-3 focus:border-none focus:pt-5 text-sm placeholder:text-sm focus:placeholder:text-transparent peer', placeholder: 'Password' %>
-        <%= form.label :password, value: 'Password', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287] hidden peer-focus:block top-0' %>
       </div>
       <%= render 'inline_errors', errors: resource.errors[:password] %>
       <div class="grid grid-cols-2 gap-x-4 mt-2">
@@ -34,6 +31,10 @@
           </div>
           <%= render 'inline_errors', errors: resource.errors[:username] %>
         </div>
+      </div>
+      <div class="mt-2 border-[1px] border-[#dbdae3] flex flex-col font-normal h-[48px] rounded-sm relative justify-center" >
+        <%= form.password_field :password, class: 'border-transparent border-[1px] px-3 focus:border-none focus:pt-5 text-sm placeholder:text-sm focus:placeholder:text-transparent peer', placeholder: 'Password' %>
+        <%= form.label :password, value: 'Password', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287] hidden peer-focus:block top-0' %>
       </div>
       <div class="mt-2 border-[1px] border-[#dbdae3] flex flex-col font-normal h-[48px] rounded-sm relative justify-center ">
         <%= form.password_field :password_confirmation, placeholder: 'Confirm password', class: 'border-transparent border-[1px] px-3 focus:border-none focus:pt-5 text-sm placeholder:text-sm focus:placeholder:text-transparent peer' %>

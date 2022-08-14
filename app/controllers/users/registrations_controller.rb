@@ -5,19 +5,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  def new
-    render 'new', locals: { resource: User.new }
-  end
-
-  def check_email
-    if User.find_by(email: sanitize_params[:email])
-      resource = build_user
-      resource.errors.add(:email, 'taken')
-      render 'new', locals: { resource: }, status: :unprocessable_entity, location: new_user_registration_path
-    else
-      render 'valid_email', locals: { resource: build_user }
-    end
-  end
+  # def new
+  #   render 'new', locals: { resource: User.new }
+  #   super
+  # end
 
   def create
     build_resource(sign_up_params)
@@ -34,12 +25,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
         expire_data_after_sign_in!
         respond_with resource, location: after_inactive_sign_up_path_for(resource)
       end
-    elsif resource.errors.full_messages.include?('Email has already been taken')
-      render 'new', locals: { resource: }, status: :unprocessable_entity
     else
       clean_up_passwords resource
       set_minimum_password_length
+
+      # respond_with resource
       render 'valid_email', locals: { resource: }
+    end
+  end
+
+  def check
+    if User.find_by(email: sanitize_params[:email])
+      resource = build_user
+      resource.errors.add(:email, 'Email has already been taken')
+      render 'new', locals: { resource: }
+
+    else
+      render 'valid_email', locals: { resource: build_user }
     end
   end
 
