@@ -2,23 +2,23 @@
   <div class="flex flex-col text-sm font-normal text-[#6f7287] relative" x-data="{open_submenu: false}">
     <button class="flex px-5 py-4 justify-between items-center hover:text-black" @click="open_submenu = ! open_submenu">
       <span class="font-semibold">Account</span>
-      <%= render 'navbar/chevron_svg' %>
+      <div :class="open_submenu && 'rotate-180'"><%= render 'navbar/chevron_svg' %></div>
     </button>
     <ul class="relative flex flex-col [&>*]:min-h-[53px] [&>*:hover]:text-black [&>*]:w-72 [&>*]:py-4 [&>*]:pr-5 [&>*]:pl-9"
       x-show="open_submenu" x-cloak>
-      <li>Contact Info</li>
-      <li>Password</li>
+      <li><%= link_to 'Contact Info', edit_user_registration_path %></li>
+      <li><%= link_to 'Password', users_edit_update_password_path %></li>
       <li>Credit/Debit Cards</li>
       <li>Email Preferences</li>
       <li>Linked Accounts</li>
-      <li>Close Account</li>
+      <li><%= link_to 'Close Account', users_edit_close_account_path %></li>
       <li>Personal Data</li>
     </ul>
   </div>
   <div class="flex flex-col text-sm font-normal text-[#6f7287] relative" x-data="{open_submenu: false}">
     <button class="flex px-5 py-4 justify-between items-center hover:text-black" @click="open_submenu = ! open_submenu">
       <span class="font-semibold">Developer Links</span>
-      <%= render 'navbar/chevron_svg' %>
+      <div :class="open_submenu && 'rotate-180'"><%= render 'navbar/chevron_svg' %></div>
     </button>
     <ul class="relative flex flex-col [&>*]:min-h-[53px] [&>*:hover]:text-black [&>*]:w-72 [&>*]:py-4 [&>*]:pr-5 [&>*]:pl-9"
       x-show="open_submenu" x-cloak>

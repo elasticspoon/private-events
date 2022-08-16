@@ -1,7 +1,7 @@
-<div class="flex lg:flex-row flex-col pb-5 grow">
+<div class="flex lg:flex-row flex-col">
   <div class="hidden lg:flex max-w-[288px] w-full"><%= render 'users/sidebar' %></div>
   <%= render 'side_nav_bar', current_page: 'Account Information' %>
-  <div class="flex w-full items-center self-start mb-5">
+  <div class="flex w-full items-center">
     <div class="w-full flex flex-col px-12 max-w-7xl mt-10">
       <span class="text-right font-normal text-[15px] text-[#39364f]">
         <%= resource.created_at.strftime("Eventbrite account since %b %-d, %Y") %>
