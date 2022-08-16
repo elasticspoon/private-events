@@ -14,15 +14,19 @@
       </div>
     </div>
   </div>
-  <div class="flex col-start-2 justify-end items-center pr-6"><span><%= resource.price %></span></div>
+  <div class="flex col-start-2 justify-end items-center pr-6">
+    <span><%= resource.price %></span>
+  </div>
   <% if current_user&.attending?(resource.id) %>
-    <div class="ml-auto w-full max-w-xs flex flex-row justify-center">
-      <%= render layout: 'layouts/generic_attend_perm_button', locals: { resource: resource, method: :delete } do |form| %>
-        <%= form.submit 'Leave', 
-        class: "py-2 mx-4 px-20  font-bold text-xl bg-red-500 rounded-md border-2 border-transparent hover:border-red-700 hover:text-white"
-         %>
-      <% end %>
-    </div>
+    <%= form_with url: user_event_permissions_url, scope: :user_event_permissions, method: :delete, data: { turbo: 'false' }, class: "col-start-3" do |form| %>
+      <%= form.hidden_field :event_id, value: resource.id %>
+      <%= form.hidden_field :permission_type, value: 'attend' %>
+      <%= form.button class: "w-full flex justify-center px-4 h-full" do %>
+        <div class="flex text-white text-sm w-full font-semibold bg-[#0d8547] rounded-[4px] px-[30px] h-full pb-[1px] items-center justify-center">
+          <span>Leave</span>
+        </div>
+      <% end%>
+    <% end %>
   <% else %>
     <%= form_with url: user_event_permissions_url, scope: :user_event_permissions, method: :post, data: { turbo: 'false' }, class: "col-start-3" do |form| %>
       <%= form.hidden_field :event_id, value: resource.id %>

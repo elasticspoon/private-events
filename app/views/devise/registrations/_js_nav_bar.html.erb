@@ -1,0 +1,14 @@
+<div class="lg:hidden flex bg-white shadow-md items-center">
+  <div class="flex" x-data="{open: false}">
+    <button @click="open = ! open" class="flex justify-center items-center p-2 my-2 ml-2">
+      <svg viewBox="0 0 24 24" class="h-6 w-6">
+        <path id="menu-chunky_svg__eds-icon--menu-chunky_bottom" fill-rule="evenodd" clip-rule="evenodd" d="M4 17h16v2H4v-2z"></path><path id="menu-chunky_svg__eds-icon--menu-chunky_middle" fill-rule="evenodd" clip-rule="evenodd" d="M4 11h16v2H4z"></path><path id="menu-chunky_svg__eds-icon--menu-chunky_top" fill-rule="evenodd" clip-rule="evenodd" d="M4 5h16v2H4z"></path>
+      </svg>
+    </button>
+    <div class="flex absolute h-full z-50" x-show="open" x-cloak @click.outside="open = false">
+      <div class="w-[288px] "><%= render 'users/sidebar' %></div>
+    </div>
+    <span @click="open = false" x-show="open" x-cloak class="fixed bg-[#9b92a8] opacity-40 top-0 bottom-0 left-0 right-0 z-10"></span>
+  </div>
+  <h2 class="text-2xl my-2 ml-1 font-normal">Current Page</span>
+</div>
