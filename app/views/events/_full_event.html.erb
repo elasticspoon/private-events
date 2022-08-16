@@ -1,4 +1,4 @@
-<div class="grid grid-cols-3 w-full">
+<div class="grid grid-cols-3 w-full" >
   <div class="col-span-2"><%= image_tag 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F232537269%2F213108451434%2F1%2Foriginal.20220218-133834?w=800&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C4%2C1200%2C600&s=794247e3cf87ee6921e07ddc98336609' %></div>
   <div class="flex flex-col pb-5 px-[30px] pt-[30px] w-full bg-[#eeedef] justify-between relative">
     <div class="flex flex-col">
@@ -9,6 +9,10 @@
       <span class='text-[#1e0a3c] text-base font-semibold pb-[2px] max-h-32 pt-16'><%= resource.name.titleize %></span>
       <div class="py-2"><%= render "users/short_user_alt_two", resource: resource.creator %></div>
     </div>
-    <div class="flex"><span><%= resource.price %></span></div>
+    <div class="flex" x-data x-show="$store.price_in_view">
+      <span x-intersect:enter="$store.price_in_view = true" x-intersect:leave="$store.price_in_view = false">
+        <%= resource.price %>
+      </span>
+    </div>
   </div>
 </div>

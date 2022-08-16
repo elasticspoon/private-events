@@ -1,4 +1,4 @@
-<div class="w-full grid grid-cols-3 py-[10px] h-[66px] border-[#dbdae3] border-y-[1px] sticky top-0 bg-white justify-between">
+<div class="w-full grid grid-cols-3 py-[10px] h-[66px] border-[#dbdae3] border-y-[1px] sticky top-[-1px] bg-white justify-between">
   <div class="col-start-1 flex w-full h-[44px] py-[10px]">
     <div class="flex px-4 items-center">
       <div class="p-2 text-[#4b4d63]">
@@ -14,7 +14,7 @@
       </div>
     </div>
   </div>
-  <div class="flex col-start-2 justify-end items-center pr-6">
+  <div class="flex col-start-2 justify-end items-center pr-6"  x-data x-show="! $store.price_in_view" x-cloak x-transition>
     <span><%= resource.price %></span>
   </div>
   <% if current_user&.attending?(resource.id) %>
