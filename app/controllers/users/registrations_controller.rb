@@ -14,6 +14,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def close_account; end
 
+  def close_account_action
+    valid_params = sanitize_close_account_params
+    resource = current_user
+    if valid_params[:close] == 'CLOSE' && current_user.valid_password?(valid_params[:password])
+      resource.destroy
+      Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+      set_flash_message! :notice, :destroyed
+      yield resource if block_given?
+      respond_with_navigational(resource) { redirect_to after_sign_out_path_for(resource_name) }
+    else
+      redirect_to users_edit_close_account_path, alert: 'Invalid. Please try again.'
+    end
+  end
+
   def update_password; end
 
   def create
@@ -118,6 +132,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def sanitize_params
     params.require(:user).permit(:email)
+  end
+
+  def sanitize_close_account_params
+    params.permit(:password, :close)
   end
 
   def build_user

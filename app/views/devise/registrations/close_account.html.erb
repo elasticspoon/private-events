@@ -10,7 +10,7 @@
         <span class="text-[#3d64ff] hover:underline"><%= link_to 'let us know.', not_implemented_path %></span>
       </p>
       <div class="flex">
-        <%= form_with(url: not_implemented_path, data: {turbo: false}, method: :put) do |form|%>
+        <%= form_with(url: users_edit_close_account_path, data: {turbo: false}, method: :put) do |form|%>
           <p class="py-[10px]">
             Please take a moment to let us know why you are leaving:
           </p>
