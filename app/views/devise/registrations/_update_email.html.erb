@@ -1,0 +1,12 @@
+<h2 class="mt-[10px] font-bold text-[1.6rem]">Account email address</h2>
+<span class="mt-[10px]"><%= resource.email %></span>
+<div class="flex flex-col">
+  <%= render layout: 'layouts/registration_form', locals: {resource: resource, method: :put}  do |form| %>
+    <div class="flex flex-col mt-5 font-normal text-[15px]">
+      <%= form.label :email, value: 'New Email Address', class: '' %>
+      <%= form.email_field :email, class: 'py-3 px-4 border-[1px] border-[#dbdae3] rounded-[3px] w-full md:w-2/3'%>
+      <%= render 'inline_errors', errors: resource.errors[:email] %>
+    </div>
+    <%= form.submit 'Save', class: 'h-[44px] font-bold text-[15px] text-white rounded px-8 bg-[#d1410c] mt-2' %>
+  <% end %>
+</div>

@@ -1,0 +1,16 @@
+<h2 class="mt-[10px] font-bold text-[1.6rem]"><%= address %></h2>
+<div class="flex flex-col">
+  <%= form_with url: not_implemented_path, data: {turbo: false}, method: :put do |form| %>
+    <div class="flex flex-col">
+      <%= render partial: 'generic_text_field', locals: {field_name: :address,  form:} %>
+      <%= render partial: 'generic_text_field', locals: {field_name: :address_2,  form:} %>
+      <%= render partial: 'generic_text_field', locals: {field_name: :city,  form:} %>
+      <%= render partial: 'generic_text_field', locals: {field_name: :country,  form:} %>
+      <div class="grid grid-cols-2">
+        <%= render partial: 'generic_text_field', locals: {field_name: :zipcode,  form:} %>
+        <%= render partial: 'generic_text_field', locals: {field_name: :state,  form:} %>
+      </div>
+      <%= form.submit 'Save', class: 'h-[44px] font-bold text-[15px] text-white rounded px-8 bg-[#d1410c] mt-4 w-fit' %>
+    </div>
+  <% end %>
+</div>

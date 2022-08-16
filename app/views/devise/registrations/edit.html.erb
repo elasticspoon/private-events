@@ -1,14 +1,22 @@
-<div class="w-full flex flex-col items-center">
-  <div class="w-full sm:py-6 min-h-screen sm:max-w-md flex flex-col justify-center mx-6">
-    <h2 class='mb-6 text-center text-5xl font-extrabold'><%= resource_name.to_s.humanize %></h2>
-    <%= render layout: 'layouts/registration_form', locals: {resource: resource, method: :put}  do |form| %>
-      <div class="mt-6">
-        <%= form.submit 'Edit', class: 'w-full inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-bold text-white capitalize transition disabled:opacity-25 focus:outline-none hover:bg-red-700 active:bg-red-700 focus:border-red-700 focus:ring focus:ring-red' %>
+<div class="flex lg:flex-row flex-col pb-5">
+  <div class="hidden lg:flex max-w-[288px] w-full"><%= render 'users/sidebar' %></div>
+  <%= render 'side_nav_bar', current_page: 'Account Information' %>
+  <div class="flex w-full items-center">
+    <div class="w-full flex flex-col px-12 max-w-7xl mt-10">
+      <span class="text-right font-normal text-[15px] text-[#39364f]">
+        <%= resource.created_at.strftime("Eventbrite account since %b %-d, %Y") %>
+      </span>
+      <h1 class="font-bold text-3xl">Account Information</h1>
+      <div class="w-full py-[10px]"><hr></div>
+      <div class="flex flex-col md:w-2/3">
+        <%= render 'update_email', resource: resource %>
+        <%= render 'update_photo', resource: resource %>
+        <%= render 'update_contact_info', resource: resource %>
+        <%= render partial: 'address_form', locals: {resource:, address: 'Home Address'}  %>
+        <%= render partial: 'address_form', locals: {resource:, address: 'Billing Address'}  %>
+        <%= render partial: 'address_form', locals: {resource:, address: 'Shipping Address'}  %>
+        <%= render partial: 'address_form', locals: {resource:, address: 'Work Address'}  %>
       </div>
-      <div class="mt-6 text-center text-sm">
-        Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete,
-        class: 'underline font-bold' %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </div>
