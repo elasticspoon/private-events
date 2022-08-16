@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     if devise_controller? && action_name == 'new'
       'login_layout'
     else
-      'application'
+      'event_layout'
     end
   end
 end
