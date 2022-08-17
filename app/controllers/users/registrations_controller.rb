@@ -11,7 +11,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   render 'new', locals: { resource: User.new }
   #   super
   # end
-
   def close_account; end
 
   def close_account_action

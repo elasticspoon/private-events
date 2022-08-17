@@ -3,8 +3,8 @@
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
  data: {turbo: false}, method: :put) do |form| %>
     <div class="grid grid-cols-2">
-      <%= render partial: 'generic_text_field', locals: {field_name: :name,  form:} %>
-      <%= render partial: 'generic_text_field', locals: {field_name: :username,  form:} %>
+      <%= render partial: 'fields/text_field', locals: {field_name: :name,  form:} %>
+      <%= render partial: 'fields/text_field', locals: {field_name: :username,  form:} %>
       <%= form.submit 'Save', class: 'h-[44px] font-bold text-[15px] text-white rounded px-8 bg-[#d1410c] mt-4 w-fit' %>
     </div>
   <% end %>
