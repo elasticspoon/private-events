@@ -6,9 +6,12 @@
           <%= inline_svg_tag 'svg/eventbrite_logo', class:'h-[20px] text-cur', style:"fill: #f05537" %>
         </div>
       <% end %>
-      <h1 class="mb-10 font-extrabold text-[54px] leading-[64px]">
-        <%= content_for :page_title %>
-      </h1>
+      <div class="flex justify-between items-center mb-10">
+        <h1 class="font-extrabold text-[32px] lg:text-[54px] leading-10 lg:leading-[64px]">
+          <%= content_for :page_title %>
+        </h1>
+        <div class="lg:hidden"><%= content_for :links %></div>
+      </div>
       <div class="">
         <%= content_for :page_form %>
       </div>
@@ -25,12 +28,21 @@
         <% end %>
         <%= content_for :alt_logins_form %>
         <% if content_for :alt_logins_circle %>
-          <span>Other <%= action %> methods</span>
-          <div class="flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px]">
-            <%= content_for :alt_logins_circle %>
+          <div class="self-center lg:self-start flex flex-col" x-data="{open: false}">
+            <div class="flex" >
+              <span>Other <%= action %> methods</span>
+              <button @click="open = ! open" class="ml-4 lg:hidden self-center"><%= inline_svg_tag 'svg/chevron', class: 'h-4 w-4' %></button>
+            </div>
+            <ul x-show="open" x-cloak class="flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px] justify-center lg:items-start">
+              <%= content_for :alt_logins_circle %>
+            </ul>
+            <ul class="hidden lg:flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px] justify-center">
+              <%= content_for :alt_logins_circle %>
+            </ul>
+            <br>
           </div>
         <% end %>
-        <%= content_for :links %>
+        <div class="hidden lg:flex"><%= content_for :links %></div>
       </div>
     </div>
   </div>
