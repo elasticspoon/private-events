@@ -11,17 +11,7 @@
     <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.10.3/dist/cdn.min.js"></script>
   </head>
-  <body class="w-full flex flex-col min-h-screen">
-    <%= yield :nav_bar %>
-    <%= render 'notices' %>
-    <div class="flex w-full">
-      <%= yield :side_bar %>
-      <div class="flex flex-col w-full">
-        <main class="w-full flex min-h-screen">
-          <%= yield %>
-        </main>
-        <%= yield :footer %>
-      </div>
-    </div>
+  <body class="w-full flex flex-col">
+    <%= content_for?(:content) ? yield(:content) : yield %>
   </body>
 </html>

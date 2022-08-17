@@ -1,4 +1,4 @@
-<div class="h-full flex flex-col items-center">
+<div class="w-full h-full flex flex-col items-center">
   <%= render 'header_image'%>
   <div class="flex flex-col max-w-7xl px-4 items-center w-full">
     <%= render 'nonfunctional/location_search_form' %>
@@ -29,3 +29,9 @@
   </div>
   <%= render 'nonfunctional/see_more' %>
 </div>
+<% content_for :footer do %>
+  <%= render 'footer/footer_extended' %>
+<% end %>
+<% content_for :nav_bar do %>
+  <%= render 'navbar/navbar' %>
+<% end %>

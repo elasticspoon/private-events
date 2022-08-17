@@ -24,3 +24,9 @@
   </div>
   <div class=""><%= render 'events/bottom_bar' %></div>
 </div>
+<% content_for :footer do %>
+  <%= render 'footer/footer_extended' %>
+<% end %>
+<% content_for :nav_bar do %>
+  <%= render 'navbar/navbar' %>
+<% end %>

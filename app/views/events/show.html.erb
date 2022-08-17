@@ -34,3 +34,9 @@
   </div>
   <%= render 'event_carousel', resource: @event %>
 </div>
+<% content_for :footer do %>
+  <%= render 'footer/footer_short' %>
+<% end %>
+<% content_for :nav_bar do %>
+  <%= render 'navbar/navbar_event' %>
+<% end %>

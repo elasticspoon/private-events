@@ -1,2 +1,5 @@
 <%= render partial: 'devise/sessions/new', layout: 'devise/shared/login_layout',
 locals: {action: 'login'} %>
+<% content_for :footer do %>
+  <%= render 'footer/footer_short' %>
+<% end %>

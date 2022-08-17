@@ -1,2 +1,5 @@
 <%= render partial: 'devise/registrations/new', layout: 'devise/shared/login_layout',
 locals: {action: 'sign up', resource: resource}, location: 'users/sign_up' %>
+<% content_for :footer do %>
+  <%= render 'footer/footer_short' %>
+<% end %>

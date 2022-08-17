@@ -1,6 +1,4 @@
 <div class="flex lg:flex-row flex-col pb-5 grow">
-  <div class="hidden lg:flex max-w-[288px] w-full"><%= render 'users/sidebar' %></div>
-  <%= render 'side_nav_bar', current_page: 'Account Information' %>
   <div class="flex w-full items-center self-start mb-5">
     <div class="w-full flex flex-col px-12 max-w-7xl mt-10">
       <span class="text-right font-normal text-[15px] text-[#39364f]">
@@ -20,3 +18,13 @@
     </div>
   </div>
 </div>
+<% content_for :footer do %>
+  <%= render 'footer/footer_short' %>
+<% end %>
+<% content_for :side_bar do %>
+  <div class="hidden lg:flex max-w-[288px] w-full"><%= render 'users/sidebar' %></div>
+<% end %>
+<% content_for :nav_bar do %>
+  <%= render 'navbar/navbar' %>
+  <%= render 'side_nav_bar', current_page: 'Account Information' %>
+<% end %>
