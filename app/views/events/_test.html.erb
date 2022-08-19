@@ -1,0 +1,6 @@
+  <%= form.label :date, 'start time' %>
+<%= form.time_field :date, value: Time.now.strftime("%H:%M"), 
+    class: 'flex border-[1px] border-[#dbdae3] rounded-sm w-full items-center h-[48px] text-sm p-[0px]' do |f| %>
+  <span class="text-[#6f7287] text-xs">Start Time</span>
+</div>
+<% end %>

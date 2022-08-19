@@ -1,0 +1,6 @@
+<div class="mt-2 border-[1px] border-[#dbdae3] flex flex-col font-normal h-[48px] rounded-sm relative justify-center" >
+  <%= form.text_field field_name, placeholder: , autocomplete: 'email', class: 'h-full  border-transparent border-[1px] px-3 text-sm placeholder:text-sm focus:placeholder:text-transparent peer'%>
+  <% element_class = "absolute px-3 pt-[2px] text-[11px] text-[#6f7287] top-0 peer-focus:text-[#3d64ff]" + (hidden ? ' hidden peer-focus:block' : '') %>
+  <%= form.label field_name, value, class: element_class %>
+</div>
+<%= render 'inline_errors', errors: resource.errors[field_name] %>

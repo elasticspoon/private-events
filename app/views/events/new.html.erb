@@ -1,7 +1,18 @@
-<div class="flex w-full flex-col items-center">
-  <div class="w-full min-h-screen py-6 sm:max-w-lg flex flex-col justify-center mx-6 self-center">
-    <div class='mb-6 text-center text-5xl font-extrabold'>Create an Event!</div>
-    <%= render partial: 'event_form', locals: { resource: @event, method: :post } %>
-  </div>
-  <%= render 'bottom_bar' %>
+<div class="flex w-full flex-col items-center max-w-5xl round">
+  <%= link_to root_path, class:'self-start' do %>
+    <div class="flex pt-4 text-[#3659e3] items-center pl-1">
+      <%= inline_svg_tag 'svg/chevron', class: 'h-4 w-4 rotate-90' %>
+      <span class="hover:underline pl-1 text-sm ">Events</span>
+    </div>
+  <% end %>
+  <%= form_with url: new_event_path, data: {turbo: false}, method: :put, class: 'flex flex-col' do |form| %>
+    <!-- Basic Info -->
+    <%# render 'new_basic_info', form: form %>
+    <!-- Location -->
+    <span class="w-full h-[1px] bg-[#eeedf2]"></span>
+    <%# render 'new_location_info', form: form %>
+    <!-- Date & Time -->
+    <span class="w-full h-[1px] bg-[#eeedf2]"></span>
+    <%# render 'new_date_info', form: form %>
+  <% end %>
 </div>

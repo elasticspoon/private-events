@@ -1,0 +1,35 @@
+<div class="mt-5 pb-12 mb-12 pt-5 grid grid-cols-12">
+  <div class="col-start-2"><%= inline_svg_tag 'svg/text.svg', class:'h-12 w-12 text-[#dbdae3]' %></div>
+  <div class="flex flex-col col-start-3 col-span-8">
+    <h1 class="text-3xl font-bold">Basic Info</h1>
+    <p class="font-normal text-sm break-normal">Name your event and tell event-goers why they should come. Add details that highlight what makes it unique.</p>
+    <div class="flex flex-col">
+      <div class="pb-6 relative">
+        <%= render partial: 'fields/text_field_labeled', locals: { resource: @event, form:, field_name: :name, placeholder: 'Be clear and descriptive.', value: 'Event Title', hidden: false } %>
+        <span class="absolute bottom-0 right-0 text-sm ">0/75</span>
+      </div>
+      <div class="mb-2"><%= render partial: 'fields/text_field_labeled', locals: { resource: @event, form:, field_name: :organizer, placeholder: 'Tell attendees who is organizing the event.', value: 'Organizer', hidden: false } %></div>
+      <p class="ont-normal text-xs break-normal">This profile describes a unique organizer and shows all of the events on one page.
+        <span class="text-blue-500 hover:underline">View Organizer Info</span>
+      </p>
+      <div class="flex flex-col md:grid grid-cols-3 gap-4 mt-8">
+        <%= form.select :type, [['Type', nil],['Placeholder',nil],['Placeholder',nil]],  {class: 'w-full'} %>
+        <%= form.select :category, [['Category', nil],['Placeholder',nil],['Placeholder',nil]] %>
+      </div>
+      <div class="flex flex-col pt-4">
+        <span class="text-lg font-semibold mb-2">Tags</span>
+        <p class="mb-4 text-sm font-normal">Improve discoverability of your event by adding tags relevant to the subject matter.</p>
+        <div class="flex">
+          <div class="flex flex-col mb-4 pr-2 w-full">
+            <%= render partial: 'fields/text_field_labeled', locals: {
+                             resource: @event, form:, field_name: :tags, 
+                             placeholder: 'Add search keywords to your event', 
+                             value: 'Press Enter to add a tag', hidden: false } %>
+            <div class="flex justify-between font-normal text-xs pt-1"><span>0/10 tags.</span><span>0/25</span></div>
+          </div>
+          <%= form.submit 'Add', class: 'border-2 border-[#a9a8b3] hover:border-[#6f7287] hover:bg-[#f8f7fa] h-[44px] px-8 rounded mt-2' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

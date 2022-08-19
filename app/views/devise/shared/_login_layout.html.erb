@@ -33,10 +33,10 @@
               <span>Other <%= action %> methods</span>
               <button @click="open = ! open" class="ml-4 lg:hidden self-center"><%= inline_svg_tag 'svg/chevron', class: 'h-4 w-4' %></button>
             </div>
-            <ul x-show="open" x-cloak class="flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px] justify-center lg:items-start">
+            <ul x-show="open" x-cloak class="flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px] justify-center">
               <%= content_for :alt_logins_circle %>
             </ul>
-            <ul class="hidden lg:flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px] justify-center">
+            <ul class="hidden lg:flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px]">
               <%= content_for :alt_logins_circle %>
             </ul>
             <br>

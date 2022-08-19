@@ -1,0 +1,82 @@
+<div class="mt-5 pb-12 mb-12 pt-5 grid grid-cols-12">
+  <div class="col-start-2"><%= inline_svg_tag 'svg/text.svg', class:'h-12 w-12 text-[#dbdae3]' %></div>
+  <div class="flex flex-col col-start-3 col-span-8">
+    <h1 class="text-3xl font-bold">Date and time</h1>
+    <p class="font-normal text-sm break-normal leading-6">Tell event-goers when your event starts and ends so they can make plans to attend.</p>
+    <div class="flex flex-col w-full md:w-1/2 mt-5">
+      <ul class="flex text-sm font-normal [&>*]:mr-4 [&>*]:flex-grow mb-5">
+        <li class="">
+          <%= form.radio_button :placeholder_two, 'public', class: 'peer sr-only', checked: true %>
+          <%= form.label :placeholder_two, 'Public', value: 'public',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+            <span>Single Event</span>
+          <% end %>
+        </li>
+        <li class="">
+          <%= form.radio_button :placeholder_two, 'protected', class: 'peer sr-only' %>
+          <%= form.label :placeholder_two, 'Protected', value: 'protected',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+            <span>Recurring Event</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+    <p class="font-normal text-sm break-normal">Single event happens once and can last multiple days</p>
+    <div class="flex flex-col">
+      <div class="flex mt-5 mb-2">
+        <div class="flex border-[1px] border-[#dbdae3] rounded-sm w-full items-center h-[48px] mr-2">
+          <div class="ml-3 my-3"><%= inline_svg_tag 'svg/calendar', class: 'h-6 w-6' %></div>
+          <div class="flex flex-col  px-3  ">
+            <span class="text-[#6f7287] text-xs">Event Starts</span>
+            <%= form.date_field :date, value: Time.now.strftime("%Y-%m-%d"), class: 'border-none text-sm p-[0px]' %>
+          </div>
+        </div>
+        <div class="flex border-[1px] border-[#dbdae3] rounded-sm w-full items-center h-[48px]">
+          <div class="flex flex-col px-3">
+            <span class="text-[#6f7287] text-xs">Start Time</span>
+            <%= form.time_field :date, value: Time.now.strftime("%H:%M"), class: 'border-none text-sm p-[0px]' %>
+          </div>
+        </div>
+      </div>
+      <div class="flex mt-5 mb-2">
+        <div class="flex border-[1px] border-[#dbdae3] rounded-sm w-full items-center h-[48px] mr-2">
+          <div class="ml-3 my-3"><%= inline_svg_tag 'svg/calendar', class: 'h-6 w-6' %></div>
+          <div class="flex flex-col  px-3  ">
+            <span class="text-[#6f7287] text-xs">Event Ends</span>
+            <%= form.date_field :placeholder_three, value: Time.now.strftime("%Y-%m-%d"), class: 'border-none text-sm p-[0px]' %>
+          </div>
+        </div>
+        <div class="flex border-[1px] border-[#dbdae3] rounded-sm w-full items-center h-[48px]">
+          <div class="flex flex-col px-3">
+            <span class="text-[#6f7287] text-xs">End Time</span>
+            <%= form.time_field :placeholder_three, value: Time.now.strftime("%H:%M"), class: 'border-none text-sm p-[0px]' %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 flex flex-col">
+        <div class="mb-5 flex items-center">
+          <%= form.check_box :display_start_time, checked: true, class: 'h-6 w-6' %>
+          <div class="flex flex-col ml-4 mr-4 text-sm text-[#39364f]">
+            <%= form.label :display_start_time, 'Display start time.' %>
+            <span class="">The start time of your event will be displayed to attendees.</span>
+          </div>
+        </div>
+        <div class="mb-5 flex items-center">
+          <%= form.check_box :display_end_time, checked: true, class: 'h-6 w-6' %>
+          <div class="flex flex-col ml-4 mr-4 text-sm text-[#39364f]">
+            <%= form.label :display_end_time, 'Display end time.' %>
+            <span class="">The end time of your event will be displayed to attendees.</span>
+          </div>
+        </div>
+        <div class="mt-6 md:w-2/3 text-sm relative">
+          <%= form.label :time_zone, 'Time Zone', class: 'absolute left-[18px] text-[10px]' %>
+          <%= form.select :time_zone, [['(GMT-0400) United States (New York) Time', '(GMT-0400) United States (New York) Time'], ['(GMT-0400) United States (New York) Time', '(GMT-0400) United States (New York) Time']] %>
+        </div>
+        <div class="mt-6 md:w-2/3 text-sm relative">
+          <%= form.label :lang, 'Event Page Language', class: 'absolute left-[18px] text-[10px]' %>
+          <%= form.select :lang, [['English (US)', 'English (US)'], ['English (US)', 'English (US)']] %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+select {
+  width: 100%;
+  border-radius: 2px;
+  border-color: #dbdae3;
+  padding: 12px 14px 12px 14px;
+  font-size: 14px;
+  line-height: 22px;
+  color: #39364f;
+}
