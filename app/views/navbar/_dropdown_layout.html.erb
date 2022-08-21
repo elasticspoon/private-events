@@ -3,8 +3,8 @@
   <%= local_assigns[:is_event_view] ? 'text-[#6f7287] hover:text-[#39364f]' : 'text-[#39364f] ' %>" @click="dropdown = ! dropdown">
     <%= content_for :picture %>
     <%= content_for :label %>
-    <div class="hidden lg:block ml-1">
-      <div :class="dropdown && 'rotate-180'"><%= render 'navbar/chevron_svg' %></div>
+    <div :class="dropdown && 'rotate-180'">
+      <%= content_for :chevron %>
     </div>
   </div>
   <ul class="absolute min-w-[250px] right-0 self-end bg-white text-sm font-normal shadow-sm

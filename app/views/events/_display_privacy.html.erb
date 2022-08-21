@@ -1,0 +1,12 @@
+<div class="mt-5 pb-12 mb-16 pt-5 flex flex-col lg:grid grid-cols-12 px-4 lg:px-0">
+  <div class="col-start-2 hidden lg:block"><%= inline_svg_tag 'svg/text.svg', class:'h-12 w-12 text-[#dbdae3]' %></div>
+  <div class="flex flex-col col-start-3 col-span-8">
+    <h1 class="text-3xl font-bold">Event Privacy Settings</h1>
+    <p class="font-normal text-sm break-normal leading-6">Set up who can and cannot view and access your event.</p>
+    <div class="flex flex-col w-full mt-5">
+      <%= render 'radio_buttons_event_privacy', form: form %>
+      <%= render 'radio_buttons_display_privacy', form: form %>
+      <%= render 'radio_buttons_attendee_privacy', form: form %>
+    </div>
+  </div>
+</div>

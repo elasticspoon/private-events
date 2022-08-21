@@ -1,5 +1,5 @@
-<div class="mt-5 pb-12 mb-12 pt-5 grid grid-cols-12">
-  <div class="col-start-2"><%= inline_svg_tag 'svg/text.svg', class:'h-12 w-12 text-[#dbdae3]' %></div>
+<div class="mt-5 pb-12 mb-12 pt-5 flex flex-col lg:grid grid-cols-12 px-4 lg:px-0">
+  <div class="col-start-2 hidden lg:block"><%= inline_svg_tag 'svg/text.svg', class:'h-12 w-12 text-[#dbdae3]' %></div>
   <div class="flex flex-col col-start-3 col-span-8">
     <h1 class="text-3xl font-bold">Basic Info</h1>
     <p class="font-normal text-sm break-normal">Name your event and tell event-goers why they should come. Add details that highlight what makes it unique.</p>
@@ -13,9 +13,10 @@
         <span class="text-blue-500 hover:underline">View Organizer Info</span>
       </p>
       <div class="flex flex-col md:grid grid-cols-3 gap-4 mt-8">
-        <%= form.select :type, [['Type', nil],['Placeholder',nil],['Placeholder',nil]],  {class: 'w-full'} %>
+        <%= form.select :desc, [['Select a type', ''], ['Placeholder', 'Placeholder'],['Placeholder', 'Placeholder'], ['Type', 'Type']], selected: 'Type' %>
         <%= form.select :category, [['Category', nil],['Placeholder',nil],['Placeholder',nil]] %>
       </div>
+      <%= render 'inline_errors', errors: resource.errors[:desc] %>
       <div class="flex flex-col pt-4">
         <span class="text-lg font-semibold mb-2">Tags</span>
         <p class="mb-4 text-sm font-normal">Improve discoverability of your event by adding tags relevant to the subject matter.</p>

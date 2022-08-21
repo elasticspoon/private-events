@@ -52,7 +52,7 @@
             <%= form.label :password, 'Enter your password:', class: 'mx-[10px]' %>
             <%= form.password_field :password, class:'col-span-2 mx-[10px] py-1 border-[1px] rounded border-gray-300 py-3 px-4 mt-2 text-base leading-8 text-[#39364f]' %>
           </div>
-          <%= render partial: 'fields/submit_button', locals: {form:, 'Close Account'} %>
+          <div class="mt-6"><%= render partial: 'fields/submit_button', locals: {form:, 'Close Account'} %></div>
         <% end %>
       </div>
     </div>

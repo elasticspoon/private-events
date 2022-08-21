@@ -1,12 +1,12 @@
-<div class="mt-5 pb-12 mb-12 pt-5 grid grid-cols-12">
-  <div class="col-start-2"><%= inline_svg_tag 'svg/text.svg', class:'h-12 w-12 text-[#dbdae3]' %></div>
+<div class="mt-5 pb-12 mb-12 pt-5 flex flex-col lg:grid grid-cols-12 px-4 lg:px-0">
+  <div class="col-start-2 hidden lg:block"><%= inline_svg_tag 'svg/text.svg', class:'h-12 w-12 text-[#dbdae3]' %></div>
   <div class="flex flex-col col-start-3 col-span-8">
     <h1 class="text-3xl font-bold">Date and time</h1>
     <p class="font-normal text-sm break-normal leading-6">Tell event-goers when your event starts and ends so they can make plans to attend.</p>
     <div class="flex flex-col w-full md:w-1/2 mt-5">
       <ul class="flex text-sm font-normal [&>*]:mr-4 [&>*]:flex-grow mb-5">
         <li class="">
-          <%= form.radio_button :placeholder_two, 'public', class: 'peer sr-only', checked: true %>
+          <%= form.radio_button :placeholder_two, 'public', checked: true, class: 'peer sr-only' %>
           <%= form.label :placeholder_two, 'Public', value: 'public',
         class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
             <span>Single Event</span>

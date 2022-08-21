@@ -1,18 +1,75 @@
-<div class="flex w-full flex-col items-center max-w-5xl round">
+<div class="flex w-full flex-col items-center max-w-5xl md:ml-[56px]">
   <%= link_to root_path, class:'self-start' do %>
     <div class="flex pt-4 text-[#3659e3] items-center pl-1">
       <%= inline_svg_tag 'svg/chevron', class: 'h-4 w-4 rotate-90' %>
       <span class="hover:underline pl-1 text-sm ">Events</span>
     </div>
   <% end %>
-  <%= form_with url: new_event_path, data: {turbo: false}, method: :put, class: 'flex flex-col' do |form| %>
+  <%= form_with url: events_path, scope: :event, data: {turbo: false}, method: :post, class: 'flex flex-col w-full' do |form| %>
     <!-- Basic Info -->
-    <%# render 'new_basic_info', form: form %>
+    <%= render partial: 'new_basic_info', locals: {form:, resource: @event} %>
     <!-- Location -->
     <span class="w-full h-[1px] bg-[#eeedf2]"></span>
-    <%# render 'new_location_info', form: form %>
+    <%= render partial: 'new_location_info', locals: {form:, resource: @event} %>
     <!-- Date & Time -->
     <span class="w-full h-[1px] bg-[#eeedf2]"></span>
-    <%# render 'new_date_info', form: form %>
+    <%= render partial: 'new_date_info', locals: {form:, resource: @event} %>
+    <span class="w-full h-[1px] bg-[#eeedf2]"></span>
+    <%= render partial: 'display_privacy', locals: {form:, resource: @event} %>
+    <nav class="w-full flex border-t-2 fixed left-0 md:left-[56px] px-16 bottom-0 right-0 bg-white">
+      <ul class="flex ml-auto py-4 md:px-6">
+        <li>
+          <div class="flex border-2 border-[#a9a8b3] hover:bg-[#f8f7fa] text-[#39364f] mr-4 rounded items-center h-[44px]">
+            <%= form.submit 'Discard', type: 'reset', class: 'px-8 text-sm font-semibold' %>
+          </div>
+          <li><%= render partial: 'fields/submit_button', locals: {form: form, value: 'Save & Continue'} %></li>
+        </ul>
+      </nav>
+    <% end %>
+  </div>
+  <% set_content_for :side_bar do %>
+    <nav class="bg-gray-200 bottom-0 top-[59px] fixed z-50 hidden md:block">
+      <div class="flex flex-col justify-between h-full">
+        <ul class="flex flex-col [&>*]:mx-2 [&>*]:p-2 [&>*]:my-6 [&>*]:flex [&>*]:items-center">
+          <li class="relative flex items-center justify-center text-[#3659e3] bg-[#3659e3] rounded-lg group">
+            <%= inline_svg_tag 'svg/calendar_create', class: 'w-6 h-6 text-white' %>
+            <span class="absolute font-bold pt-1 text-white" style="font-size: 7px"><%= Time.now.strftime("%d") %></span>
+            <%= render 'events/sidebar_label', text: 'Events' %>
+          </li>
+          <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
+            <%= inline_svg_tag 'svg/orders', class: 'w-6 h-6 text-current' %>
+            <%= render 'events/sidebar_label', text: 'Orders' %>
+          </li>
+          <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
+            <%= inline_svg_tag 'svg/alerts', class: 'w-6 h-6 text-current' %>
+            <%= render 'events/sidebar_label', text: 'Marketing' %>
+          </li>
+          <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
+            <%= inline_svg_tag 'svg/graph', class: 'w-6 h-6 text-current' %>
+            <%= render 'events/sidebar_label', text: 'Reports' %>
+          </li>
+          <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
+            <%= inline_svg_tag 'svg/finance', class: 'w-6 h-6 text-current' %>
+            <%= render 'events/sidebar_label', text: 'Finance' %>
+          </li>
+          <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
+            <%= inline_svg_tag 'svg/settings', class: 'w-6 h-6 text-current' %>
+            <%= render 'events/sidebar_label', text: 'Organization Settings' %>
+          </li>
+        </ul>
+        <ul class="flex flex-col [&>*]:mx-2 [&>*]:p-2 [&>*]:my-6 [&>*]:flex [&>*]:items-center">
+          <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
+            <%= inline_svg_tag 'svg/apps', class: 'w-6 h-6 text-current' %>
+            <%= render 'events/sidebar_label', text: 'App Marketplace' %>
+          </li>
+          <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
+            <%= inline_svg_tag 'svg/help', class: 'w-6 h-6 text-current' %>
+            <%= render 'events/sidebar_label', text: 'Help Center' %>
+          </li>
+        </ul>
+      </div>
+    </nav>
   <% end %>
-</div>
+  <% set_content_for :nav_bar do %>
+    <%= render 'navbar/profile_navbar' %>
+  <% end %>
