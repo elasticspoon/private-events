@@ -1,21 +1,42 @@
-<div class="flex flex-col justify-between p-2 pb-4 my-2 border-b-4">
-  <div class="flex flex-col w-full relative">
-    <%= image_tag 'event_placeholder', class: 'object-none w-full max-h-72 rounded-xl' %>
-    <div class="ml-auto">
-      <%= button_to 'Follow', not_implemented_path, class: 'mt-8 mb-4 p-4 bg-black text-white rounded-md font-bold' %>
+<div class="flex w-full items-center justify-center" x-data={} x-intersect:enter="$store.user_in_view = true" x-intersect:leave="$store.user_in_view = false">
+  <div class="h-[840px]">
+    <div class="flex flex-col absolute top-0 bottom-0 left-0 right-0 mt-[-10%] overflow-hidden">
+      <%= image_tag 'profile_picture_placeholder.png', class: 'blur-lg h-[200%] w-[200%]' %>
     </div>
-    <%= image_tag 'profile_picture_placeholder.png', size: '200x200', style: 'border-radius: 9999px', class: 'border-4 absolute bottom-0 left-12' %>
   </div>
-  <div class="flex flex-col">
-    <div class="font-bold text-4xl"><%= user.username.titleize %></div>
-    <div class="text-xl"><%= user.email %></div>
-    <div class="py-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent volutpat dui nec imperdiet volutpat. 
-      Pellentesque euismod, urna sed dignissim vulputate, nisi ipsum dignissim odio, in cursus massa nunc in turpis. </div>
-    <div class="flex flex-row w-full py-4">
-      <%= link_to 'Sample Social Media', not_implemented_path, class: 'font-bold hover:underline pr-8' %>
-      <%= link_to 'Sample Social Media', not_implemented_path, class: 'font-bold hover:underline pr-8' %>
-      <%= link_to 'Sample Social Media', not_implemented_path, class: 'font-bold hover:underline pr-8' %>
-      <%= link_to 'Sample Social Media', not_implemented_path, class: 'font-bold hover:underline pr-8' %>
+  <div class="flex flex-col text-center items-center justify-center bg-white z-10 w-[672px] shadow-2xl rounded my-16 py-16">
+    <%= image_tag 'profile_picture_placeholder.png', size: '200x200', style: 'border-radius: 9999px' %>
+    <h1 class="py-4 text-5xl leading-[40px] font-extrabold"><%= user.username.titleize %></h1>
+    <p class="font-normal text-sm text-[#6f7287]">Hosted <%= user.events_created.count %> events total</p>
+    <p class="font-normal text-sm text-[#6f7287] pt-1"><%= rand(99999) %> followers</p>
+    <div class="flex items-center justify-center mt-4 ml-4 h-11 border-2 border-[#3659e3] rounded-[4px] hover:bg-[#f8f7fa]">
+      <span class="font-semibold text-sm px-8 pb-[1px] text-[#3659e3]">Follow</span>
+    </div>
+    <div class="pt-8 items-center">
+      <div class="bg-[#f8f7fa] rounded-full hover:bg-gray-200 p-2">
+        <%= inline_svg_tag 'svg/globe', class: 'h-6 w-6' %>
+      </div>
+    </div>
+    <div class="pt-8">
+      <div class="flex justify-center items-center px-8 h-11 hover:bg-gray-200 rounded">
+        <span class="text-[#3659e3] text-sm font-semibold">Contact the organizer</span>
+      </div>
     </div>
   </div>
 </div>
+<nav class="w-full flex font-semibold text-base px-4" x-data x-show="$store.user_in_view">
+  <ul class="[&>*]:pb-4 [&>*]:mr-6">
+    <li class="text-[#3d64ff] border-b-2 border-b-[#3d64ff]"><span class="">Events</span></li>
+  </ul>
+</nav>
+<nav class="fixed top-0 bg-white z-30 w-full flex flex-col font-semibold text-base px-4 shadow-lg" x-data x-cloak x-show="! $store.user_in_view">
+  <div class="pt-8 pb 16 flex justify-between items-center">
+    <h1 class="py-4 text-3xl leading-[40px] font-bold"><%= user.username.titleize %></h1>
+    <div class="flex items-center justify-center mt-4 ml-4 h-11 border-2 border-[#3659e3] rounded-[4px] hover:bg-[#f8f7fa]">
+      <span class="font-semibold text-sm px-8 pb-[1px] text-[#3659e3]">Follow</span>
+    </div>
+  </div>
+  <ul class="[&>*]:pb-4 [&>*]:mr-6">
+    <li class="text-[#3d64ff] border-b-2 border-b-[#3d64ff] w-fit"><span class="">Events</span></li>
+  </ul>
+</nav>
