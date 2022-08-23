@@ -1,0 +1,10 @@
+<ul class="[&>*]:pb-4 [&>*]:mr-6 flex border-b border-b-[#eeedf2] w-full text-[#a9a8b3]" x-data>
+  <li class="border-b-2 border-b-current w-fit md:hidden" @click="$store.scroll_location = 'about'"
+   :class="$store.scroll_location == 'about' && 'text-[#3d64ff]'">
+    <%= link_to 'About', user_path(@user.id, anchor: 'about') %>
+  </li>
+  <li class="border-b-2 border-b-current w-fit" @click="$store.scroll_location = 'events'"
+  :class="$store.scroll_location == 'events' && 'text-[#3d64ff]'">
+    <%= link_to 'Events', user_path(@user.id, anchor: 'events') %>
+  </li>
+</ul>
