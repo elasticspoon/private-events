@@ -9,10 +9,10 @@
       <%= render 'update_email', resource: resource %>
       <%= render 'update_photo', resource: resource %>
       <%= render 'update_contact_info', resource: resource %>
-      <%= render partial: 'address_form', locals: {resource:, address: 'Home Address'}  %>
-      <%= render partial: 'address_form', locals: {resource:, address: 'Billing Address'}  %>
-      <%= render partial: 'address_form', locals: {resource:, address: 'Shipping Address'}  %>
-      <%= render partial: 'address_form', locals: {resource:, address: 'Work Address'}  %>
+      <%= render partial: 'address_form', locals: {resource: resource, address: 'Home Address'}  %>
+      <%= render partial: 'address_form', locals: {resource: resource, address: 'Billing Address'}  %>
+      <%= render partial: 'address_form', locals: {resource: resource, address: 'Shipping Address'}  %>
+      <%= render partial: 'address_form', locals: {resource: resource, address: 'Work Address'}  %>
     </div>
   </div>
 </div>

@@ -49,7 +49,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       set_minimum_password_length
 
       # respond_with resource
-      render 'valid_email', locals: { resource: }
+      render 'valid_email', locals: { resource: resource}
     end
   end
 
@@ -57,7 +57,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if User.find_by(email: sanitize_params[:email])
       resource = build_user
       resource.errors.add(:email, 'Email has already been taken')
-      render 'new', locals: { resource: }
+      render 'new', locals: { resource: resource}
 
     else
       render 'valid_email', locals: { resource: build_user }

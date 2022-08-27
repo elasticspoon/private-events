@@ -49,12 +49,12 @@ class User < ApplicationRecord
   def self.held_event_perms(user, event_id)
     return nil if user.nil?
 
-    user.user_event_permissions.where(event_id:).pluck(:permission_type)
+    user.user_event_permissions.where(event_id: event_id).pluck(:permission_type)
   end
 
   private
 
   def holds_permission_currently?(event_id, *permission_type)
-    user_event_permissions.where(event_id:, permission_type:).any?
+    user_event_permissions.where(event_id: event_id, permission_type: permission_type).any?
   end
 end

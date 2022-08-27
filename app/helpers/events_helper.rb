@@ -7,7 +7,7 @@ module EventsHelper
     if rand(30) > 5
       render partial: 'events/event_small', locals: { resource: event }
     else
-      render partial: 'events/event', locals: { event: }
+      render partial: 'events/event', locals: { event: event }
     end
   end
 end
