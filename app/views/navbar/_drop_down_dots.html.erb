@@ -4,6 +4,7 @@
 <% set_content_for :list do %>
   <li><%= link_to 'Organize', not_implemented_path %></li>
   <li><%= link_to 'Help', not_implemented_path %></li>
-  <li class=" text-blue-600 hover:text-blue-600"> <%= link_to 'Create an event', new_event_path  %>
-  </li>
+  <li> <%= link_to 'Create an event', new_event_path, class: 'text-blue-600 hover:text-blue-600'  %></li>
+<% end %>
+<% set_content_for :chevron do %>
 <% end %>
