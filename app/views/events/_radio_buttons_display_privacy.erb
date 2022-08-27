@@ -1,26 +1,29 @@
-<div class="flex flex-col">
-  <div class="p-2 text-xl font-bold">Event Display Options</div>
-  <div class="bg-white grid grid-cols-3 items-center">
-    <div class="">
-      <%= resource.radio_button :display_privacy, 'public', class: 'peer sr-only', checked: true %>
-      <%= resource.label :display_privacy, 'Public', value: 'public', class: 'flex flex-col border-2 border-transparent rounded-lg peer-checked:border-blue-400 p-4 m-4 hover:shadow-xl'  do %>
-        <div class="font-bold text-xl">Public</div>
-        <div class="text-sm">Visible to all</div>
+<div class="flex flex-col mb-1" x-data="{setting_description: 'public'}">
+  <h3 class="py-1 text-base font-medium">Event Display Options</h3>
+  <ul class="flex text-sm font-normal [&>*]:mr-4 [&>*]:flex-grow mb-1 w-full">
+    <li @click="setting_description = 'public'">
+      <%= form.radio_button :display_privacy, 'public', checked: true, class: 'peer sr-only' %>
+      <%= form.label :display_privacy, 'Public', value: 'public',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+        <span>Public</span>
       <% end %>
-    </div>
-    <div class="">
-      <%= resource.radio_button :display_privacy, 'protected', class: 'peer sr-only' %>
-      <%= resource.label :display_privacy, 'Protected', value: 'protected', class: 'flex flex-col border-2 border-transparent rounded-lg peer-checked:border-blue-400 p-4 m-4 hover:shadow-xl'  do %>
-        <div class="font-bold text-xl">Protected</div>
-        <div class="text-sm">Visible to users</div>
+    </li>
+    <li @click="setting_description = 'protected'">
+      <%= form.radio_button :display_privacy, 'protected', class: 'peer sr-only' %>
+      <%= form.label :display_privacy, 'Protected', value: 'protected',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+        <span>Protected</span>
       <% end %>
-    </div>
-    <div class="">
-      <%= resource.radio_button :display_privacy, 'private', class: 'peer sr-only' %>
-      <%= resource.label :display_privacy, 'Private', value: 'private', class: 'flex flex-col border-2 border-transparent rounded-lg peer-checked:border-blue-400 p-4 m-4 hover:shadow-xl'  do %>
-        <div class="font-bold text-xl">Private</div>
-        <div class="text-sm">Visible to attendees</div>
+    </li>
+    <li @click="setting_description = 'private'">
+      <%= form.radio_button :display_privacy, 'private', class: 'peer sr-only' %>
+      <%= form.label :display_privacy, 'Private', value: 'private',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+        <span>Private</span>
       <% end %>
-    </div>
-  </div>
+    </li>
+  </ul>
+  <p class="font-normal text-sm break-normal leading-6" xcloak x-show="setting_description == 'public'">Any user will be able to see your event.</p>
+  <p class="font-normal text-sm break-normal leading-6" xcloak x-show="setting_description == 'protected'">Only Eventbrite members will be able to see your event.</p>
+  <p class="font-normal text-sm break-normal leading-6" xcloak x-show="setting_description == 'private'">Only users invited to the event will be able to see your event.</p>
 </div>

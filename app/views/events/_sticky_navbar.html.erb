@@ -1,17 +1,51 @@
-<div class="w-full flex flex-row py-2 border-y-1 border-black shadow-xl sticky top-20 bg-white">
-  <div class="py-2 px-8">Upload</div>
-  <div class="py-2 px-8">Like</div>
-  <% if current_user&.attending?(resource.id) %>
-    <div class="ml-auto w-full max-w-xs flex flex-row justify-center">
-      <%= render layout: 'layouts/generic_attend_perm_button', locals: { resource: resource, method: :delete } do |form| %>
-        <%= form.submit 'Leave', class: "py-2 mx-4 px-20  font-bold text-xl bg-red-500 rounded-md border-2 border-transparent hover:border-red-700 hover:text-white" %>
-      <% end %>
+<nav class="w-full border-[#dbdae3] border-y-[1px] bg-white justify-between py-[10px] 
+flex flex-col h-[110px] fixed md:h-[66px] md:sticky md:top-0 md:grid grid-cols-3 z-10" x-data
+:class="$store.user_in_view ? 'bottom-0' : 'top-0'">
+  <div class="col-start-1 md:flex w-full h-[44px] py-[10px] hidden">
+    <div class="flex px-4 items-center">
+      <div class="p-2 text-[#4b4d63] rounded-full hover:bg-gray-100 relative flex flex-col items-center group">
+        <%= link_to not_implemented_path, class: 'cursor-pointer' do %>
+          <%= inline_svg_tag 'svg/share', class:'h-6 w-6' %>
+        <% end %>
+        <div class="hidden absolute group-hover:flex flex-col bg-gray-600 text-white top-[52px] px-6 py-2">
+          <span class="text-sm leading-5">Share</span>
+          <span class="text-sm leading-5">Event</span>
+        </div>
+      </div>
+      <div class="p-2 text-[#4b4d63] rounded-full hover:bg-gray-100">
+        <%= link_to not_implemented_path, class: 'cursor-pointer' do %>
+          <%= inline_svg_tag 'svg/heart', class:'h-6 w-6' %>
+        <% end %>
+      </div>
     </div>
-  <% else %>
-    <div class="ml-auto w-full max-w-xs flex flex-row justify-center">
-      <%= render layout: 'layouts/generic_attend_perm_button', locals: { resource: resource, method: :post } do |form| %>
-        <%= form.submit 'Register', class: "py-2 mx-4 px-20 bg-green-400 font-bold text-xl rounded-md  border-2 border-transparent hover:border-green-700 hover:text-white" %>
+  </div>
+  <div class="flex md:hidden col-start-2 justify-center items-center" >
+    <span><%= resource.price %></span>
+  </div>
+  <div class="hidden md:flex col-start-2 justify-end items-center pr-6" x-show="! $store.user_in_view" x-cloak x-transition>
+    <span><%= resource.price %></span>
+  </div>
+  <div class="col-start-3 h-[44px]">
+    <% if current_user&.attending?(resource.id) %>
+      <%= form_with url: user_event_permissions_url, scope: :user_event_permissions, method: :delete, data: { turbo: 'false' }, class: "h-full" do |form| %>
+        <%= form.hidden_field :event_id, value: resource.id %>
+        <%= form.hidden_field :permission_type, value: 'attend' %>
+        <%= form.button class: "w-full flex justify-center px-4 h-full" do %>
+          <div class="flex text-white text-sm w-full font-semibold bg-[#E33311] rounded-[4px] px-[30px] h-full pb-[1px] items-center justify-center">
+            <span>Leave</span>
+          </div>
+        <% end%>
       <% end %>
-    </div>
-  <% end %>
-</div>
+    <% else %>
+      <%= form_with url: user_event_permissions_url, scope: :user_event_permissions, method: :post, data: { turbo: 'false' }, class: "h-full" do |form| %>
+        <%= form.hidden_field :event_id, value: resource.id %>
+        <%= form.hidden_field :permission_type, value: 'attend' %>
+        <%= form.button class: "w-full flex justify-center px-4 h-full" do %>
+          <div class="flex text-white text-sm w-full font-semibold bg-[#0d8547] rounded-[4px] px-[30px] h-full pb-[1px] items-center justify-center">
+            <span>Register</span>
+          </div>
+        <% end%>
+      <% end %>
+    <% end %>
+  </div>
+</nav>

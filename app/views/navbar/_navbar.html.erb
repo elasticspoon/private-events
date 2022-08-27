@@ -1,0 +1,13 @@
+<nav class="bg-white w-full min-h-[72px] flex flex-row justify-evenly z-20 border-b-[1px] border-b-[#eeedf2]">
+  <ul class='flex flex-row font-semibold text-[13px] w-full items-center justify-center' style="color: #39364f">
+    <%= link_to root_path do %>
+      <%= inline_svg_tag 'svg/eventbrite_logo', class:'h-[20px] px-6 text-cur', style: 'fill: #f05537' %>
+    <% end %>
+    <%= render 'navbar/search' %>
+    <% if user_signed_in? %>
+      <%= render 'navbar/signed_in_items' %>
+    <% else %>
+      <%= render 'navbar/signed_out_items' %>
+    <% end %>
+  </ul>
+</nav>

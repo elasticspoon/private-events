@@ -1,0 +1,49 @@
+<div class="flex flex-col px-6 pt-16 pb-16 w-full md:max-w-5xl items-center" x-data="carousel">
+  <div class="flex items-center justify-between w-full">
+    <%= content_for :carousel_title  %>
+    <div class="flex flex-row text-black">
+      <div id="leftArrow" x-on:click="pageLeft">
+        <%= content_for :left_arrow %>
+      </div>
+      <div id="rightArrow" x-on:click="pageRight">
+        <%= content_for :right_arrow %>
+      </div>
+    </div>
+  </div>
+  <ul id="slider" class="flex overflow-x-scroll snap-x snap-mandatory w-full" x-ref="carouselBody">
+    <%= yield %>
+  </ul>
+</div>
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('carousel', () => ({
+
+      numCarouselCols() {
+        let carouselBody = this.$refs.carouselBody
+        let parentWidth = carouselBody.getBoundingClientRect().width
+        let childWidth = carouselBody.firstElementChild.getBoundingClientRect().width
+        return Math.floor(parentWidth / childWidth)
+      },
+      pageRight() { this.destLocation((currentLoc, elementWidth) => currentLoc +
+      ( elementWidth * this.numCarouselCols() )) },
+      pageLeft() { this.destLocation((currentLoc, elementWidth) => currentLoc -
+      ( elementWidth * this.numCarouselCols() )) },
+
+      destLocation(scrollFunc) {
+        let carouselBody = this.$refs.carouselBody
+        let currentLoc = carouselBody.scrollLeft
+        let elementWidth = carouselBody.firstElementChild.getBoundingClientRect().width
+        carouselBody.scrollTo({ left: scrollFunc(currentLoc, elementWidth), behavior: 'smooth' })
+      }
+    }))
+  })
+  let parent = document.getElementById('slider')
+  let leftArrow = document.getElementById('leftArrow').firstElementChild
+  leftArrow.setAttribute('disabled', true)
+  let rightArrow = document.getElementById('rightArrow').firstElementChild
+  parent.addEventListener('scroll', () => {
+    parent.scrollLeft == 0 ? leftArrow.setAttribute('disabled', true) : leftArrow.removeAttribute('disabled')
+    parent.scrollLeft == parent.scrollLeftMax ? rightArrow.setAttribute('disabled', true) : rightArrow.removeAttribute('disabled')
+
+  })
+</script>

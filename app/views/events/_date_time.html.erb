@@ -1,0 +1,13 @@
+<div class="flex">
+  <div class="pr-3 pt-1">
+    <%= inline_svg_tag 'svg/calendar', class:'w-4 h-4' %>
+  </div>
+  <div class="flex flex-col w-full">
+    <div class="">
+      <h3 class="font-semibold text-base mb-2 leading-6">Date and Time</h3>
+    </div>
+    <div class="text-[#39364f] font-normal text-sm"><%= resource.created_at.strftime("%a, %B %-d, %Y, %l:%M %p -") %></div>
+    <div class="text-[#39364f] font-normal text-sm"><%= resource.date.strftime("%a, %B %-d, %Y, %l:%M %p %Z") %></div>
+    <div class="pt-1"><%= select_tag :placeholder_three, options_for_select([['Select a different date', 'stuff']]) %></div>
+  </div>
+</div>

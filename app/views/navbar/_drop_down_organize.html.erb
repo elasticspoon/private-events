@@ -1,0 +1,11 @@
+<% set_content_for :label do %>
+  <span class="hidden lg:block">Organize</span>
+<% end %>
+<% set_content_for :list do %>
+  <li><%= link_to 'Why Eventbrite?', not_implemented_path %></li>
+  <li><%= link_to 'Pricing', not_implemented_path %></li>
+  <li><%= link_to 'Resources', not_implemented_path %></li>
+<% end %>
+<% set_content_for :chevron do %>
+  <%= inline_svg_tag 'svg/chevron', class: 'h-5 w-4 mt-1' %>
+<% end %>

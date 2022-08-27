@@ -8,18 +8,20 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.10.3/dist/cdn.min.js"></script>
   </head>
-  <body>
-    <main class="h-full min-h-screen w-screen flex flex-col bg-gray-300">
-      <%= render 'navbar' %>
-      <%= render 'notices' %>
-      <div class="w-full flex flex-row justify-evenly">
-        <div class=""></div>
-        <div class="w-full max-w-screen-xl">
+  <body class="w-full flex flex-col min-h-screen">
+    <%= yield :nav_bar %>
+    <%= render 'notices' %>
+    <div class="flex w-full">
+      <%= yield :side_bar %>
+      <div class="flex flex-col w-full">
+        <main class="w-full flex min-h-screen">
           <%= yield %>
-        </div>
-        <div class=""></div>
+        </main>
+        <%= yield :footer %>
       </div>
-    </main>
+    </div>
   </body>
 </html>

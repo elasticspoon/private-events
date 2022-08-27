@@ -1,0 +1,16 @@
+<% if resource.errors[:email]&.any? && resource.errors.clear %>
+  <div class="flex rounded shadow-xl mb-3">
+    <div class="w-1 bg-orange-500 relative left-0"></div>
+    <div class="px-5 flex items-center">
+      <div class="pr-4 py-2">
+        <%= inline_svg_tag 'svg/alert_icon.svg', class: 'h-6 w-6' %>
+      </div>
+      <div class="py-3 text-[13px]">
+        <strong class="font-semibold ">
+          There is an account associated with the email.
+        </strong>
+        <%= link_to "Log in", new_user_session_path, class: 'text-[#3d64ff] hover:underline font-normal' %>
+      </div>
+    </div>
+  </div>
+<% end %>

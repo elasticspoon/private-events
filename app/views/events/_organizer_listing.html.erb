@@ -1,0 +1,33 @@
+<div class="flex flex-col w-full pb-5 border-t-[1px] border-[#dbdae3] items-center rounded-b">
+  <div class="flex flex-col items-center mb-2 max-w-3xl mt-10 text-center">
+    <div class="flex items-center justify-center rounded-full">
+      <%= image_tag "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F48099136%2F213108451434%2F1%2Foriginal.png?w=225&auto=format%2Ccompress&q=75&sharp=10&s=95cd30f9bb6201c260b8161b7154e889", class: 'h-10 w-10' %>
+    </div>
+    <%= button_to not_implemented_path, class: 'mb-2 py-2 px-7 h-11 font-semibold text-base text-[#3659e3] hover:bg-gray-200 rounded' do %>
+      <%= resource.creator.name.titleize %>
+    <% end %>
+    <span class="mb-4 font-normal text-base text-[#39364f]">Organizer of <%= resource.name.titleize %></span>
+    <span class="text-[#6f7287] font-semibold text-base">Social Media Links</span>
+    <div class="flex mt-2 mb-10 ">
+      <%= button_to not_implemented_path, class: 'rounded-full bg-[#eeedf2] hover:bg-gray-200 p-3 mx-4' do %>
+        <%= inline_svg_tag 'svg/fb_logo', class:'h-6 w-6' %>
+      <% end %>
+    </div>
+    <div class="flex mb-6 ">
+      <%= button_to not_implemented_path, class: 'flex items-center justify-center mr-8 ml-4 h-11 border-2 border-[#3659e3] rounded-[4px] hover:bg-[#f8f7fa]' do%>
+        <span class="font-semibold text-base px-8 pb-[1px] text-[#3659e3]">Follow</span>
+      <% end %>
+      <%= button_to not_implemented_path, class: 'flex items-center justify-center mr-8 ml-4 h-11 rounded-[4px] hover:bg-[#f8f7fa]' do%>
+        <span class="font-semibold text-base px-8 pb-[1px] text-[#3659e3]">Contact</span>
+      <% end %>
+    </div>
+  </div>
+  <div class="flex border-t-[1px] border-[#dbdae3] justify-center pt-10 px-5 w-full">
+    <div class="flex flex-col justify-center w-full items-center">
+      <span class="text-2xl font-bold mb-8 text-center">More events from this organizer</span>
+      <div class="flex flex-col w-full items-center">
+        <%= render partial: 'event_small', collection: resource.creator.events_created.limit(4), locals: {show_socials: true} %>
+      </div>
+    </div>
+  </div>
+</div>

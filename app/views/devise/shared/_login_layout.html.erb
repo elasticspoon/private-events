@@ -1,0 +1,57 @@
+<div class="flex h-full min-h-screen lg:grid grid-cols-2 w-full">
+  <div class="flex w-full justify-center items-center">
+    <div class="flex flex-col w-full max-w-[360px]">
+      <%= link_to root_path do %>
+        <div class="mb-6">
+          <%= inline_svg_tag 'svg/eventbrite_logo', class:'h-[20px] text-cur', style:"fill: #f05537" %>
+        </div>
+      <% end %>
+      <div class="flex justify-between items-center mb-10">
+        <h1 class="font-extrabold text-[32px] lg:text-[54px] leading-10 lg:leading-[64px]">
+          <%= content_for :page_title %>
+        </h1>
+        <div class="lg:hidden"><%= content_for :links %></div>
+      </div>
+      <div class="">
+        <%= content_for :page_form %>
+      </div>
+      <div class="flex flex-col text-[#39364f]">
+        <% if content_for :alt_logins_form %>
+          <div class="flex flex-col items-center relative pt-5 pb-6 justify-center">
+            <div class="flex justify-center">
+              <span class="z-20 border-[1px] border-[#a9a8b3] rounded-full px-3 pb-1 bg-white text-[#6f7287] text-sm font-semibold min-w-[22px]">or</span>
+            </div>
+            <div class="flex w-full absolute h-full items-center justify-center z-10">
+              <div class="h-[1px] bg-[#a9a8b3] w-full"></div>
+            </div>
+          </div>
+        <% end %>
+        <%= content_for :alt_logins_form %>
+        <% if content_for :alt_logins_circle %>
+          <div class="self-center lg:self-start flex flex-col" x-data="{open: false}">
+            <div class="flex" >
+              <span>Other <%= action %> methods</span>
+              <button @click="open = ! open" class="ml-4 lg:hidden self-center"><%= inline_svg_tag 'svg/chevron', class: 'h-4 w-4' %></button>
+            </div>
+            <ul x-show="open" x-cloak class="flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px] justify-center">
+              <%= content_for :alt_logins_circle %>
+            </ul>
+            <ul class="hidden lg:flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px]">
+              <%= content_for :alt_logins_circle %>
+            </ul>
+            <br>
+          </div>
+        <% end %>
+        <div class="hidden lg:flex"><%= content_for :links %></div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-cover hidden lg:block h-full bg-center relative"
+   style="background-image: url('https://cdn.evbstatic.com/s3-build/perm_001/0fff4c/django/images/login/lateral-image-2-hd.jpg')">
+    <div class="flex flex-col items-end absolute right-12 bottom-36 text-white text-xs font-normal">
+      <span class="font-extrabold">Hungry Pop</span>
+      <span class="">Keste</span>
+      <span class="">New York, NY</span>
+    </div>
+  </div>
+</div>

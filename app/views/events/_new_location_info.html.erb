@@ -1,0 +1,39 @@
+<div class="mt-5 pb-12 mb-8 pt-5 flex flex-col lg:grid grid-cols-12 px-4 lg:px-0">
+  <div class="col-start-2 hidden lg:block"><%= inline_svg_tag 'svg/text.svg', class:'h-12 w-12 text-[#dbdae3]' %></div>
+  <div class="flex flex-col col-start-3 col-span-8">
+    <h1 class="text-3xl font-bold">Location</h1>
+    <p class="font-normal text-sm break-normal leading-6">Help people in the area discover your event and let attendees know where to show up.</p>
+    <div class="flex flex-col w-full md:w-2/3 mt-5">
+      <ul class="flex text-sm font-normal [&>*]:mr-4 [&>*]:flex-grow mb-5">
+        <li class="">
+          <%= form.radio_button :placeholder_one, 'public', checked: true,  class: 'peer sr-only'%>
+          <%= form.label :placeholder_one, 'Public', value: 'public',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+            <span>Venue</span>
+          <% end %>
+        </li>
+        <li class="">
+          <%= form.radio_button :placeholder_one, 'protected', class: 'peer sr-only' %>
+          <%= form.label :placeholder_one, 'Protected', value: 'protected',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+            <span>Online Event</span>
+          <% end %>
+        </li>
+        <li class="">
+          <%= form.radio_button :placeholder_one, 'private', class: 'peer sr-only' %>
+          <%= form.label :placeholder_one, 'Private', value: 'private',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+            <span>To be announced</span>
+          <% end %>
+        </li>
+      </ul>
+      <p class="font-normal text-sm break-normal">Online events have unique event pages where you can add links to livestreams and more</p>
+      <div class="flex-col flex relative pt-2">
+        <span class="absolute top-12 left-3 flex"><%= inline_svg_tag 'svg/magnifying_glass', class: 'h-6 w-6 text-[#a9a8b3]' %></span>
+        <%= form.label :location, 'Venue location', class: 'mb-1' %>
+        <%= form.text_field :location, class: 'w-full py-3 px-12 text-sm rounded-xs border-[#dbdae3]', placeholder: 'Enter an address' %>
+        <%= render 'inline_errors', errors: resource.errors[:location] %>
+      </div>
+    </div>
+  </div>
+</div>

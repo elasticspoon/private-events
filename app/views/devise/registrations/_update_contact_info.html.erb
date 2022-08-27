@@ -1,0 +1,11 @@
+<h2 class="mt-[10px] font-bold text-[1.6rem]">Contact Information</h2>
+<div class="flex flex-col">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
+ data: {turbo: false}, method: :put) do |form| %>
+    <div class="grid grid-cols-2">
+      <%= render partial: 'fields/text_field', locals: {field_name: :name,  form:} %>
+      <%= render partial: 'fields/text_field', locals: {field_name: :username,  form:} %>
+      <%= form.submit 'Save', class: 'h-[44px] font-bold text-[15px] text-white rounded px-8 bg-[#d1410c] mt-4 w-fit' %>
+    </div>
+  <% end %>
+</div>

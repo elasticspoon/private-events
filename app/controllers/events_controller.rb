@@ -39,7 +39,7 @@ class EventsController < ApplicationController
   private
 
   def find_event
-    @event = Event.includes(:creator).find(params[:id])
+    @event = Event.includes(creator: [:events_created]).find(params[:id])
   end
 
   def event_params

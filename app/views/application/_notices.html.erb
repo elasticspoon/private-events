@@ -1,14 +1,38 @@
-            <% if flash[:notice] %>
-  <div class="py-3 px-5 bg-green-200 text-green-900 text-sm border-b-2 border-green-600 w-full">
-    <%= format_flash_message(notice) %>
+<% if flash[:notice] %>
+  <div class="flex p-1 text-green-900">
+    <div class="shadow-sm flex w-full rounded-md bg-green-50 border-[1px] border-gray-100">
+      <div class="w-2 bg-green-700 relative left rounded-l-md"></div>
+      <div class="px-5 flex items-center">
+        <div class="pr-4 py-2">
+          <%= inline_svg_tag 'svg/alert_icon.svg', class: 'h-6 w-6' %>
+        </div>
+        <div class="py-3 text-[13px]">
+          <strong class="font-semibold ">
+            <%= format_flash_message(notice) %>
+          </strong>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
 <% if flash[:alert] && flash[:alert] == 'Not implemented.' %>
   <%= render 'notices_not_implemented' %>
 <% elsif flash[:alert] %>
   <% [flash[:alert]].flatten.each do |alert| %>
-    <div class="py-3 px-5 bg-red-200 text-red-900 text-sm border-b-2 border-red-300">
-      <%= format_flash_message(alert) %>
+    <div class="flex p-1 text-red-900">
+      <div class="shadow-sm flex w-full rounded-md bg-red-50 border-[1px] border-gray-100">
+        <div class="w-2 bg-red-700 relative left rounded-l-md"></div>
+        <div class="px-5 flex items-center">
+          <div class="pr-4 py-2">
+            <%= inline_svg_tag 'svg/alert_icon.svg', class: 'h-6 w-6' %>
+          </div>
+          <div class="py-3 text-[13px]">
+            <strong class="font-semibold ">
+              <%= format_flash_message(alert) %>
+            </strong>
+          </div>
+        </div>
+      </div>
     </div>
   <% end%>
 <% end %>

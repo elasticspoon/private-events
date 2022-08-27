@@ -1,0 +1,24 @@
+<% set_content_for :links do %>
+  <%= link_to 'Sign in', new_user_session_path, class: 'text-[#3659e3] font-semibold text-sm' %>
+<% end %>
+<% set_content_for :page_title do %>
+  Create an account
+<% end %>
+<% set_content_for :alt_logins_form do %>
+  <%= render 'devise/shared/google_button' %>
+<% end %>
+<% set_content_for :alt_logins_circle  do %>
+  <li><%= inline_svg_tag 'svg/fb_logo_circle', class: 'w-12 h-12' %></li>
+<% end %>
+<% set_content_for :page_form do %>
+  <%= render partial: 'existing_email_alert', locals: { resource: resource} %>
+  <%= form_for(resource, as: resource_name, url: new_registration_path(resource_name), data: { turbo: false}, method: :put) do |form| %>
+    <div class="mb-2 border-[1px] border-[#dbdae3] flex flex-col font-normal min-h-[44px] rounded-sm">
+      <%= form.label :email, value: 'Email address', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287]' %>
+      <%= form.email_field :email, autocomplete: 'email', class: 'border-none px-3 pt-[18px] pb-[6px] text-sm '%>
+    </div>
+    <div class="my-4 bg-[#d1410c] w-full flex items-center justify-center min-h-[44px] rounded cursor-pointer">
+      <%= form.submit 'Continue', class: 'font-semibold text-sm text-white' %>
+    </div>
+  <% end %>
+<% end %>

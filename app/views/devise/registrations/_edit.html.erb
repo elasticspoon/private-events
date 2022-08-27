@@ -1,0 +1,22 @@
+<div class="flex lg:flex-row flex-col">
+  <div class="hidden lg:flex max-w-[288px] w-full"><%= render 'users/sidebar' %></div>
+  <%= render 'side_nav_bar', current_page: 'Account Information' %>
+  <div class="flex w-full items-center">
+    <div class="w-full flex flex-col px-12 max-w-7xl mt-10">
+      <span class="text-right font-normal text-[15px] text-[#39364f]">
+        <%= resource.created_at.strftime("Eventbrite account since %b %-d, %Y") %>
+      </span>
+      <h1 class="font-bold text-3xl">Account Information</h1>
+      <div class="w-full py-[10px]"><hr></div>
+      <div class="flex flex-col md:w-2/3">
+        <%= render 'update_email', resource: resource %>
+        <%= render 'update_photo', resource: resource %>
+        <%= render 'update_contact_info', resource: resource %>
+        <%= render partial: 'address_form', locals: {resource:, address: 'Home Address'}  %>
+        <%= render partial: 'address_form', locals: {resource:, address: 'Billing Address'}  %>
+        <%= render partial: 'address_form', locals: {resource:, address: 'Shipping Address'}  %>
+        <%= render partial: 'address_form', locals: {resource:, address: 'Work Address'}  %>
+      </div>
+    </div>
+  </div>
+</div>

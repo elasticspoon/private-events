@@ -1,0 +1,21 @@
+<% content_for :page_form do %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false}) do |form| %>
+    <%= render partial: 'fields/email_field', locals: { resource:, form:, field_name: :email, placeholder: nil, value: 'Email Address', hidden: false } %>
+    <%= render partial: 'fields/password_field', locals: { resource:, form:, field_name: :password, placeholder: nil, value: 'New Password', hidden: false } %>
+    <div class="mt-6"><%= render partial: 'fields/submit_button', locals: { form: , value: 'Log in'} %></div>
+  <% end %>
+<% end %>
+<% content_for :page_title do %>
+  Log in
+<% end %>
+<% content_for :links do %>
+  <%= link_to 'Sign up', new_user_registration_path, class: 'text-[#3659e3] font-semibold text-sm' %>
+<% end %>
+<% content_for :alt_logins_form do %>
+  <%= render 'devise/shared/email_link_button' %>
+  <%= render 'devise/shared/google_button' %>
+<% end %>
+<% content_for :alt_logins_circle  do %>
+  <li><%= inline_svg_tag 'svg/fb_logo_circle', class: 'w-12 h-12' %></li>
+  <li><%= inline_svg_tag 'svg/apple_logo_circle', class: 'w-12 h-12' %></li>
+<% end %>

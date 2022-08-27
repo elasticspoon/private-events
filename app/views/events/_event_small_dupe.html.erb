@@ -1,0 +1,25 @@
+<% if resource.viewable_by?(current_user) %>
+  <div class="p-4 h-full">
+    <div class="flex flex-row h-full shadow-2xl shadow-gray-200 hover:shadow-[#6f7287] p-4 relative">
+      <div class="absolute -top-4 right-0"><%= render 'event_tags_bar', resource: resource %></div>
+      <div class="w-full flex flex-col pb-3 pr-4 flex-1">
+        <div class="font-bold text-xl overflow-hidden"><%= resource.name.titleize %></div>
+        <div class="text-[#d1410c] font-semibold text-base pb-1 pt-2"><%= resource.date.to_formatted_s(:long_ordinal) %> + 
+          <%= rand(99) %> more events </div>
+        <div class="over-hidden text-base font-normal text-[#6f7287]"><%= resource.location.titleize %> - <%= resource.location.titleize %></div>
+        <div class="pt-1">
+          <%= render "users/short_user_alt", resource: resource.creator %>
+        </div>
+      </div>
+      <div class="flex flex-col max-w-[100px] h-full justify-between overflow-hidden">
+        <div class="flex flex-row w-[512px] max-h-[100px]">
+          <%= image_tag "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F232537269%2F213108451434%2F1%2Foriginal.20220218-133834?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C4%2C1200%2C600&s=44bbb722accd785fe8a02da5a71666a4",
+           size: '256x512' %>
+        </div>
+        <div class="max-w-fit rounded-full self-end border-[1px] border-[#dbdae3] bg-white hover:bg-[#f8f7fa] p-2 text-[#4b4d63]">
+          <%= inline_svg_tag 'svg/heart', class:'w-6 h-6' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

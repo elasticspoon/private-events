@@ -1,0 +1,22 @@
+<% set_content_for :carousel_title do %>
+  <div class="flex flex-col w-full px-10 pb-7">
+    <span class="font-bold text-2xl">Hand-picked</span>
+    <span class="font-bold text-[28px] leading-9 text-[#d1410c]">Collections</span>
+    <span class="font-normal text-sm text-[#6f7287]">
+      Discover more of the best in food, music, wellness, and more with our curated event collections
+    </span>
+  </div>
+<% end %>
+<% set_content_for :left_arrow do %>
+  <button class="p-2 mr-2 disabled:text-[#a9a8b3] text-[#39364f] rounded-full hover:bg-gray-200 disabled:hover:bg-transparent">
+    <%= inline_svg_tag 'svg/arrow_right', class:'h-6 w-5 rotate-180', stroke: 'currentColor' %>
+  </button>
+<% end %>
+<% set_content_for :right_arrow do %>
+  <button class="p-2 mr-10 disabled:text-[#a9a8b3]  text-[#39364f] rounded-full hover:bg-gray-200 disabled:hover:bg-transparent">
+    <%= inline_svg_tag 'svg/arrow_right', class:'h-6 w-5', stroke: 'currentColor' %>
+  </button>
+<% end %>
+<% 5.times do %>
+  <li class="w-full md:w-1/2 shrink-0"><%= render 'nonfunctional/collection_card' %></li>
+<% end %>

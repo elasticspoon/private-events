@@ -1,17 +1,37 @@
-<div class="bg-gray-100 p-6 h-full">
-  <div class="flex flex-col">
-    <div class="flex flex-col p-6 mx-8 border-b-8">
-      <div class="text-black font-bold text-3xl mb-6">Upcoming Events</div>
-      <div class="grid grid-cols-3 justify-items-center ">
-        <%= render @events.future %>
+<div class="w-full h-full flex flex-col items-center">
+  <%= render 'header_image'%>
+  <div class="flex flex-col max-w-7xl px-4 items-center w-full">
+    <%= render 'nonfunctional/location_search_form' %>
+    <%= render 'nonfunctional/event_filters' %>
+    <%= render 'nonfunctional/event_categories' %>
+    <div class="flex flex-col py-10">
+      <div class="text-black font-bold text-2xl px-3 pb-6">Events in Four Corners</div>
+      <div class="grid grid-cols-1  sm:grid-cols-2  md:grid-cols-3 xl:grid-cols-4 justify-center items-center">
+        <%= render @events.future.limit(2) %>
+        <%= render 'nonfunctional/event_card_filler' %>
       </div>
     </div>
-    <div class="flex flex-col p-6 mx-8 border-b-8">
-      <div class="text-black font-bold text-3xl mb-6">Past Events</div>
-      <div class="grid grid-cols-3 justify-items-center ">
-        <%= render @events.past %>
+    <div class="bg-[#f8f7fa] max-w-full">
+      <%= render 'nonfunctional/personal_filters' %>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-2 justify-items-center">
+      <%= render @events.future.limit(8) %>
+    </div>
+    <div class="bg-[#f8f7fa] max-w-full">
+      <%= render partial: 'nonfunctional/collections', layout: 'layouts/carousel_layout' %>
+    </div>
+    <div class="flex flex-col pt-10">
+      <div class="text-black font-bold text-2xl px-3 mb-6">More Events</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-items-center">
+        <%= render @events.future.limit(12) %>
       </div>
     </div>
-    <%= render 'bottom_bar' %>
   </div>
+  <%= render 'nonfunctional/see_more' %>
 </div>
+<% content_for :footer do %>
+  <%= render 'footer/footer_extended' %>
+<% end %>
+<% content_for :nav_bar do %>
+  <%= render 'navbar/navbar' %>
+<% end %>

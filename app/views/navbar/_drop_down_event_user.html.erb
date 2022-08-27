@@ -1,0 +1,42 @@
+<div class="group flex-col h-full justify-center items-center relative" x-data="{dropdown: false}">
+  <div class="h-full flex flex-row justify-center items-center  text-[#6f7287] hover:text-[#39364f]" @click="dropdown = ! dropdown">
+    <div class="flex bg-[#3659e3] rounded-full h-8 w-8 items-center justify-center">
+      <span class="text-white text-[10px] leading-5 font-semibold"><%= current_user.name[0...2].upcase %></span>
+    </div>
+    <span class="pl-2 font-semibold text-xs text-[#1e0a3c] hidden lg:block"><%= current_user.name %></span>
+    <div :class="dropdown && 'rotate-180'">
+      <div class="flex items-center justify-center ml-2 mr-1">
+        <%= inline_svg_tag 'svg/chevron', class: 'h-4 w-4 text-[#39364f]' %>
+      </div>
+    </div>
+  </div>
+  <ul class="absolute min-w-[250px] right-0 self-end bg-white text-sm font-normal shadow-lg rounded text-[#39364f]
+   [&>*]:pr-5 [&>*]:pl-6 [&>*]:py-4 [&>*:hover]:cursor-pointer  [&>*:hover]:text-gray-800 [&>*:hover]:bg-gray-100
+    top-[49px]" x-show="dropdown" x-cloak @click.outside="dropdown=false">
+    <li><%= link_to not_implemented_path do %>
+        <div class="flex">
+          <div class="flex flex-col mr-4">
+            <%= inline_svg_tag 'svg/arrow_right', class: 'h-3 w-7' %>
+            <%= inline_svg_tag 'svg/arrow_right', class: 'h-3 w-7 rotate-180' %>
+          </div>
+          <span class="">Switch to attending</span>
+        </div>
+      <% end %>
+    </li>
+    <li class='border-b border-b-[#eeedf2]'><%= link_to edit_user_registration_path do %>
+        <div class="flex">
+          <span class="mr-4"><%= inline_svg_tag 'svg/user_placeholder', class: 'h-6 w-6'  %></span>
+          <span class="">Account Settings</span>
+        </div>
+      <% end %>
+    </li>
+    <li ><%= button_to destroy_user_session_path, method: :delete do %>
+        <div class="flex">
+          <span class="mr-4"><%= inline_svg_tag 'svg/log_out', class: 'h-6 w-6'  %></span>
+          <span class="text-ellipsis">Log out <%= current_user.email %></span>
+        </div>
+      <% end %>
+    </li>
+    <li class="cursor-not-allowed"><span ><%= current_user.name.titleize %></span></li>
+  </ul>
+</div>

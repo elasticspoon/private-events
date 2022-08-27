@@ -1,13 +1,5 @@
-<div class="w-full flex flex-col items-center">
-  <div class="w-full sm:py-6 min-h-screen sm:max-w-md flex flex-col justify-center mx-6">
-    <h2 class='mb-6 text-center text-5xl font-extrabold'>Welcome.</h2>
-    <%= render layout: 'layouts/registation_form', locals: {resource: resource, method: :post}  do |form| %>
-      <div class="mt-6">
-        <%= form.submit 'Sign Up', class: 'w-full inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-bold text-white capitalize transition disabled:opacity-25 focus:outline-none hover:bg-red-700 active:bg-red-700 focus:border-red-700 focus:ring focus:ring-red' %>
-      </div>
-      <div class="mt-6 text-center text-sm">
-        Have an existing account? <%= link_to 'Sign in.', new_user_session_path, class: 'underline font-bold' %>
-      </div>
-    <% end %>
-  </div>
-</div>
+<%= render partial: 'devise/registrations/new', layout: 'devise/shared/login_layout',
+locals: {action: 'sign up', resource: resource}, location: 'users/sign_up' %>
+<% content_for :footer do %>
+  <%= render 'footer/footer_short' %>
+<% end %>

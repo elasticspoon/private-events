@@ -38,6 +38,15 @@ class Event < ApplicationRecord
     date <= DateTime.now
   end
 
+  # Should be overwitten in the future
+  def price
+    'Free'
+  end
+
+  def image_url
+    'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F219765149%2F291099437342%2F1%2Foriginal.20220128-010041?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C268%2C2048%2C1024&s=6e4df73b75bfc346275a65aaf2835680'
+  end
+
   def accepted_invites
     user_event_permissions.where(permission_type: 'attend').includes(:user)
   end

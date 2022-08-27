@@ -1,12 +1,12 @@
 <%= form_with model: resource, data: {turbo: false}, method: method, class: 'flex flex-col pb-16 gap-4 max-w-lg w-full' do |form| %>
   <%= form.text_field :name, placeholder: 'Enter a name for the event...', class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 block w-full'%>
-  <%= render 'users/inline_errors', errors: resource.errors[:name] %>
+  <%= render 'inline_errors', errors: resource.errors[:name] %>
   <%= form.text_field :desc, placeholder: 'Describe the event...', class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 block w-full' %>
-  <%= render 'users/inline_errors', errors: resource.errors[:desc] %>
+  <%= render 'inline_errors', errors: resource.errors[:desc] %>
   <%= form.text_field :location, placeholder: 'Enter a location...', class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 block w-full' %>
-  <%= render 'users/inline_errors', errors: resource.errors[:location] %>
+  <%= render 'inline_errors', errors: resource.errors[:location] %>
   <%= form.datetime_local_field :date, class: 'px-3 py-2 border border-gray-300 focus:border-red-300 focus:putline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 block w-full' %>
-  <%= render 'users/inline_errors', errors: resource.errors[:date] %>
+  <%= render 'inline_errors', errors: resource.errors[:date] %>
   <div class="flex flex-col bg-gray-100 p-4 mt-6">
     <%= render 'radio_buttons_event_privacy', resource: form %>
     <%= render 'radio_buttons_display_privacy', resource: form %>

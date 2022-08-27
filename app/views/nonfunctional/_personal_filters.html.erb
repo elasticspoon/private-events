@@ -1,0 +1,22 @@
+<div class="flex flex-col w-full p-8 relative">
+  <div class="absolute right-0 top-0 m-6">
+    <svg id="cross-chunky_svg__eds-icon--cross-chunky_svg" class="h-6 w-6 absolute -top-2 -right-2 cursor-pointer text-[#39364f]" stroke="currentColor" viewBox="0 0 24 24" xml:space="preserve">
+      <path id="cross-chunky_svg__eds-icon--cross-chunky_base" d="M13.4 12l3.5-3.5-1.4-1.4-3.5 3.5-3.5-3.5-1.4 1.4 3.5 3.5-3.5 3.5 1.4 1.4 3.5-3.5 3.5 3.5 1.4-1.4z"></path>
+    </svg>
+  </div>
+  <span class="font-bold text-2xl">Let's make it personal</span>
+  <span class="font-normal text-sm text-[#6f7287] mt-1 pb-8">Select your interests to get event suggestions based on what you love</span>
+  <div class="flex flex-col overflow-x-scroll pb-4">
+    <div class="flex flex-row">
+      <% 10.times do %>
+        <%= render partial: 'tag', locals: { tag_text: ['Comedy', 'Food', 'Education', 'Pop', 'Startups & Small Business'].sample } %>
+      <% end %>
+    </div>
+    <div class="flex flex-row">
+      <% 10.times do %>
+        <%= render partial: 'tag', locals: { tag_text: ['Comedy', 'Food', 'Education', 'Pop', 'Startups & Small Business'].sample } %>
+      <% end %>
+    </div>
+  </div>
+  <span class="text-[#3d64ff] text-sm font-normal pt-2 hover:decoration-current">View all interests</span>
+</div>

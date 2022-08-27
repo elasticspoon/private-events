@@ -1,0 +1,8 @@
+<% content_for :content do %>
+  <%= render 'notices' %>
+  <main class="h-full min-h-screen w-full flex flex-col bg-white">
+    <%= yield %>
+  </main>
+  <%= render 'footer/footer_extended' %>
+<% end %>
+<%= render template: 'layouts/application' %>

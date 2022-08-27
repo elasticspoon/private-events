@@ -1,0 +1,37 @@
+<% set_content_for :picture do %>
+  <div class="flex items-center justify-center lg:bg-gray-100 rounded-full lg:h-10 lg:w-10">
+    <%= inline_svg_tag 'svg/user_placeholder', class:'h-6 w-6' %>
+  </div>
+<% end %>
+<% set_content_for :label do %>
+  <span class="pl-2 hidden lg:block"><%= current_user.email %></span>
+<% end %>
+<% set_content_for :list do %>
+  <li class="border-b-[1px] border-gray-100">
+    <%= link_to 'Browse Events', root_path %>
+  </li>
+  <li><%= link_to 'Tickets (0)', not_implemented_path %></li>
+  <li><%= link_to 'Credits', not_implemented_path %></li>
+  <li><%= link_to 'Liked', not_implemented_path %></li>
+  <li><%= link_to 'Following', not_implemented_path %></li>
+  <li><%= link_to 'Interests', not_implemented_path %></li>
+  <li class=" border-t-[1px] border-gray-100">
+    <%= link_to 'Account Settings', edit_user_registration_path %>
+  </li>
+  <li>
+    <div class="flex truncate text-[#a9a8b3] cursor-not-allowed clamp-one">
+      <%= current_user.email %>
+    </div>
+  </li>
+  <li><%= button_to 'Log Out', destroy_user_session_path, method: :delete %></li>
+  <li class=" border-t-[1px] border-gray-100
+    <%= local_assigns[:is_event_view] ? 'hidden' : 'lg:hidden'%>">
+    <%= link_to 'Organize', not_implemented_path %>
+  </li>
+  <li class="<%= local_assigns[:is_event_view] ? 'hidden' : 'lg:hidden'%>">
+    <%= link_to 'Help', not_implemented_path %>
+  </li>
+<% end %>
+<% set_content_for :chevron do %>
+  <%= inline_svg_tag 'svg/chevron', class: 'h-5 w-4 mt-1 hidden lg:block' %>
+<% end %>

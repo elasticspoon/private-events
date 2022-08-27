@@ -1,0 +1,21 @@
+<% if resource.future? && !current_user&.attending?(resource.id) %>
+  <div class="absolute bottom-[-22px] right-3 ">
+    <%= render layout: 'layouts/generic_attend_perm_button', locals: { resource: resource, method: :post } do |form| %>
+      <%= form.button do %>
+        <div class="rounded-full border-[1px] border-[#dbdae3] hover:border-[#0d8547] bg-white p-2 text-[#4b4d63]">
+          <%= inline_svg_tag 'svg/heart', class: 'h-6 w-6 hover:text-[#0d8547]' %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% elsif current_user&.attending?(resource.id) %>
+  <div class="absolute bottom-[-22px] right-3 ">
+    <%= render layout: 'layouts/generic_attend_perm_button', locals: { resource: resource, method: :delete } do |form| %>
+      <%= form.button do %>
+        <div class="rounded-full border-[1px] border-[#0d8547] bg-white p-2 text-[#0d8547] hover:text-[#e33311] hover:border-[#e33311]">
+          <%= inline_svg_tag 'svg/heart', class: 'h-6 w-6' %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

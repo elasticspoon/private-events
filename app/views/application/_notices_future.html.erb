@@ -1,0 +1,6 @@
+<% set_content_for :notice_text do %>
+  <%= format_flash_message(notice) if flash[:notice] %>
+<% end %>
+<% content_for :alert_text do %>
+  <%= format_flash_message(notice) if flash[:notice] %>
+<% end %>

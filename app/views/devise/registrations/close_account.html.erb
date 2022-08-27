@@ -1,0 +1,70 @@
+<div class="flex lg:flex-row flex-col pb-5">
+  <div class="flex w-full items-center">
+    <div class="w-full flex flex-col px-12 mt-10 text-[15px]">
+      <h1 class="font-bold text-3xl">Close Account</h1>
+      <div class="w-full py-[10px]"><hr></div>
+      <p class="">
+        Thank you for using Eventbrite Events. If there is anything we can do to keep you with us, please 
+        <span class="text-[#3d64ff] hover:underline"><%= link_to 'let us know.', not_implemented_path %></span>
+      </p>
+      <div class="flex">
+        <%= form_with(url: users_edit_close_account_path, data: {turbo: false}, method: :put) do |form|%>
+          <p class="py-[10px]">
+            Please take a moment to let us know why you are leaving:
+          </p>
+          <ul class="flex flex-col [&>*]:py-1 [&>*]:flex  [&>*]:px-5 [&>*]:font-normal [&>*]:items-center">
+            <li>
+              <%= form.radio_button :reason, 'mistake' %>
+              <%= form.label :reason_mistake, 'I do not recall signing up for Eventbrite', class: 'pl-1' %>
+            </li>
+            <li>
+              <%= form.radio_button :reason, 'difficult' %>
+              <%= form.label :reason_difficult, 'The site is too difficult to use', class: 'pl-1' %>
+            </li>
+            <li>
+              <%= form.radio_button :reason, 'manage' %>
+              <%= form.label :reason_manage, 'I am not interested in managing my attendance at any events', class: 'pl-1' %>
+            </li>
+            <li>
+              <%= form.radio_button :reason, 'attend' %>
+              <%= form.label :reason_attend, 'I am not attending any events', class: 'pl-1' %>
+            </li>
+            <li>
+              <%= form.radio_button :reason, 'privacy' %>
+              <%= form.label :reason_privacy, ' I do not want my information saved by Eventbrite', class: 'pl-1' %>
+            </li>
+            <li class="flex-col">
+              <div class="flex self-start ">
+                <%= form.radio_button :reason, 'other' %>
+                <%= form.label :reason_other, 'Other (Please Explain)', class: 'pl-1' %>
+              </div>
+              <%= form.text_field :reason_other, class: 'w-full py-1 border-[1px] rounded border-gray-300 py-3 px-4 mt-2 text-base leading-8 text-[#39364f]'%>
+            </li>
+          </ul>
+          <p class="">
+            Please enter "CLOSE" and your password to confirm that you wish to close your account
+          </p>
+          <div class="grid grid-cols-4 pb-2 justify-center items-center">
+            <%= form.label :close, 'Type "CLOSE":', class: 'mx-[10px]' %>
+            <%= form.text_field :close, class:'col-span-2 mx-[10px] py-1 border-[1px] rounded border-gray-300 py-3 px-4 mt-2 text-base leading-8 text-[#39364f]' %>
+          </div>
+          <div class="grid grid-cols-4 pb-2 justify-center items-center">
+            <%= form.label :password, 'Enter your password:', class: 'mx-[10px]' %>
+            <%= form.password_field :password, class:'col-span-2 mx-[10px] py-1 border-[1px] rounded border-gray-300 py-3 px-4 mt-2 text-base leading-8 text-[#39364f]' %>
+          </div>
+          <div class="mt-6"><%= render partial: 'fields/submit_button', locals: { form: form, value: 'Close Account' } %></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :footer do %>
+  <%= render 'footer/footer_extended' %>
+<% end %>
+<% content_for :side_bar do %>
+  <div class="hidden lg:flex max-w-[288px] w-full"><%= render 'users/sidebar' %></div>
+<% end %>
+<% content_for :nav_bar do %>
+  <%= render 'navbar/navbar' %>
+  <%= render 'side_nav_bar', current_page: 'Close Account' %>
+<% end %>

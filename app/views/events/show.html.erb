@@ -1,26 +1,55 @@
-<div class="bg-white flex flex-col">
-  <%= render 'full_event', resource: @event %>
-  <%= render 'sticky_navbar', resource: @event %>
-  <div class="px-16">
-    <div class="flex flex-row">
-      <div class="flex flex-col max-w-screen-lg w-full px-16 py-8">
-        <div class="font-extrabold text-3xl"><%= @event.name.titleize %></div>
-        <div class="font-extrabold mt-8">About this event</div>
-        <%= render 'placeholder_text' %>
-      </div>
-      <div class="px-8 mx-8 min-w-max">
-        <div class="py-16">
-          <div class="font-extrabold">Date and Time</div>
-          <div class=""><%= @event.date.to_formatted_s(:long_ordinal) %></div>
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.store('user_in_view', true)
+      })
+</script>
+<div class="flex flex-col h-full w-full items-center bg-[#f8f7fa] relative lg:pt-10">
+  <div class="w-full top-0 hidden lg:block absolute h-[470px] overflow-hidden">
+    <%= image_tag @event.image_url, size: '50x25', class: 'w-[200%] filter', style: "filter: blur(50px)" %>
+  </div>
+  <div class="bg-white flex flex-col w-full md:max-w-5xl items-center rounded-t shadow-sm lg:z-10">
+    <%= render 'full_event', resource: @event %>
+    <%= render 'sticky_navbar', resource: @event %>
+    <div class="px-2 pb-5">
+      <div class="sm:grid grid-cols-12 pt-12 pb-10 hidden">
+        <div class="flex flex-col col-start-2 col-end-8 pl-1">
+          <span class="font-normal text-base text-[#39364f] mb-8"><b><%= @event.name.titleize %></b></span>
+          <div class="flex flex-col">
+            <h2 class="font-semibold text-xl mb-5">About this event</h2>
+            <div class="text-[15px] text-[#6f7287]"><%= render 'placeholder_text' %></div>
+            <div class="mt-12"><%= render 'tags' %></div>
+            <div class="mt-12"><%= render 'share' %></div>
+          </div>
         </div>
-        <div class="py-16">
-          <div class="font-extrabold">Location</div>
-          <div class=""><%= @event.location %></div>
+        <div class="col-start-9 col-end-13 pr-1 flex flex-col">
+          <div class="mb-12"><%= render 'date_time', resource: @event %></div>
+          <div class="mb-12"><%= render 'location', resource: @event %></div>
+          <div class="mb-12"><%= render 'refund_policy' %></div>
+        </div>
+      </div>
+      <div class="flex flex-col pt-6 pb-10 sm:hidden" >
+        <div class="mb-12"><%= render 'date_time', resource: @event %></div>
+        <div class="mb-12"><%= render 'location', resource: @event %></div>
+        <div class="mb-12"><%= render 'refund_policy' %></div>
+        <span class="font-normal text-base text-[#39364f] mb-8"><b><%= @event.name.titleize %></b></span>
+        <div class="flex flex-col">
+          <h2 class="font-semibold text-xl mb-5">About this event</h2>
+          <div class="text-[15px] text-[#6f7287]"><%= render 'placeholder_text' %></div>
+          <div class="mt-12"><%= render 'tags' %></div>
+          <div class="mt-12"><%= render 'share' %></div>
         </div>
       </div>
     </div>
-    <%= render 'mod_tools', resource: @event %>
-    <%= render 'events/potential_participant_listing', resource: @event %>
+    <%= render 'listing_map', resource: @event %>
+    <%= render 'organizer_listing', resource: @event %>
+    <%# render 'mod_tools', resource: @event %>
+    <%# render 'events/potential_participant_listing', resource: @event %>
+    <div class="bg-[#f8f7fa] flex w-full"><%= render partial: 'events/event_carousel', layout: 'layouts/carousel_layout', resource: @event %></div>
   </div>
-  <%= render 'bottom_bar' %>
 </div>
+<% content_for :footer do %>
+  <%= render 'footer/footer_short' %>
+<% end %>
+<% content_for :nav_bar do %>
+  <%= render 'navbar/navbar_event' %>
+<% end %>

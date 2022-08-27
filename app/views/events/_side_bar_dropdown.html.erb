@@ -1,0 +1,46 @@
+<div class="flex flex-col relative" x-data="{dropdown: false}">
+  <div class="" @click="dropdown = ! dropdown"><%= inline_svg_tag 'svg/hamburger_menu', class: 'h-6 w-6' %></div>
+  <div class="absolute right-0 rounded h-[356px] mt-1 w-[360px] top-10 shadow-xl bg-white z-10 p-4 font-normal text-sm" 
+  x-cloak x-show="dropdown" @click.outside="dropdown=false">
+    <div class="flex flex-col h-full">
+      <ul class="grid grid-cols-3 justify-evenly [&>*]:m-4 [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*]:justify-evenly grow-[2]" >
+        <li class="relative flex group text-[#6f7287]">
+          <%= inline_svg_tag 'svg/calendar_create', class: 'w-6 h-6 group-hover:text-[#3659e3]' %>
+          <span class="absolute font-bold group-hover:text-[#3659e3] top-3" style="font-size: 7px; top: 12px"><%= Time.now.strftime("%d") %></span>
+          <span class="text-[#39364f]">Events</span>
+        </li>
+        <li class="group text-[#6f7287]">
+          <%= inline_svg_tag 'svg/orders', class: 'w-6 h-6 group-hover:text-[#3659e3]' %>
+          <span class="text-[#39364f]">Orders</span>
+        </li>
+        <li class="group text-[#6f7287]">
+          <%= inline_svg_tag 'svg/alerts', class: 'w-6 h-6 group-hover:text-[#3659e3]' %>
+          <span class="text-[#39364f]">Marketing</span>
+        </li>
+        <li class="group text-[#6f7287]">
+          <%= inline_svg_tag 'svg/graph', class: 'w-6 h-6 group-hover:text-[#3659e3]' %>
+          <span class="text-[#39364f]">Reports</span>
+        </li>
+        <li class="group text-[#6f7287]">
+          <%= inline_svg_tag 'svg/finance', class: 'w-6 h-6 group-hover:text-[#3659e3]' %>
+          <span class="text-[#39364f]">Finance</span>
+        </li>
+        <li class="group text-[#6f7287]">
+          <%= inline_svg_tag 'svg/settings', class: 'w-6 h-6 group-hover:text-[#3659e3]' %>
+          <span class="text-[#39364f] whitespace-nowrap">Org Settings</span>
+        </li>
+      </ul>
+      <div class="w-full border-t my-4 border-t-[#dbdae3]"></div>
+      <ul class="grid grid-cols-3 justify-evenly [&>*]:m-4 [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*]:justify-evenly grow" >
+        <li class="group text-[#6f7287]">
+          <%= inline_svg_tag 'svg/apps', class: 'w-6 h-6 group-hover:text-[#3659e3]' %>
+          <span class="text-[#39364f]">Apps</span>
+        </li>
+        <li class="group text-[#6f7287]">
+          <%= inline_svg_tag 'svg/help', class: 'w-6 h-6 group-hover:text-[#3659e3]' %>
+          <span class="text-center text-[#39364f] whitespace-nowrap">Help Center</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

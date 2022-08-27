@@ -1,0 +1,43 @@
+<div class="w-full flex flex-col bg-[#1e0a3c] items-center px-8 pt-6 pb-4">
+  <div class="hidden sm:flex justify-between max-w-5xl w-full">
+    <div class="flex flex-col text-white flex-grow">
+      <span class="py-2 font-bold text-sm">Use Eventbrite</span>
+      <ul class="flex flex-col text-white font-normal text-xs py-2 leading-[22px] [&>*:hover]:underline">
+        <li><%= link_to "How It Works", not_implemented_path %></li>
+        <li><%= link_to "Pricing", not_implemented_path %></li>
+        <li><%= link_to "Event Blog", not_implemented_path %></li>
+      </ul>
+    </div>
+    <div class="flex flex-col text-white flex-grow">
+      <span class="py-2 font-bold text-sm">Plan Events</span>
+      <ul class="flex flex-col text-white font-normal text-xs py-2 leading-[22px] [&>*:hover]:underline">
+        <li><%= link_to "Online Registration", not_implemented_path %></li>
+        <li><%= link_to "Sell Tickets Online", not_implemented_path %></li>
+        <li><%= link_to "Event Management Software", not_implemented_path %></li>
+      </ul>
+    </div>
+    <div class="flex flex-col text-white flex-grow">
+      <span class="py-2 font-bold text-sm">Find Events</span>
+      <ul class="flex flex-col text-white font-normal text-xs py-2 leading-[22px] [&>*:hover]:underline">
+        <li><%= link_to "Browser Atlanta Events", not_implemented_path %></li>
+        <li><%= link_to "Get the Eventbrite App", not_implemented_path %></li>
+      </ul>
+    </div>
+    <div class="flex flex-col text-white flex-grow">
+      <span class="py-2 font-bold text-sm">Connect With Us</span>
+      <ul class="flex flex-col text-white font-normal text-xs py-2 leading-[22px] [&>*:hover]:underline">
+        <li><%= link_to "Report This Event", not_implemented_path %></li>
+        <li><%= link_to "Help Center", not_implemented_path %></li>
+        <li><%= link_to "Terms", not_implemented_path %></li>
+        <li><%= link_to "Privacy", not_implemented_path %></li>
+        <li><%= link_to "CA Privacy Notice", not_implemented_path %></li>
+        <li><%= link_to "Accessibility", not_implemented_path %></li>
+        <li><%= link_to "Community Guidelines", not_implemented_path %></li>
+      </ul>
+    </div>
+  </div>
+  <%= button_to root_path, class:'flex text-[#6f7287]' do %>
+    <%= inline_svg_tag 'svg/eventbrite_ticketfly_logo', class:'h-7' %>
+  <% end %>
+  <div class="flex"><span class="text-[#a9a8b3] font-normal text-sm">© 2022 Eventbrite</span></div>
+</div>

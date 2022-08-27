@@ -1,0 +1,15 @@
+<div class="flex p-1 ">
+  <div class="flex w-full rounded-md shadow-2xl border-[1px] border-gray-100">
+    <div class="w-2 bg-orange-500 relative left rounded-l-md"></div>
+    <div class="px-5 flex items-center">
+      <div class="pr-4 py-2">
+        <%= inline_svg_tag 'svg/alert_icon.svg', class: 'h-6 w-6' %>
+      </div>
+      <div class="py-3 text-[13px]">
+        <strong class="font-semibold ">
+          <%= content_for :notice_text %>
+        </strong>
+      </div>
+    </div>
+  </div>
+</div>
