@@ -1,15 +1,23 @@
-<div class="py-3 px-5 bg-red-200 text-red-900 text-sm border-b-2 border-red-300">
-  <div class="flex flex-row w-full items-center">
-    <div class="">
-      This feature is not yet implemented.<br>
-      Consider supporting the developer with an offer of employment.
-    </div>
-    <div class="ml-auto">
-      <ul class="flex flew-col">
-        <li class="px-4">Social</li>
-        <li class="px-4">Social</li>
-        <li class="px-4">Social</li>
-      </ul>
+<div class="flex p-1 text-red-900">
+  <div class="shadow-sm flex w-full rounded-md bg-red-50 border-[1px] border-gray-100">
+    <div class="w-2 bg-red-700 relative left rounded-l-md"></div>
+    <div class="px-5 flex items-center text-[13px]">
+      <div class="pr-4 py-2">
+        <%= inline_svg_tag 'svg/alert_icon.svg', class: 'h-6 w-6' %>
+      </div>
+      <div class="py-3">
+        <strong class=" font-semibold">
+          This feature is not yet implemented.<br>
+          Consider supporting the developer with an offer of employment.
+        </strong>
+      </div>
+      <div class="ml-auto">
+        <ul class="flex flex-col">
+          <li class="px-4">Social</li>
+          <li class="px-4">Social</li>
+          <li class="px-4">Social</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

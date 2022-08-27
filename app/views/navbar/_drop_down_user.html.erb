@@ -19,7 +19,7 @@
     <%= link_to 'Account Settings', edit_user_registration_path %>
   </li>
   <li>
-    <div class="flex truncate text-[#a9a8b3] cursor-not-allowed">
+    <div class="flex truncate text-[#a9a8b3] cursor-not-allowed clamp-one">
       <%= current_user.email %>
     </div>
   </li>
@@ -31,4 +31,7 @@
   <li class="<%= local_assigns[:is_event_view] ? 'hidden' : 'lg:hidden'%>">
     <%= link_to 'Help', not_implemented_path %>
   </li>
+<% end %>
+<% set_content_for :chevron do %>
+  <%= inline_svg_tag 'svg/chevron', class: 'h-5 w-4 mt-1 hidden lg:block' %>
 <% end %>

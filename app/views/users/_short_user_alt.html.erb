@@ -1,7 +1,7 @@
 <%= link_to resource do %>
   <div class="flex flex-row items-center my-2">
     <div class="flex flex-col text-[#39364f]">
-      <div class="font-semibold text-base"><%= resource.username.titleize %> | <%= resource.name.titleize %></div>
+      <div class="font-semibold text-base clamp-two"><%= resource.username.titleize %> | <%= resource.name.titleize %></div>
       <div class="flex flex-row items-center">
         <%= inline_svg_tag 'svg/user_placeholder', class: 'h-4 w-4' %>
         <div class="font-semibold text-base pl-2">3.4k followers</div>

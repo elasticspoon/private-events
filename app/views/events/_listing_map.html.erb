@@ -1,25 +1,33 @@
 <div class="flex flex-col pb-5">
   <div class="pb-5"><%= image_tag 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/World_map_blank_without_borders.svg/1024px-World_map_blank_without_borders.svg.png' %></div>
   <div class="flex flex-col items-center">
-    <div class="flex flex-col py-5 items-center text-[#1e0a3c] font-semibold text-xl">
+    <div class="flex flex-col py-5 items-center text-[#1e0a3c] font-semibold text-xl max-w-3xl text-center">
       <span><%= @event.name.titleize %></span>
       <span class="py-2 text-[#39364f] text-base font-normal">at</span>
       <span class="pb-1">Location Name Placeholder</span>
       <span class="pt-1 text-[#39364f] text-base font-normal"><%= @event.location.titleize %></span>
     </div>
-    <div class="flex">
-      <div class="flex items-center justify-center p-[10px] rounded-full border-transparent border-2 hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
-        <%= inline_svg_tag 'svg/car.svg', class:'h-6 w-6' %>
-      </div>
-      <div class="flex items-center justify-center p-[10px] rounded-full border-transparent border-2 hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
-        <%= inline_svg_tag 'svg/pedestrian.svg', class:'h-6 w-6' %>
-      </div>
-      <div class="flex items-center justify-center p-[10px] rounded-full border-transparent border-2 hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
-        <%= inline_svg_tag 'svg/bus.svg', class:'h-6 w-6' %>
-      </div>
-      <div class="flex items-center justify-center p-[10px] rounded-full border-transparent border-2 hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
-        <%= inline_svg_tag 'svg/bike.svg', class:'h-6 w-6' %>
-      </div>
-    </div>
+    <ul class="flex  [&>*]:flex [&>*]:items-center [&>*]:justify-center  [&>*]:rounded-full [&>*]:border-transparent [&>*]:border-2">
+      <li class="hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
+        <%= button_to not_implemented_path, class: 'p-[10px]' do %>
+          <%= inline_svg_tag 'svg/car.svg', class:'h-6 w-6' %>
+        <% end %>
+      </li>
+      <li class="hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
+        <%= button_to not_implemented_path, class: 'p-[10px]' do %>
+          <%= inline_svg_tag 'svg/pedestrian.svg', class:'h-6 w-6' %>
+        <% end %>
+      </li>
+      <li class="hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
+        <%= button_to not_implemented_path, class: 'p-[10px]' do %>
+          <%= inline_svg_tag 'svg/bus.svg', class:'h-6 w-6' %>
+        <% end %>
+      </li>
+      <li class="hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
+        <%= button_to not_implemented_path, class: 'p-[10px]' do %>
+          <%= inline_svg_tag 'svg/bike.svg', class:'h-6 w-6' %>
+        <% end %>
+      </li>
+    </ul>
   </div>
 </div>

@@ -1,22 +1,22 @@
-<div class="flex flex-col w-full px-10 py-7">
-  <span class="font-bold text-2xl">Hand-picked</span>
-  <div class="flex flex-row justify-between items-center">
+<% set_content_for :carousel_title do %>
+  <div class="flex flex-col w-full px-10 py-7">
+    <span class="font-bold text-2xl">Hand-picked</span>
     <span class="font-bold text-[28px] leading-9 text-[#d1410c]">Collections</span>
-    <div class="flex flex-row text-black">
-      <div class="p-4 mr-2 text-[#a9a8b3]">
-        <%= inline_svg_tag 'svg/arrow_right', class:'h-6 w-5 rotate-180', stroke: 'currentColor' %>
-      </div>
-      <div class="p-4 text-[#39364f]">
-        <%= inline_svg_tag 'svg/arrow_right', class:'h-6 w-5', stroke: 'currentColor' %>
-      </div>
-    </div>
+    <span class="font-normal text-sm text-[#6f7287]">
+      Discover more of the best in food, music, wellness, and more with our curated event collections
+    </span>
   </div>
-  <span class="font-normal text-sm text-[#6f7287]">
-    Discover more of the best in food, music, wellness, and more with our curated event collections
-  </span>
-  <div class="flex flex-row overflow-x-scroll mt-2">
-    <% 5.times do %>
-      <%= render 'nonfunctional/collection_card' %>
-    <% end %>
+<% end %>
+<% set_content_for :left_arrow do %>
+  <div class="p-2 mr-2 text-[#a9a8b3] rounded-full hover:bg-gray-200">
+    <%= inline_svg_tag 'svg/arrow_right', class:'h-6 w-5 rotate-180', stroke: 'currentColor' %>
   </div>
-</div>
+<% end %>
+<% set_content_for :right_arrow do %>
+  <div class="p-2 mr-10 text-[#39364f] rounded-full hover:bg-gray-200">
+    <%= inline_svg_tag 'svg/arrow_right', class:'h-6 w-5', stroke: 'currentColor' %>
+  </div>
+<% end %>
+<% 5.times do %>
+  <li class="w-full md:w-1/2 shrink-0"><%= render 'nonfunctional/collection_card' %></li>
+<% end %>

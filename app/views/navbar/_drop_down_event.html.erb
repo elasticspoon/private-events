@@ -11,3 +11,6 @@
   </li>
   <%= render 'navbar/log_in_items' %>
 <% end %>
+<% set_content_for :chevron do %>
+  <%= inline_svg_tag 'svg/chevron', class: 'h-5 w-4 mt-1 hidden lg:block' %>
+<% end %>

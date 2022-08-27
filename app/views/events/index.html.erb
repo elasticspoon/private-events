@@ -18,7 +18,7 @@
       <%= render @events.future.limit(8) %>
     </div>
     <div class="bg-[#f8f7fa] max-w-full">
-      <%= render 'nonfunctional/collections' %>
+      <%= render partial: 'nonfunctional/collections', layout: 'layouts/carousel_layout' %>
     </div>
     <div class="flex flex-col pt-10">
       <div class="text-black font-bold text-2xl px-3 mb-6">More Events</div>

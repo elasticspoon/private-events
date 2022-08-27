@@ -3,11 +3,11 @@
     <div class="flex flex-col h-full shadow-2xl shadow-gray-200 
     <%= 'hover:shadow-gray-400' unless local_assigns[:is_event_view] %>">
       <div class="w-full relative">
-        <%= link_to event do %>
-          <%= image_tag event.image_url %>
+        <%= link_to event, class: 'w-full' do %>
+          <%= image_tag event.image_url, class: 'w-full' %>
         <% end %>
         <div class="absolute -top-4 -right-3"><%= render 'events/event_tags_bar', resource: event %></div>
-        <%= render 'user_event_permissions/heart_perm_button', resource: event %>
+        <%= render 'user_event_permissions/heart_perm_button', resource: event unless local_assigns[:hide_invite] %>
       </div>
       <%= link_to event do %>
         <div class="flex flex-col px-4 py-6">

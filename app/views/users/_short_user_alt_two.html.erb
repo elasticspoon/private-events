@@ -1,10 +1,12 @@
 <%= link_to resource do %>
   <div class="flex flex-row items-center my-2">
     <div class="flex flex-col text-[#39364f]">
-      <div class="font-normal text-[15px] text-[#39364f]">by <%= link_to resource.username.titleize, resource, class: 'text-[#3d64ff] hover:underline' %></div>
+      <div class="font-normal text-[15px] text-[#39364f] clamp-one">by <%= link_to resource.username.titleize, resource, class: 'text-[#3d64ff] hover:underline' %></div>
       <div class="flex flex-row items-center">
         <div class="font-normal text-base pr-2 text-[#6f7287]"><%= rand(9999) %> followers</div>
-        <div class="border-[#3659e3] border-2 flex bg-white rounded px-2 h-6 items-center justify-center"><span class="font-semibold text-xs text-[#3659e3]">Follow</span></div>
+        <%= button_to not_implemented_path, class: 'border-[#3659e3] border-2 flex bg-white rounded px-2 h-6 items-center justify-center' do %>
+          <span class="font-semibold text-xs text-[#3659e3]">Follow</span>
+        <% end %>
       </div>
     </div>
   </div>
