@@ -3,6 +3,42 @@ locals: {action: 'sign up', resource: resource}, location: new_user_registration
 <% content_for :footer do %>
   <%= render 'footer/footer_short' %>
 <% end %>
-<% content_for :nav_bar do %>
-  <%= render 'navbar/navbar' %>
-<% end %>
+<script>
+  let pass = document.getElementById('user_password')
+  let passBar = document.getElementById('passwordStrengthBar')
+  let passResponse = document.getElementById('passwordStrengthResponse')
+  pass.addEventListener('input', () => {
+    let passVal = pass.value
+    let passLength = passVal.length
+    let passStrength = 0
+    if (passLength > 7) {
+      passStrength++
+    }
+    if (passVal.match(/[a-z]/)) {
+      passStrength++
+    }
+    if (passVal.match(/[A-Z]/)) {
+      passStrength++
+    }
+    if (passVal.match(/[0-9]/)) {
+      passStrength++
+    }
+    if (passVal.match(/[^a-zA-Z0-9]/)) {
+      passStrength++
+    }
+    let passStrengthPercent = passStrength / 4 * 100
+    passBar.style.width = passStrengthPercent + '%'
+    passBar.classList.remove('bg-green-500', 'bg-red-500', 'bg-yellow-500')
+    if (passStrengthPercent > 66) {
+      passBar.classList.add('bg-green-500')
+      passResponse.innerText = 'Password strength: Very Strong'
+    } else if (passStrengthPercent > 33) {
+      passBar.classList.add('bg-yellow-500')
+      passResponse.innerText = 'Password strength: Strong'
+    } else {
+      passBar.classList.add('bg-red-500')
+      passResponse.innerText = 'Password strength: Weak'
+    }
+
+  })
+</script>

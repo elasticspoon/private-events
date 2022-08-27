@@ -1,7 +1,6 @@
 <% if event.viewable_by?(current_user) %>
-  <div class="h-full <%= 'p-4' unless local_assigns[:is_event_view] %>">
-    <div class="flex flex-col h-full shadow-2xl shadow-gray-200 
-    <%= 'hover:shadow-gray-400' unless local_assigns[:is_event_view] %>">
+  <div class="h-full relative <%= 'p-4' unless local_assigns[:is_event_view] %>">
+    <div class="flex flex-col h-full shadow-2xl shadow-gray-200 <%= 'hover:shadow-gray-400' unless local_assigns[:is_event_view] %>">
       <div class="w-full relative">
         <%= link_to event, class: 'w-full' do %>
           <%= image_tag event.image_url, class: 'w-full' %>
@@ -11,7 +10,7 @@
       </div>
       <%= link_to event do %>
         <div class="flex flex-col px-4 py-6">
-          <div class="font-bold text-xl overflow-hidden"><%= event.name.titleize %></div>
+          <div class="font-bold text-xl clamp-three"><%= event.name.titleize %></div>
           <div class="text-[#d1410c] font-semibold text-base pb-1 pt-2">
             <% if event.date.to_a[3..] == Time.now.to_a[3..] %>
               Today at<%= event.date.strftime(" %I:%M %p") %>
@@ -20,12 +19,19 @@
             <% end%>
             + <%= rand(99) %> more events 
           </div>
-          <div class="over-hidden text-base font-normal text-gray-400"><%= event.location.titleize %> - <%= event.location.titleize %></div>
+          <div class="clamp-one text-base font-normal text-gray-400 "><%= event.location.titleize %> - <%= event.location.titleize %></div>
           <div class="pt-1">
             <%= render "users/short_user_alt", resource: event.creator %>
           </div>
         </div>
       <% end %>
     </div>
+    <% if local_assigns[:show_share] %>
+      <div class="p-2 text-[#4b4d63] rounded-full hover:bg-gray-100 absolute bottom-0 right-0 flex flex-col items-center group mr-1">
+        <%= link_to not_implemented_path, class: 'cursor-pointer' do %>
+          <%= inline_svg_tag 'svg/share', class:'h-6 w-6' %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 <% end %>

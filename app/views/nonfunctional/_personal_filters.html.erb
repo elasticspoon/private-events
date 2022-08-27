@@ -6,7 +6,7 @@
   </div>
   <span class="font-bold text-2xl">Let's make it personal</span>
   <span class="font-normal text-sm text-[#6f7287] mt-1 pb-8">Select your interests to get event suggestions based on what you love</span>
-  <div class="flex flex-col overflow-x-scroll">
+  <div class="flex flex-col overflow-x-scroll pb-4">
     <div class="flex flex-row">
       <% 10.times do %>
         <%= render partial: 'tag', locals: { tag_text: ['Comedy', 'Food', 'Education', 'Pop', 'Startups & Small Business'].sample } %>

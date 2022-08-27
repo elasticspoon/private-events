@@ -26,7 +26,7 @@
     <div class="flex flex-col justify-center w-full items-center">
       <span class="text-2xl font-bold mb-8 text-center">More events from this organizer</span>
       <div class="flex flex-col w-full items-center">
-        <%= render partial: 'event_small', collection: resource.creator.events_created.limit(4) %>
+        <%= render partial: 'event_small', collection: resource.creator.events_created.limit(4), locals: {show_socials: true} %>
       </div>
     </div>
   </div>

@@ -1,16 +1,16 @@
 <div class="lg:flex h-full hidden
- [&>*]:px-5 [&>*]:h-full [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*:hover]:bg-[#f8f7fa] [&>*]:justify-center">
+ [&>*]:px-5 [&>*]:h-full [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*:hover]:bg-[#f8f7fa] [&>*]:justify-center [&>*]:cursor-pointer">
   <%= link_to new_event_path, class: ' text-[#3d64ff] ' do %>
     <%= inline_svg_tag 'svg/plus', class:'h-6 w-6' %>
     <span>Create an event</span>
   <% end %>
-  <div>
+  <%= link_to not_implemented_path do %>
     <%= inline_svg_tag 'svg/heart', class:'h-6 w-6', fill: 'currentColor' %>
     <span class="">Likes</span>
-  </div>
-  <div>
+  <% end %>
+  <%= link_to not_implemented_path do %>
     <%= inline_svg_tag 'svg/ticket', class:'h-6 w-6' %>
     <span class="">Tickets</span>
-  </div>
+  <% end %>
 </div>
 <%= render partial: 'navbar/drop_down_user', layout: 'navbar/dropdown_layout' %>

@@ -1,16 +1,18 @@
 <script>
   document.addEventListener('alpine:init', () => {
-    Alpine.store('user_in_view', true),
+    Alpine.store('user_in_view', true)
+      })
+  document.addEventListener('alpine:init', () => {
     Alpine.store('scroll_location', false)
       })
 </script>
-<div class="flex items-center">
-  <div class="bg-white flex flex-col h-full">
+<div class="flex items-center flex-grow">
+  <div class="bg-white flex flex-col h-full flex-grow">
     <div class="">
       <%= render @user %>
     </div>
     <div id="about" class="md:hidden">
-      <span class="" x-data x-intersect="$store.scroll_location = 'about'"></span>
+      <span class="" x-data x-intersect:enter="$store.scroll_location = 'about'"></span>
       <div class="pt-8 flex justify-center">
         <div class="bg-[#f8f7fa] rounded-full hover:bg-gray-200 p-2">
           <%= inline_svg_tag 'svg/globe', class: 'h-6 w-6' %>
@@ -23,7 +25,7 @@
       </div>
     </div>
     <div class="flex flex-col py-8 px-8" x-data="{ time_filter: 'future' }">
-      <h2 id="events" class="pb-3 text-3xl leading-[40px] font-bold" x-data x-intersect="$store.scroll_location = 'events'">
+      <h2 id="events" class="pb-3 text-3xl leading-[40px] font-bold" x-data x-intersect:enter="$store.scroll_location = 'events'">
         <%= @user.username.titleize %></h2>
       <div class="flex pb-8" >
         <button class="rounded-full mr-1 py-2 px-4 h-[44px] border-2 border-[#a9a8b3]" @click="time_filter = 'future'"
@@ -36,10 +38,10 @@
         </button>
       </div>
       <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-items-center" x-show="time_filter == 'future'">
-        <%= render partial: 'events/event', collection: @user.events_created.future.limit(12), locals: {is_event_view: true} %>
+        <%= render partial: 'events/event', collection: @user.events_created.future.limit(12), locals: {is_event_view: true, show_share: true } %>
       </div>
       <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-items-center" x-show="time_filter == 'past'">
-        <%= render partial: 'events/event', collection: @user.events_created.past.limit(12), locals: {is_event_view: true} %>
+        <%= render partial: 'events/event', collection: @user.events_created.past.limit(12), locals: {is_event_view: true, show_share: true} %>
       </div>
     </div>
   </div>

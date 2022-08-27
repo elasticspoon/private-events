@@ -41,8 +41,10 @@
       </div>
       <%= render 'inline_errors', errors: resource.errors[:password_confirmation] %>
       <div class="flex flex-col mt-6 mb-8">
-        <div class="bg-gray-100 h-1 w-full"></div>
-        <span class="pt-2 font-normal text-[13px]">Your password must be at least 8 characters</span>
+        <div class="bg-gray-100 h-1 w-full flex">
+          <div class="" id="passwordStrengthBar"></div>
+        </div>
+        <span class="pt-2 font-normal text-[13px]" id="passwordStrengthResponse">Your password must be at least 8 characters</span>
       </div>
       <div class="bg-[#d1410c] w-full flex items-center justify-center min-h-[44px] rounded cursor-pointer mb-10">
         <%= form.submit 'Create account', class: 'font-semibold text-sm text-white' %>

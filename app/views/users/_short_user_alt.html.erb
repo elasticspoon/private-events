@@ -1,5 +1,5 @@
-<%= link_to resource do %>
-  <div class="flex flex-row items-center my-2">
+<div class="flex flex-row items-center my-2">
+  <%= link_to resource do %>
     <div class="flex flex-col text-[#39364f]">
       <div class="font-semibold text-base clamp-two"><%= resource.username.titleize %> | <%= resource.name.titleize %></div>
       <div class="flex flex-row items-center">
@@ -7,5 +7,10 @@
         <div class="font-semibold text-base pl-2">3.4k followers</div>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+  <% if local_assigns[:show_share] %>
+    <%= link_to not_implemented_path, class: 'cursor-pointer' do %>
+      <%= inline_svg_tag 'svg/share', class:'h-6 w-6' %>
+    <% end %>
+  <% end %>
+</div>
