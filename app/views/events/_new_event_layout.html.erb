@@ -5,10 +5,10 @@
     <p class="font-normal text-sm break-normal">Name your event and tell event-goers why they should come. Add details that highlight what makes it unique.</p>
     <div class="flex flex-col">
       <div class="pb-6 relative">
-        <%= render partial: 'fields/text_field_labeled', locals: { resource: @event, form: form, field_name: :name, placeholder: 'Be clear and descriptive.', value: 'Event Title', hidden: false } %>
+        <%= render partial: 'fields/text_field_labeled', locals: { resource: @event, form:, field_name: :name, placeholder: 'Be clear and descriptive.', value: 'Event Title', hidden: false } %>
         <span class="absolute bottom-0 right-0 text-sm ">0/75</span>
       </div>
-      <div class="mb-2"><%= render partial: 'fields/text_field_labeled', locals: { resource: @event, form: form, field_name: :organizer, placeholder: 'Tell attendees who is organizing the event.', value: 'Organizer', hidden: false } %></div>
+      <div class="mb-2"><%= render partial: 'fields/text_field_labeled', locals: { resource: @event, form:, field_name: :organizer, placeholder: 'Tell attendees who is organizing the event.', value: 'Organizer', hidden: false } %></div>
       <p class="ont-normal text-xs break-normal">This profile describes a unique organizer and shows all of the events on one page.
         <span class="text-blue-500 hover:underline">View Organizer Info</span>
       </p>
@@ -22,7 +22,7 @@
         <div class="flex">
           <div class="flex flex-col mb-4 pr-2 w-full">
             <%= render partial: 'fields/text_field_labeled', locals: {
-                             resource: @event, form: form, field_name: :tags, 
+                             resource: @event, form:, field_name: :tags, 
                              placeholder: 'Add search keywords to your event', 
                              value: 'Press Enter to add a tag', hidden: false } %>
             <div class="flex justify-between font-normal text-xs pt-1"><span>0/10 tags.</span><span>0/25</span></div>

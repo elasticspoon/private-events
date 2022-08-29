@@ -7,15 +7,15 @@
   <% end %>
   <%= form_with url: events_path, scope: :event, data: {turbo: false}, method: :post, class: 'flex flex-col w-full' do |form| %>
     <!-- Basic Info -->
-    <%= render partial: 'new_basic_info', locals: {form: form, resource: @event} %>
+    <%= render partial: 'new_basic_info', locals: {form:, resource: @event} %>
     <!-- Location -->
     <span class="w-full h-[1px] bg-[#eeedf2]"></span>
-    <%= render partial: 'new_location_info', locals: {form: form, resource: @event} %>
+    <%= render partial: 'new_location_info', locals: {form:, resource: @event} %>
     <!-- Date & Time -->
     <span class="w-full h-[1px] bg-[#eeedf2]"></span>
-    <%= render partial: 'new_date_info', locals: {form: form, resource: @event} %>
+    <%= render partial: 'new_date_info', locals: {form:, resource: @event} %>
     <span class="w-full h-[1px] bg-[#eeedf2]"></span>
-    <%= render partial: 'display_privacy', locals: {form: form, resource: @event} %>
+    <%= render partial: 'display_privacy', locals: {form:, resource: @event} %>
     <nav class="w-full flex border-t-2 fixed left-0 md:left-[56px] px-16 bottom-0 right-0 bg-white">
       <ul class="flex ml-auto py-4 md:px-6">
         <li>

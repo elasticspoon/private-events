@@ -9,7 +9,7 @@ RSpec.describe 'Events', type: :request do
   let(:user_params) { { email: 'a@gmail.com', username: 'asaada', password: '123456', name: 'asds' } }
   let(:event_params) do
     { date: DateTime.now, location: 'asdasd', event_privacy: priv_set, desc: 'asdasd', name: 'asdasd',
-      display_privacy: priv_set, attendee_privacy: priv_set, creator_id: creator_id }
+      display_privacy: priv_set, attendee_privacy: priv_set, creator_id: }
   end
   let(:created_user) { User.create(user_params) }
   let(:created_event) do

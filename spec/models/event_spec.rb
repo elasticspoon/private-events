@@ -215,7 +215,7 @@ RSpec.describe Event, type: :model, subsets: :included do
         .each do |perm_type, action|
         context "when perm_type: #{perm_type}, action: #{action}" do
           it do
-            expect { @event.required_perms_for_action(perm_type: perm_type, action: action) }
+            expect { @event.required_perms_for_action(perm_type:, action:) }
               .to raise_error RuntimeError, "Invalid perm type: #{perm_type} or action: #{action}"
           end
         end
@@ -235,10 +235,10 @@ RSpec.describe Event, type: :model, subsets: :included do
         %w[attend accept_invite moderate].each do |perm_type|
           context "when action: #{action}, perm_type: #{perm_type}" do
             it do
-              expect(@event.required_perms_for_action(action: action, perm_type: perm_type)).to be_a Array
+              expect(@event.required_perms_for_action(action:, perm_type:)).to be_a Array
             end
             it do
-              @event.required_perms_for_action(action: action, perm_type: perm_type).each do |perm_arr|
+              @event.required_perms_for_action(action:, perm_type:).each do |perm_arr|
                 expect(perm_arr).to be_a Array
               end
             end

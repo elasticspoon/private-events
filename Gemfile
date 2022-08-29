@@ -65,8 +65,6 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'rubycritic', '~> 4.7'
-gem 'rails_best_practices', '~> 1.23', '>= 1.23.1'
 end
 
 gem "guard"
@@ -74,5 +72,6 @@ gem "guard-livereload"
 gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'rspec-rails', '~> 5.1', '>= 5.1.2'
 gem 'shoulda-matchers', '~> 5.1'
-
+gem 'rubycritic', '~> 4.7'
+gem 'rails_best_practices', '~> 1.23', '>= 1.23.1'
 gem 'inline_svg'

@@ -13,10 +13,10 @@ class UserEventPermission < ApplicationRecord
 
   # validation to make accept_invite and attend mutually exclusive
   def uniqueness_attend_accept_invite
-    if permission_type == 'attend' && UserEventPermission.find_by(user_id: user_id, event_id: event_id,
+    if permission_type == 'attend' && UserEventPermission.find_by(user_id:, event_id:,
                                                                   permission_type: 'accept_invite')
       errors.add(:base, 'Cannot create attendance permission while an invite is pending.')
-    elsif permission_type == 'accept_invite' && UserEventPermission.find_by(user_id: user_id, event_id: event_id,
+    elsif permission_type == 'accept_invite' && UserEventPermission.find_by(user_id:, event_id:,
                                                                             permission_type: 'attend')
       errors.add(:base, 'Cannot extend invite while user is already attending.')
     end
