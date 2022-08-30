@@ -23,7 +23,13 @@ default: &default
 
 development:
   <<: *default
-  database: private_events_development
+  host: <%= ENV['DATABASE_HOST'] %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  database: <%= ENV['POSTGRES_DB'] %>
+  variables:
+    statement_timeout: 5000
+  # database: private_events_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -81,6 +87,14 @@ test:
 #
 production:
   <<: *default
-  database: private_events_production
-  username: private_events
-  password: <%= ENV["PRIVATE_EVENTS_DATABASE_PASSWORD"] %>
+  # host: <%= ENV['DATABASE_HOST'] %>
+  # username: <%= ENV['POSTGRES_USER'] %>
+  # password: <%= ENV['POSTGRES_PASSWORD'] %>
+  # database: <%= ENV['POSTGRES_DB'] %>
+  # variables:
+  #   statement_timeout: 5000
+  database: <%= ENV['RDS_DB_NAME'] %>
+  username: <%= ENV['RDS_USERNAME'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  port: <%= ENV['RDS_PORT'] %>
