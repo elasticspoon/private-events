@@ -9,7 +9,7 @@ class Event < ApplicationRecord
 
   validates :date, presence: true
   validates :location, presence: true
-  validates :creator_id, presence: true
+  validates :creator_id
   validates :name, presence: true
   validates :desc, presence: true
   validates :event_privacy, inclusion: { in: AVAILIABLE_SETTINGS }
