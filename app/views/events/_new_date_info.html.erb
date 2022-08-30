@@ -25,7 +25,7 @@
     <div class="flex flex-col">
       <div class="flex mt-5 mb-2">
         <div class="flex border-[1px] border-[#dbdae3] rounded-sm w-full items-center h-[48px] mr-2">
-          <div class="ml-3 my-3"><%= inline_svg_tag 'svg/calendar', class: 'h-6 w-6' %></div>
+          <div class="ml-3 my-3"><%= inline_svg_tag 'svg/calendar.svg', class: 'h-6 w-6' %></div>
           <div class="flex flex-col  px-3  ">
             <span class="text-[#6f7287] text-xs">Event Starts</span>
             <%= form.date_field :date, value: Time.now.strftime("%Y-%m-%d"), class: 'border-none text-sm p-[0px]' %>
@@ -40,7 +40,7 @@
       </div>
       <div class="flex mt-5 mb-2">
         <div class="flex border-[1px] border-[#dbdae3] rounded-sm w-full items-center h-[48px] mr-2">
-          <div class="ml-3 my-3"><%= inline_svg_tag 'svg/calendar', class: 'h-6 w-6' %></div>
+          <div class="ml-3 my-3"><%= inline_svg_tag 'svg/calendar.svg', class: 'h-6 w-6' %></div>
           <div class="flex flex-col  px-3  ">
             <span class="text-[#6f7287] text-xs">Event Ends</span>
             <%= form.date_field :placeholder_three, value: Time.now.strftime("%Y-%m-%d"), class: 'border-none text-sm p-[0px]' %>

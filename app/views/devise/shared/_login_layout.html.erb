@@ -3,7 +3,7 @@
     <div class="flex flex-col w-full max-w-[360px]">
       <%= link_to root_path do %>
         <div class="mb-6">
-          <%= inline_svg_tag 'svg/eventbrite_logo', class:'h-[20px] text-cur', style:"fill: #f05537" %>
+          <%= inline_svg_tag 'svg/eventbrite_logo.svg', class:'h-[20px] text-cur', style:"fill: #f05537" %>
         </div>
       <% end %>
       <div class="flex justify-between items-center mb-10">
@@ -31,7 +31,7 @@
           <div class="self-center lg:self-start flex flex-col" x-data="{open: false}">
             <div class="flex" >
               <span>Other <%= action %> methods</span>
-              <button @click="open = ! open" class="ml-4 lg:hidden self-center"><%= inline_svg_tag 'svg/chevron', class: 'h-4 w-4' %></button>
+              <button @click="open = ! open" class="ml-4 lg:hidden self-center"><%= inline_svg_tag 'svg/chevron.svg', class: 'h-4 w-4' %></button>
             </div>
             <ul x-show="open" x-cloak class="flex [&>*]:pt-7 [&>*]:pr-12 [&>*]:cursor-pointer mb-[50px] justify-center">
               <%= content_for :alt_logins_circle %>

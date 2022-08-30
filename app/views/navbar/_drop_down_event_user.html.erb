@@ -6,7 +6,7 @@
     <span class="pl-2 font-semibold text-xs text-[#1e0a3c] hidden lg:block"><%= current_user.name %></span>
     <div :class="dropdown && 'rotate-180'">
       <div class="flex items-center justify-center ml-2 mr-1">
-        <%= inline_svg_tag 'svg/chevron', class: 'h-4 w-4 text-[#39364f]' %>
+        <%= inline_svg_tag 'svg/chevron.svg', class: 'h-4 w-4 text-[#39364f]' %>
       </div>
     </div>
   </div>
@@ -16,8 +16,8 @@
     <li><%= link_to not_implemented_path do %>
         <div class="flex">
           <div class="flex flex-col mr-4">
-            <%= inline_svg_tag 'svg/arrow_right', class: 'h-3 w-7' %>
-            <%= inline_svg_tag 'svg/arrow_right', class: 'h-3 w-7 rotate-180' %>
+            <%= inline_svg_tag 'svg/arrow_right.svg', class: 'h-3 w-7' %>
+            <%= inline_svg_tag 'svg/arrow_right.svg', class: 'h-3 w-7 rotate-180' %>
           </div>
           <span class="">Switch to attending</span>
         </div>
@@ -25,14 +25,14 @@
     </li>
     <li class='border-b border-b-[#eeedf2]'><%= link_to edit_user_registration_path do %>
         <div class="flex">
-          <span class="mr-4"><%= inline_svg_tag 'svg/user_placeholder', class: 'h-6 w-6'  %></span>
+          <span class="mr-4"><%= inline_svg_tag 'svg/user_placeholder.svg', class: 'h-6 w-6'  %></span>
           <span class="">Account Settings</span>
         </div>
       <% end %>
     </li>
     <li ><%= button_to destroy_user_session_path, method: :delete do %>
         <div class="flex">
-          <span class="mr-4"><%= inline_svg_tag 'svg/log_out', class: 'h-6 w-6'  %></span>
+          <span class="mr-4"><%= inline_svg_tag 'svg/log_out.svg', class: 'h-6 w-6'  %></span>
           <span class="text-ellipsis">Log out <%= current_user.email %></span>
         </div>
       <% end %>

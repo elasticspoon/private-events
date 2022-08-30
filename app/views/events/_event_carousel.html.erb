@@ -3,12 +3,12 @@
 <% end %>
 <% set_content_for :left_arrow do %>
   <button class="p-3 mr-2 disabled:text-[#39364f] disabled:bg-[#a9a8b3] text-white bg-[#39364f]">
-    <%= inline_svg_tag 'svg/arrow_right', class:'w-4 h-4 rotate-180' %>
+    <%= inline_svg_tag 'svg/arrow_right.svg', class:'w-4 h-4 rotate-180' %>
   </button>
 <% end %>
 <% set_content_for :right_arrow do %>
   <button class="p-3 disabled:text-[#39364f] disabled:bg-[#a9a8b3] text-white bg-[#39364f]">
-    <%= inline_svg_tag 'svg/arrow_right', class:'w-4 h-4' %>
+    <%= inline_svg_tag 'svg/arrow_right.svg', class:'w-4 h-4' %>
   </button>
 <% end %>
 <% Event.includes(:creator).limit(5).each do |c_event| %>

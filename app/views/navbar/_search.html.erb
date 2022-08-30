@@ -1,7 +1,7 @@
 <div class="flex flex-grow">
   <%= link_to not_implemented_path, class: "hidden lg:flex flex-row flex-grow max-w-[472px] max-h-[46px] items-center bg-[#f8f7fa] py-[5px]" do %>
     <div class= 'flex items-center justify-center my-3 ml-3'>
-      <%= inline_svg_tag 'svg/magnifying_glass', class:'h-6 w-6', style: 'fill: #a9a8b3' %>
+      <%= inline_svg_tag 'svg/magnifying_glass.svg', class:'h-6 w-6', style: 'fill: #a9a8b3' %>
     </div>
     <span class='hidden lg:block bg-[#f8f7fa] border-none text-sm text-gray-300 px-2 py-3'>Search events</span>
   <% end %>
@@ -11,7 +11,7 @@
   <%= form_with url: not_implemented_path,
   class: 'w-full h-full flex items-center justify-center text-current' do |f| %>
     <%= f.button do %>
-      <%= inline_svg_tag 'svg/magnifying_glass', class:'h-6 w-6', fill: 'currentColor' %>
+      <%= inline_svg_tag 'svg/magnifying_glass.svg', class:'h-6 w-6', fill: 'currentColor' %>
     <% end %>
   <% end %>
 </div>

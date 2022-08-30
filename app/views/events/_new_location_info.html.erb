@@ -29,7 +29,7 @@
       </ul>
       <p class="font-normal text-sm break-normal">Online events have unique event pages where you can add links to livestreams and more</p>
       <div class="flex-col flex relative pt-2">
-        <span class="absolute top-12 left-3 flex"><%= inline_svg_tag 'svg/magnifying_glass', class: 'h-6 w-6 text-[#a9a8b3]' %></span>
+        <span class="absolute top-12 left-3 flex"><%= inline_svg_tag 'svg/magnifying_glass.svg', class: 'h-6 w-6 text-[#a9a8b3]' %></span>
         <%= form.label :location, 'Venue location', class: 'mb-1' %>
         <%= form.text_field :location, class: 'w-full py-3 px-12 text-sm rounded-xs border-[#dbdae3]', placeholder: 'Enter an address' %>
         <%= render 'inline_errors', errors: resource.errors[:location] %>

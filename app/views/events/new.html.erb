@@ -1,7 +1,7 @@
 <div class="flex w-full flex-col items-center max-w-5xl md:ml-[56px]">
   <%= link_to root_path, class:'self-start' do %>
     <div class="flex pt-4 text-[#3659e3] items-center pl-1">
-      <%= inline_svg_tag 'svg/chevron', class: 'h-4 w-4 rotate-90' %>
+      <%= inline_svg_tag 'svg/chevron.svg', class: 'h-4 w-4 rotate-90' %>
       <span class="hover:underline pl-1 text-sm ">Events</span>
     </div>
   <% end %>
@@ -32,38 +32,38 @@
       <div class="flex flex-col justify-between h-full">
         <ul class="flex flex-col [&>*]:mx-2 [&>*]:p-2 [&>*]:my-6 [&>*]:flex [&>*]:items-center">
           <li class="relative flex items-center justify-center text-[#3659e3] bg-[#3659e3] rounded-lg group">
-            <%= inline_svg_tag 'svg/calendar_create', class: 'w-6 h-6 text-white' %>
+            <%= inline_svg_tag 'svg/calendar_create.svg', class: 'w-6 h-6 text-white' %>
             <span class="absolute font-bold pt-1 text-white" style="font-size: 7px"><%= Time.now.strftime("%d") %></span>
             <%= render 'events/sidebar_label', text: 'Events' %>
           </li>
           <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
-            <%= inline_svg_tag 'svg/orders', class: 'w-6 h-6 text-current' %>
+            <%= inline_svg_tag 'svg/orders.svg', class: 'w-6 h-6 text-current' %>
             <%= render 'events/sidebar_label', text: 'Orders' %>
           </li>
           <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
-            <%= inline_svg_tag 'svg/alerts', class: 'w-6 h-6 text-current' %>
+            <%= inline_svg_tag 'svg/alerts.svg', class: 'w-6 h-6 text-current' %>
             <%= render 'events/sidebar_label', text: 'Marketing' %>
           </li>
           <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
-            <%= inline_svg_tag 'svg/graph', class: 'w-6 h-6 text-current' %>
+            <%= inline_svg_tag 'svg/graph.svg', class: 'w-6 h-6 text-current' %>
             <%= render 'events/sidebar_label', text: 'Reports' %>
           </li>
           <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
-            <%= inline_svg_tag 'svg/finance', class: 'w-6 h-6 text-current' %>
+            <%= inline_svg_tag 'svg/finance.svg', class: 'w-6 h-6 text-current' %>
             <%= render 'events/sidebar_label', text: 'Finance' %>
           </li>
           <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
-            <%= inline_svg_tag 'svg/settings', class: 'w-6 h-6 text-current' %>
+            <%= inline_svg_tag 'svg/settings.svg', class: 'w-6 h-6 text-current' %>
             <%= render 'events/sidebar_label', text: 'Organization Settings' %>
           </li>
         </ul>
         <ul class="flex flex-col [&>*]:mx-2 [&>*]:p-2 [&>*]:my-6 [&>*]:flex [&>*]:items-center">
           <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
-            <%= inline_svg_tag 'svg/apps', class: 'w-6 h-6 text-current' %>
+            <%= inline_svg_tag 'svg/apps.svg', class: 'w-6 h-6 text-current' %>
             <%= render 'events/sidebar_label', text: 'App Marketplace' %>
           </li>
           <li class="group hover:bg-white rounded-lg text-[#6f7287] hover:text-[#3659e3]">
-            <%= inline_svg_tag 'svg/help', class: 'w-6 h-6 text-current' %>
+            <%= inline_svg_tag 'svg/help.svg', class: 'w-6 h-6 text-current' %>
             <%= render 'events/sidebar_label', text: 'Help Center' %>
           </li>
         </ul>

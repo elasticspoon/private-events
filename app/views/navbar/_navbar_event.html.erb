@@ -1,7 +1,7 @@
 <nav class="bg-white w-full min-h-[60px] flex flex-row z-20 border-b-[1px] border-[#eeedf2]">
   <ul class='w-full flex flex-row font-normal text-[13px] items-center justify-center text-[#6f7287]'>
     <%= link_to root_path do %>
-      <%= inline_svg_tag 'svg/eventbrite_logo', class:'h-[20px] px-6 text-cur', style: 'fill: #f05537' %>
+      <%= inline_svg_tag 'svg/eventbrite_logo.svg', class:'h-[20px] px-6 text-cur', style: 'fill: #f05537' %>
     <% end %>
     <%= render partial: 'navbar/search', locals: { is_event_view: true} %>
     <%= link_to new_event_path, class: 'hidden px-5 h-full lg:flex items-center hover:text-[#39364f]' do %>
