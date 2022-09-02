@@ -4,21 +4,28 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :events_created, class_name: 'Event', foreign_key: 'creator_id'
+  has_many :events_created, class_name: 'Event', foreign_key: 'creator_id', dependent: :destroy, inverse_of: :creator
 
   has_many :user_event_permissions, dependent: :destroy
   has_many :event_relations, through: :user_event_permissions, source: :event
 
-  validates :name, presence: true, length: { in: 3..20 }
+  # TODO: maybe this needs eager loading?
+  has_many :events_attended_perms, -> { where permission_type: 'attend' }, class_name: 'UserEventPermission'
+  has_many :events_attended, through: :events_attended_perms, source: :event
+
+  has_many :events_pending_perms, -> { where permission_type: 'accept_invite' }, class_name: 'UserEventPermission'
+  has_many :events_pending, through: :events_pending_perms, source: :event
+
+  validates :name, presence: true, length: { in: 3..30 }
   validates :username, presence: true, uniqueness: true, length: { minimum: 5 }
 
-  def events_attended
-    user_event_permissions.where(permission_type: 'attend').includes(:event).map(&:event)
-  end
+  # def events_attended
+  #   user_event_permissions.where(permission_type: 'attend').includes(:event).map(&:event)
+  # end
 
-  def events_pending
-    user_event_permissions.where(permission_type: 'accept_invite').includes(:event).map(&:event)
-  end
+  # def events_pending
+  #   user_event_permissions.where(permission_type: 'accept_invite').includes(:event).map(&:event)
+  # end
 
   def attending?(event_id)
     holds_permission_currently?(event_id, 'attend')

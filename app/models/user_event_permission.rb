@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class UserEventPermission < ApplicationRecord
   PERMISSION_TYPES = %w[attend moderate accept_invite owner].freeze
 
@@ -8,7 +9,7 @@ class UserEventPermission < ApplicationRecord
   validates :event_id, presence: true
   validates :permission_type, inclusion: { in: PERMISSION_TYPES, message: 'is invalid.' }
 
-  validates_uniqueness_of :user_id, scope: %i[permission_type event_id], message: 'already has permission.'
+  validates :user_id, uniqueness: { scope: %i[permission_type event_id], message: 'already has permission.' }
   validate :uniqueness_attend_accept_invite
 
   # validation to make accept_invite and attend mutually exclusive
@@ -149,3 +150,5 @@ class UserEventPermission < ApplicationRecord
     "#{action.to_s.sub(/e$/, '')}ed"
   end
 end
+
+# rubocop:enable Metrics/ClassLength
