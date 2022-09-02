@@ -14,9 +14,6 @@ RSpec.describe UserEventPermission, type: :model do
   let(:test_perm) { create(:permission) }
 
   describe 'Validations' do
-    it { is_expected.to validate_presence_of(:user_id) }
-    it { is_expected.to validate_presence_of(:event_id) }
-
     it do
       expect(subject).to validate_inclusion_of(:permission_type).in_array(UserEventPermission::PERMISSION_TYPES)
                                                                 .with_message('is invalid.')
@@ -60,30 +57,30 @@ RSpec.describe UserEventPermission, type: :model do
   end
 
   describe '#generate_permission_status' do
-    before do
-      @test_perm = test_perm
-      allow(@test_perm).to receive(:user).and_return(mock_user)
-      allow(@test_perm).to receive(:event).and_return(mock_event)
+    let(:permission) { build_stubbed(:permission) }
+
+    it 'raises an error when action is not :create or :destroy' do
+      expect { permission.generate_permission_status(:invalid) }
+        .to raise_error RuntimeError, 'Invalid permission status'
     end
 
-    describe 'action is create' do
+    context 'when action is create' do
       let(:action) { :create }
 
       it 'returns :alert if errors not empty' do
-        allow(@test_perm).to receive(:errors).and_return([1])
-        expect(@test_perm.generate_permission_status(action)).to eq(:alert)
+        allow(permission).to receive(:errors).and_return([1])
+        expect(permission.generate_permission_status(action)).to eq(:alert)
       end
 
-      it 'returns UserEventPermission if errors empty' do
-        allow(@test_perm).to receive(:errors).and_return([])
-        allow(@test_perm).to receive(:save).and_return(true)
-        expect(@test_perm.generate_permission_status(action)).to eq(:notice)
+      it 'returns :notice if errors empty' do
+        allow(permission).to receive(:save)
+        expect(permission.generate_permission_status(action)).to eq(:notice)
       end
 
       it 'calls save on the UserEventPermission' do
-        allow(@test_perm).to receive(:errors).and_return([])
-        expect(@test_perm).to receive(:save)
-        @test_perm.generate_permission_status(action)
+        allow(permission).to receive(:save)
+        permission.generate_permission_status(action)
+        expect(permission).to have_received(:save).once
       end
     end
 
@@ -91,29 +88,18 @@ RSpec.describe UserEventPermission, type: :model do
       let(:action) { :destroy }
 
       it 'returns :alert if errors not empty' do
-        allow(@test_perm).to receive(:errors).and_return([1])
-        expect(@test_perm.generate_permission_status(action)).to eq(:alert)
+        allow(permission).to receive(:errors).and_return([1])
+        expect(permission.generate_permission_status(action)).to eq(:alert)
       end
 
       it 'returns :notice if errors empty' do
-        allow(@test_perm).to receive(:errors).and_return([])
-        allow(@test_perm).to receive(:destroy).and_return(true)
-        expect(@test_perm.generate_permission_status(action)).to eq(:notice)
+        allow(permission).to receive(:destroy)
+        expect(permission.generate_permission_status(action)).to eq(:notice)
       end
 
       it 'calls destroy on the UserEventPermission' do
-        allow(@test_perm).to receive(:errors).and_return([])
-        expect(@test_perm).to receive(:destroy)
-        @test_perm.generate_permission_status(action)
-      end
-    end
-
-    describe 'action is not create or destroy' do
-      let(:action) { :update }
-
-      it do
-        expect { @test_perm.generate_permission_status(action) }
-          .to raise_error RuntimeError, 'Invalid permission status'
+        expect(permission).to receive(:destroy)
+        permission.generate_permission_status(action)
       end
     end
   end
@@ -122,11 +108,10 @@ RSpec.describe UserEventPermission, type: :model do
   describe '#self.validate_identifier' do
     context 'when identifier is missing' do
       it do
-        test_params = ActionController::Parameters.new(
-          user_id: 1, event_id: 1
-        )
         expect do
-          UserEventPermission.validate_identifier(test_params)
+          described_class.validate_identifier(ActionController::Parameters.new(
+                                                user_id: 1, event_id: 1
+                                              ))
         end.to raise_error ActionController::ParameterMissing
       end
     end
@@ -242,35 +227,20 @@ RSpec.describe UserEventPermission, type: :model do
   # not sure if can be invalid and have no errors but what if
   # raise error if neither
   describe '#self.generate_permission_response' do
-    before do
-      @test_perm = test_perm
-      allow(@test_perm).to receive(:errors).and_return(errors)
+    let(:permission) { create(:permission) }
+
+    it 'returns success response if valid' do
+      expect(permission.generate_permission_response(:create, true)).to include 'Success'
     end
 
-    context 'when valid is true' do
-      let(:valid) { true }
-      let(:errors) { "doesn't matter" }
-
-      it { expect(@test_perm.generate_permission_response(:create, valid)).to include 'Success' }
+    it 'returns errors if errors not empty and not valid' do
+      permission.errors.add :base, 'error'
+      expect(permission.generate_permission_response(:create, false)).to include 'error'
     end
 
-    context 'when valid is false' do
-      context 'and errors is not empty' do
-        let(:valid) { false }
-        let(:errors) { double('Errors', empty?: false, full_messages: ['bad']) }
-
-        it { expect(@test_perm.generate_permission_response(:create, valid)).to eq('bad') }
-      end
-
-      context 'and errors is empty' do
-        let(:valid) { false }
-        let(:errors) { double('Errors', empty?: true) }
-
-        it do
-          expect { @test_perm.generate_permission_response(:create, valid) }
-            .to raise_error RuntimeError, 'Invalid permission response'
-        end
-      end
+    it 'raises error if invalid and errors empty' do
+      expect { permission.generate_permission_response(:create, false) }
+        .to raise_error RuntimeError, 'Invalid permission response'
     end
   end
 

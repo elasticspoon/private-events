@@ -63,14 +63,16 @@ class Event < ApplicationRecord
   end
 
   def editable_by?(user)
-    user&.can_edit?(self)
+    return false if user.nil?
+
+    user.can_edit?(self)
   end
 
   def joinable_by?(user)
-    # return false if user.nil?
+    return false if user.nil?
 
     # user.can_join?(self)
-    user&.can_join?(self)
+    user.can_join?(self)
   end
 
   def required_perms_for_action(perm_type:, action:)
@@ -96,7 +98,7 @@ class Event < ApplicationRecord
   end
 
   def private_allowed?(held_perms)
-    (held_perms & %w[attend accept_invite moderate owner]).any?
+    (held_perms & %w[attend moderate owner]).any?
   end
 
   # needs fixing some day

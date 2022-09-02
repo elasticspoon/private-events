@@ -5,8 +5,6 @@ class UserEventPermission < ApplicationRecord
   belongs_to :user
   belongs_to :event
 
-  validates :user_id, presence: true
-  validates :event_id, presence: true
   validates :permission_type, inclusion: { in: PERMISSION_TYPES, message: 'is invalid.' }
 
   validates :user_id, uniqueness: { scope: %i[permission_type event_id], message: 'already has permission.' }
@@ -99,7 +97,7 @@ class UserEventPermission < ApplicationRecord
   # general methods
   ##############################################################################################
   def self.invite_target_id(params, curr_user_id)
-    return curr_user_id unless params[:identifier].present?
+    return curr_user_id if params[:identifier].blank?
 
     params = UserEventPermission.validate_identifier(params)
 
