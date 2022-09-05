@@ -11,7 +11,6 @@ RSpec.describe 'Events', type: :request do
 
   describe 'Set Up Tests' do
     it 'starts with 0 events' do
-      binding.b
       expect(Event.count).to eq(0)
     end
 
