@@ -34,3 +34,4 @@
 !/app/assets/builds/.keep
 rails_best_practices_output.html
 .env
+spec/examples.txt

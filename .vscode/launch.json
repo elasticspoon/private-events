@@ -6,6 +6,12 @@
   "configurations": [
     {
       "type": "rdbg",
+      "name": "Attach rdbg",
+      "request": "attach",
+      "debugPort": "4000"
+    },
+    {
+      "type": "rdbg",
       "name": "RSpec - active spec file only (fails)",
       "request": "launch",
       "useBundler": false,
