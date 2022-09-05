@@ -28,6 +28,7 @@ class UserEventPermission < ApplicationRecord
   # return flash response
   def self.create_permission(params, curr_user)
     permission_target_id = UserEventPermission.invite_target_id(params, curr_user.id)
+    # TODO: change to find_or_initialize_by
     permission = UserEventPermission.new({ event_id: params[:event_id],
                                            permission_type: params[:permission_type],
                                            user_id: permission_target_id })
@@ -74,8 +75,7 @@ class UserEventPermission < ApplicationRecord
   end
 
   def validate_permission(curr_user, action)
-    held_permissions = User.held_event_perms(curr_user, event_id)
-    held_permissions.push('current_user') if curr_user == user
+    held_permissions = curr_user&.held_event_perms(event_id, curr_user.id)
     required_perms = event.required_perms_for_action(perm_type: permission_type, action:)
 
     validate_held_vs_req(held_permissions, required_perms)

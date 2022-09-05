@@ -1,4 +1,4 @@
-# rubocop:disable RSpec/NestedGroups
+# rubocop:disable RSpec/NestedGroups, RSpec/ImplicitExpect, RSpec/ImplicitSubject
 
 require 'rails_helper'
 
@@ -10,19 +10,33 @@ RSpec.describe Event, type: :model do
   let(:permission) { create(:permission, user:, event:) }
 
   describe 'Validations' do
-    it { is_expected.to validate_presence_of(:date) }
-    it { is_expected.to validate_presence_of(:location) }
-    it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_presence_of(:desc) }
-    it { is_expected.to validate_inclusion_of(:event_privacy).in_array(Event::AVAILIABLE_SETTINGS) }
-    it { is_expected.to validate_inclusion_of(:display_privacy).in_array(Event::AVAILIABLE_SETTINGS) }
-    it { is_expected.to validate_inclusion_of(:attendee_privacy).in_array(Event::AVAILIABLE_SETTINGS) }
+    it { should validate_presence_of(:date) }
+    it { should validate_presence_of(:location) }
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:desc) }
+    it { should validate_inclusion_of(:event_privacy).in_array(Event::AVAILIABLE_SETTINGS) }
+    it { should validate_inclusion_of(:display_privacy).in_array(Event::AVAILIABLE_SETTINGS) }
+    it { should validate_inclusion_of(:attendee_privacy).in_array(Event::AVAILIABLE_SETTINGS) }
   end
 
   describe 'Associations' do
-    it { is_expected.to have_many(:user_event_permissions) }
-    it { is_expected.to have_many(:user_relations) }
-    it { is_expected.to belong_to(:creator) }
+    it { should belong_to(:creator).class_name('User') }
+    it { should have_many(:user_event_permissions).dependent(:destroy) }
+    it { should have_many(:user_relations).through(:user_event_permissions).source(:user) }
+    it { should have_many(:attending_users).through(:accepted_invites).source(:user) }
+    it { should have_many(:pending_users).through(:pending_invites).source(:user) }
+
+    it {
+      should have_many(:accepted_invites)
+        .conditions(permission_type: 'attend').class_name('UserEventPermission')
+        .dependent(false).inverse_of(:event)
+    }
+
+    it {
+      should have_many(:pending_invites)
+        .conditions(permission_type: 'accept_invite').class_name('UserEventPermission')
+        .dependent(false).inverse_of(:event)
+    }
   end
 
   describe 'Callbacks' do
@@ -33,28 +47,6 @@ RSpec.describe Event, type: :model do
   end
 
   describe 'Testing filter methods' do
-    describe '#accepted_invites' do
-      it 'returns an empty array when event has no accepted invites' do
-        expect(event.accepted_invites).to be_empty
-      end
-
-      it 'returns an array of accepted invites' do
-        permission = create(:permission, user:, event:)
-        expect(event.accepted_invites).to include(permission)
-      end
-    end
-
-    describe '#pending_invites' do
-      it 'returns an empty array when event has no accepted invites' do
-        expect(event.accepted_invites).to be_empty
-      end
-
-      it 'returns an array of accepted invites' do
-        permission = create(:permission, user:, event:, permission_type: 'accept_invite')
-        expect(event.pending_invites).to include(permission)
-      end
-    end
-
     describe 'self.past' do
       it 'returns an empty array when there are no past events' do
         expect(described_class.past).to be_empty
@@ -212,9 +204,9 @@ RSpec.describe Event, type: :model do
           expect(event.viewable_by?(user)).to be false
         end
 
-        it 'returns false when user has not accepted the invite' do
+        it 'returns true when user has not accepted the invite' do
           create(:permission, user:, event:, permission_type: 'accept_invite')
-          expect(event.viewable_by?(user)).to be false
+          expect(event.viewable_by?(user)).to be true
         end
 
         it 'returns true when user has owner permission' do
@@ -230,56 +222,6 @@ RSpec.describe Event, type: :model do
         it 'returns true when user has attend permission' do
           create(:permission, user:, event:, permission_type: 'attend')
           expect(event.viewable_by?(user)).to be true
-        end
-      end
-    end
-
-    describe '#joinable_by?' do
-      let(:event) { create(:event, event_privacy: 'public') }
-
-      it 'returns false when user is nil' do
-        expect(event.joinable_by?(nil)).to be false
-      end
-
-      it 'returns false when user already has attend permission' do
-        create(:permission, user:, event:, permission_type: 'attend')
-        expect(event.joinable_by?(user)).to be false
-      end
-
-      context 'when event is public' do
-        it 'returns true' do
-          expect(event.joinable_by?(user)).to be true
-        end
-      end
-
-      context 'when event is protected' do
-        let(:event) { create(:event, event_privacy: 'protected') }
-
-        it 'returns true' do
-          expect(event.joinable_by?(user)).to be true
-        end
-      end
-
-      context 'when event is private' do
-        let(:event) { create(:event, event_privacy: 'private') }
-
-        it 'returns false when user has no permissions' do
-          expect(event.joinable_by?(user)).to be false
-        end
-
-        it 'returns true if user has accept_invite permission' do
-          create(:permission, user:, event:, permission_type: 'accept_invite')
-          expect(event.joinable_by?(user)).to be true
-        end
-
-        it 'returns true if user has owner permission' do
-          create(:permission, user:, event:, permission_type: 'owner')
-          expect(event.joinable_by?(user)).to be true
-        end
-
-        it 'returns true if user has moderate permission' do
-          create(:permission, user:, event:, permission_type: 'moderate')
-          expect(event.joinable_by?(user)).to be true
         end
       end
     end
@@ -323,4 +265,4 @@ RSpec.describe Event, type: :model do
   end
 end
 
-# rubocop:enable RSpec/NestedGroups
+# rubocop:enable RSpec/NestedGroups, RSpec/ImplicitExpect, RSpec/ImplicitSubject

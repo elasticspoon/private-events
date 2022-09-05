@@ -1,13 +1,7 @@
-# rubocop:disable RSpec/NestedGroups
-
 # frozen_string_literal: true
 
+# rubocop:disable RSpec/ImplicitSubject, RSpec/ImplicitExpect
 require 'rails_helper'
-require 'general_helper'
-
-RSpec.configure do |config|
-  config.include GeneralHelper, subsets: :included
-end
 
 RSpec.describe User, type: :model do
   subject { create(:user) }
@@ -24,9 +18,30 @@ RSpec.describe User, type: :model do
   end
 
   describe 'Associations' do
-    it { is_expected.to have_many(:events_created) }
-    it { is_expected.to have_many(:user_event_permissions) }
-    it { is_expected.to have_many(:event_relations) }
+    it {
+      should have_many(:events_created)
+        .class_name('Event').with_foreign_key('creator_id')
+        .dependent(:destroy).inverse_of(:creator)
+    }
+
+    it { should have_many(:user_event_permissions).dependent(:destroy) }
+    it { should have_many(:event_relations).through(:user_event_permissions).source(:event) }
+
+    it {
+      should have_many(:events_attended_perms)
+        .conditions(permission_type: 'attend').class_name('UserEventPermission')
+        .dependent(false).inverse_of(:user)
+    }
+
+    it { should have_many(:events_attended).through(:events_attended_perms).source(:event) }
+
+    it {
+      should have_many(:events_pending_perms)
+        .conditions(permission_type: 'accept_invite').class_name('UserEventPermission')
+        .dependent(false).inverse_of(:user)
+    }
+
+    it { should have_many(:events_pending).through(:events_pending_perms).source(:event) }
   end
 
   describe 'Event Filters' do
@@ -99,94 +114,40 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#can_join?', subsets: :included do
-    context 'when event is public' do
-      let(:event) { create(:event, event_privacy: 'public') }
-
-      it 'returns true if user does not have attend permission already' do
-        expect(user.can_join?(event)).to be true
-      end
-
-      it 'returns false if user has attend permission already' do
-        create(:permission, user:, event:, permission_type: 'attend')
-        expect(user.can_join?(event)).to be false
-      end
+  describe '#can_edit?', subsets: :included do
+    it 'returns true if the user has an owner permission for the event' do
+      create(:permission, user:, event:, permission_type: 'owner')
+      expect(user.can_edit?(event)).to be true
     end
 
-    context 'when event is protected' do
-      let(:event) { create(:event, event_privacy: 'protected') }
-
-      it 'returns true if user does not have attend permission already' do
-        expect(user.can_join?(event)).to be true
-      end
-
-      it 'returns false if user has attend permission already' do
-        create(:permission, user:, event:, permission_type: 'attend')
-        expect(user.can_join?(event)).to be false
-      end
-    end
-
-    context 'when event is private' do
-      let(:event) { create(:event, event_privacy: 'private') }
-
-      context 'when user has attend permission already' do
-        before { create(:permission, user:, event:, permission_type: 'attend') }
-
-        it { expect(user.can_join?(event)).to be false }
-
-        it 'returns false even with owner and moderate permissions' do
-          create(:permission, user:, event:, permission_type: 'owner')
-          create(:permission, user:, event:, permission_type: 'moderate')
-          expect(user.can_join?(event)).to be false
-        end
-      end
-
-      it 'returns true if user has accept_invite permission' do
-        create(:permission, user:, event:, permission_type: 'accept_invite')
-        expect(user.can_join?(event)).to be true
-      end
-
-      it 'returns true if user has owner permission' do
-        create(:permission, user:, event:, permission_type: 'owner')
-        expect(user.can_join?(event)).to be true
-      end
-
-      it 'returns true if user has moderate permission' do
-        create(:permission, user:, event:, permission_type: 'moderate')
-        expect(user.can_join?(event)).to be true
-      end
-
-      it 'returns false if user has no permissions' do
-        expect(user.can_join?(event)).to be false
-      end
+    it 'returns false if the user does not have an owner permission for the event' do
+      expect(user.can_edit?(event)).to be false
     end
   end
 
-  describe '#self.held_event_perms', subsets: :included do
-    it 'returns an empty array when user is nil' do
-      expect(described_class.held_event_perms(nil, event)).to be_nil
+  describe '#held_event_perms', subsets: :included do
+    it 'returns an empty array of permissions if no perms' do
+      expect(user.held_event_perms(event.id, -1)).to be_empty
     end
 
-    context 'when user is not nil' do
-      it 'returns an empty array of permissions if no perms' do
-        expect(described_class.held_event_perms(user, event)).to be_empty
-      end
+    it 'adds current_user permission to the array if perm user_id matches current_user_id' do
+      expect(user.held_event_perms(event.id, user.id)).to match ['current_user']
+    end
 
-      it 'returns an array of same size as number of permissions' do
-        create(:permission, user:, event:, permission_type: 'attend')
+    it 'returns an array of same size as number of permissions' do
+      create(:permission, user:, event:, permission_type: 'attend')
 
-        expect do
-          create(:permission, user:, event:, permission_type: 'owner')
-        end.to change { described_class.held_event_perms(user, event).size }.from(1).to(2)
-      end
-
-      it 'returns an array of permissions as strings' do
-        create(:permission, user:, event:, permission_type: 'attend')
+      expect do
         create(:permission, user:, event:, permission_type: 'owner')
+      end.to change { user.held_event_perms(event.id, -1).size }.from(1).to(2)
+    end
 
-        expect(described_class.held_event_perms(user, event)).to all(be_a(String))
-      end
+    it 'returns an array of permissions as strings' do
+      create(:permission, user:, event:, permission_type: 'attend')
+      create(:permission, user:, event:, permission_type: 'owner')
+
+      expect(user.held_event_perms(event.id, -1)).to all(be_a(String))
     end
   end
 end
-# rubocop:enable RSpec/NestedGroups
+# rubocop:enable RSpec/ImplicitSubject, RSpec/ImplicitExpect

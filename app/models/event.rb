@@ -7,6 +7,14 @@ class Event < ApplicationRecord
   has_many :user_event_permissions, dependent: :destroy
   has_many :user_relations, through: :user_event_permissions, source: :user
 
+  has_many :accepted_invites, -> { where(permission_type: 'attend') },
+           class_name: 'UserEventPermission', inverse_of: :event, dependent: false
+  has_many :attending_users, through: :accepted_invites, source: :user
+
+  has_many :pending_invites, -> { where(permission_type: 'accept_invite') },
+           class_name: 'UserEventPermission', inverse_of: :event, dependent: false
+  has_many :pending_users, through: :pending_invites, source: :user
+
   validates :date, presence: true
   validates :location, presence: true
   validates :name, presence: true
@@ -55,24 +63,21 @@ class Event < ApplicationRecord
   end
 
   def attending_viewable_by?(user)
-    perms_for_event_setting?(user, attendee_privacy)
+    return true if user.nil? && attendee_privacy == 'public'
+    return true if user && attendee_privacy == 'protected'
+
+    holds_permission_currently?(user&.id, 'attend', 'moderate', 'owner')
   end
 
   def viewable_by?(user)
-    perms_for_event_setting?(user, display_privacy)
+    return true if user.nil? && display_privacy == 'public'
+    return true if user && display_privacy == 'protected'
+
+    holds_permission_currently?(user&.id, 'attend', 'moderate', 'owner', 'accept_invite')
   end
 
   def editable_by?(user)
-    return false if user.nil?
-
-    user.can_edit?(self)
-  end
-
-  def joinable_by?(user)
-    return false if user.nil?
-
-    # user.can_join?(self)
-    user.can_join?(self)
+    holds_permission_currently?(user&.id, 'owner')
   end
 
   def required_perms_for_action(perm_type:, action:)
@@ -97,29 +102,8 @@ class Event < ApplicationRecord
     }.freeze
   end
 
-  def private_allowed?(held_perms)
-    (held_perms & %w[attend moderate owner]).any?
-  end
-
-  # needs fixing some day
-  # generic function to check a user's permissions for an event
-  def perms_for_event_setting?(current_user, event_setting)
-    held_perms = User.held_event_perms(current_user, id)
-    # held_perms = user_event_permissions.where(user_id: current_user).pluck(:permission_type)
-    perms_allow_setting?(event_setting, held_perms)
-  end
-
-  def perms_allow_setting?(event_setting, held_perms)
-    case event_setting
-    when 'public'
-      true
-    when 'protected'
-      !held_perms.nil?
-    when 'private'
-      !held_perms.nil? && private_allowed?(held_perms)
-    else
-      raise 'Invalid attendee_privacy'
-    end
+  def holds_permission_currently?(user_id, *permission_type)
+    user_event_permissions.where(user_id:, permission_type:).any?
   end
 
   ###################################################################

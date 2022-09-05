@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.configure do |config|
@@ -5,166 +7,112 @@ RSpec.configure do |config|
 end
 
 RSpec.describe 'UserEventPermissions', type: :request do
-  let(:priv_set) { 'public' }
-  let(:creator_id) { created_user.id }
-  let(:user_params) { { email: 'a@gmail.com', username: 'asaada', password: '123456', name: 'asds' } }
-  let(:event_params) do
-    { date: DateTime.now, location: 'asdasd', event_privacy: priv_set, desc: 'asdasd', name: 'asdasd',
-      display_privacy: priv_set, attendee_privacy: priv_set, creator_id: }
-  end
-  let(:created_user) { User.create(user_params) }
-  let(:created_event) { Event.create(event_params) }
-  let(:permission_type) { 'attend' }
-  let(:identifier) { { user_id: @user.id } }
-  let(:permission_params) do
-    { user_event_permissions:
-       { event_id: @event.id,
-         identifier:, permission_type: } }
+  let(:user) { create(:user) }
+  let(:event) { create(:event, creator: user) }
+  let(:permission) { create(:permission, user:, event:) }
+  let(:params) do
+    { user_event_permissions: { event_id: event.id,
+                                permission_type: 'attend',
+                                identifier: { user_id: user.id } } }
   end
 
-  describe '#create' do
-    before(:each) do
-      @user = created_user
-      @event = created_event
-      sign_in @user
+  # user_event_permissions#create
+  describe 'POST /user_event_permissions' do
+    it 'redirects to log in path if attempt to create permission without being signed in' do
+      post user_event_permissions_path
+      expect(response).to redirect_to(new_user_session_path)
     end
-    context 'when user is not logged in' do
-      it do
-        sign_out @user
-        post user_event_permissions_path, params: permission_params
-        expect(response).to redirect_to(new_user_session_path)
-      end
+
+    it 'redirects if invalid params' do
+      sign_in user
+      post user_event_permissions_path, params: { user_event_permissions: { bad: :val } }
+      expect(response).to have_http_status(:found)
     end
-    context 'when user is logged in' do
-      let(:identifier) { {} }
-      context 'when user attempts to create attend permission' do
-        let(:permission_type) { 'attend' }
-        it do
-          post user_event_permissions_path, params: permission_params
-          expect(response).to redirect_to(event_path(@event))
-        end
-        it do
-          post user_event_permissions_path, params: permission_params
-          expect(flash.notice).to eq('Successfully created permission.')
-        end
-        it 'fails if user already has permission ' do
-          @user.user_event_permissions.create(event_id: @event.id, permission_type: 'attend')
-          post user_event_permissions_path, params: permission_params
-          expect(flash.alert).to eq('User already has permission.')
-        end
-      end
-      context 'when user attempts to create moderate permission' do
-        let(:permission_type) { 'moderate' }
-        it do
-          post user_event_permissions_path, params: permission_params
-          expect(response).to redirect_to(event_path(@event))
-        end
-        it do
-          post user_event_permissions_path, params: permission_params
-          expect(flash.notice).to eq('Successfully created permission.')
-        end
-        it 'fails without owner permission' do
-          @user.user_event_permissions.destroy_all
-          post user_event_permissions_path, params: permission_params
-          expect(flash.alert).to eq('You do not have permission to perform this action.')
-        end
-      end
-      context 'when identifier is email' do
-        let(:identifier) { { email: user_params[:email] } }
-        context 'when user attempts to create moderate permission' do
-          let(:permission_type) { 'moderate' }
-          it do
-            post user_event_permissions_path, params: permission_params
-            expect(response).to redirect_to(event_path(@event))
-          end
-          it do
-            post user_event_permissions_path, params: permission_params
-            expect(flash.notice).to eq('Successfully created permission.')
-          end
-          it 'fails without owner permission' do
-            @user.user_event_permissions.destroy_all
-            post user_event_permissions_path, params: permission_params
-            expect(flash.alert).to eq('You do not have permission to perform this action.')
-          end
-        end
-      end
-      context 'when identifier is wrong' do
-        let(:identifier) { { email: 'wrong' } }
-        it do
-          post user_event_permissions_path, params: permission_params
-          expect(response).to redirect_to(root_path)
-        end
-      end
+
+    it 'alerts if invalid params' do
+      sign_in user
+      post user_event_permissions_path, params: { user_event_permissions: { bad: :val } }
+      expect(flash.alert).to match(/invalid/)
+    end
+
+    it 'accepts user_id as identifier' do
+      sign_in user
+      post user_event_permissions_path, params: params
+      expect(response).to have_http_status(:found)
+    end
+
+    it 'accepts email as identifier' do
+      sign_in user
+      params[:user_event_permissions][:identifier] = { email: user.email }
+      post user_event_permissions_path, params: params
+      expect(response).to have_http_status(:found)
+    end
+
+    it 'redirects to event path if valid params' do
+      sign_in user
+      post user_event_permissions_path, params: params
+      expect(response).to redirect_to(event_path(event))
+    end
+
+    it 'sends notice if valid params' do
+      sign_in user
+      post user_event_permissions_path, params: params
+      expect(flash.notice).to match(/Success/)
+    end
+
+    it 'creates permission if valid params' do
+      event
+      sign_in user
+      expect do
+        post user_event_permissions_path, params:
+      end.to change(UserEventPermission, :count).from(1).to(2)
     end
   end
 
-  describe '#destroy' do
-    before(:each) do
-      @user = created_user
-      @event = created_event
-      sign_in @user
+  # user_event_permissions#destroy
+  describe 'DELETE /user_event_permissions' do
+    it 'redirects to log in path if not logged in' do
+      delete user_event_permissions_path, params: params
+      expect(response).to redirect_to(new_user_session_path)
     end
-    context 'when user is not logged in' do
-      it do
-        sign_out @user
-        delete user_event_permissions_path, params: permission_params
-        expect(response).to redirect_to(new_user_session_path)
-      end
+
+    it 'sends alert if not logged in' do
+      delete user_event_permissions_path, params: params
+      expect(flash.alert).to match(/sign in/)
     end
-    context 'when user is logged in' do
-      context 'attend permission does not exist' do
-        it do
-          delete user_event_permissions_path, params: permission_params
-          expect(response).to redirect_to(root_path)
-        end
-        it do
-          delete user_event_permissions_path, params: permission_params
-          expect(flash.alert).to eq('Permission does not exist.')
-        end
-      end
-      context 'attend permission exists' do
-        before(:each) do
-          @user.user_event_permissions.create(event_id: @event.id, permission_type: 'attend')
-        end
-        it do
-          delete user_event_permissions_path, params: permission_params
-          expect(response).to have_http_status(302)
-        end
-        it do
-          delete user_event_permissions_path, params: permission_params
-          expect(flash.notice).to eq('Successfully destroyed permission.')
-        end
-      end
-      context 'destroy moderator permission' do
-        let(:permission_type) { 'moderate' }
-        context 'user is not owner' do
-          before(:each) do
-            @user.user_event_permissions.destroy_all
-            @user.user_event_permissions.create(event_id: @event.id, permission_type: 'moderate')
-          end
-          it do
-            delete user_event_permissions_path, params: permission_params
-            expect(response).to redirect_to(root_path)
-          end
-          it do
-            delete user_event_permissions_path, params: permission_params
-            expect(flash.alert).to eq('You do not have permission to perform this action.')
-          end
-        end
-        context 'user is owner' do
-          before(:each) do
-            @user.user_event_permissions.create(event_id: @event.id, permission_type: 'moderate')
-          end
-          it do
-            delete user_event_permissions_path, params: permission_params
-            expect(response).to have_http_status(302)
-          end
-          it do
-            delete user_event_permissions_path, params: permission_params
-            expect(flash.notice).to eq('Successfully destroyed permission.')
-          end
-        end
-      end
+
+    it 'redirects if invalid params' do
+      sign_in user
+      delete user_event_permissions_path, params: { user_event_permissions: { bad: :val } }
+      expect(response).to have_http_status(:found)
+    end
+
+    it 'sends alert if invalid params' do
+      sign_in user
+      delete user_event_permissions_path, params: { user_event_permissions: { bad: :val } }
+      expect(flash.alert).to match(/Permission/)
+    end
+
+    it 'redirects to root path if valid params' do
+      sign_in user
+      permission
+      delete user_event_permissions_path, params: params
+      expect(response).to redirect_to(root_path)
+    end
+
+    it 'sends notice if valid params' do
+      sign_in user
+      permission
+      delete user_event_permissions_path, params: params
+      expect(flash.notice).to match(/Success/)
+    end
+
+    it 'destroys permission if valid params' do
+      sign_in user
+      permission
+      expect do
+        delete user_event_permissions_path, params:
+      end.to change(UserEventPermission, :count).from(2).to(1)
     end
   end
 end
