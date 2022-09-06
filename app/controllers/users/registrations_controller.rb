@@ -1,10 +1,11 @@
+# rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
-  prepend_before_action :authenticate_scope!, only: %i[edit update destroy close_account update_password]
-  prepend_before_action :set_minimum_password_length, only: %i[new edit update_password]
+  before_action :configure_account_update_params, only: [:update]
+  prepend_before_action :authenticate_scope!, only: %i[update close_account close_account_action update_password]
+  prepend_before_action :set_minimum_password_length, only: %i[update_password]
 
   # GET /resource/sign_up
   # def new
@@ -49,18 +50,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       set_minimum_password_length
 
       # respond_with resource
-      render 'valid_email', locals: { resource: }
-    end
-  end
-
-  def check
-    if User.find_by(email: sanitize_params[:email])
-      resource = build_user
-      resource.errors.add(:email, 'Email has already been taken')
-      render 'new', locals: { resource: }
-
-    else
-      render 'valid_email', locals: { resource: build_user }
+      if resource.errors[:email].empty?
+        render 'valid_email', locals: { resource: }
+      else
+        render 'new', locals: { resource: }
+      end
     end
   end
 
@@ -79,6 +73,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
     resource_updated = update_resource(resource, account_update_params)
+
     yield resource if block_given?
     if resource_updated
       set_flash_message_for_update(resource, prev_unconfirmed_email)
@@ -113,9 +108,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # If you have extra params to permit, append them to the sanitizer.
-  # def configure_account_update_params
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
-  # end
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update,
+                                      keys: %i[email name username password password_confirmation])
+  end
 
   # The path used after sign up.
   # def after_sign_up_path_for(resource)
@@ -149,3 +145,5 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource.update(params)
   end
 end
+
+# rubocop:enable Metrics/AbcSize, Metrics/MethodLength

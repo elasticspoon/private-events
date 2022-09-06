@@ -63,7 +63,12 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # Shoulda Matchers
   config.include(Shoulda::Matchers::ActionController, type: :request)
+
+  # Devise: to sign_in user by Devise
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

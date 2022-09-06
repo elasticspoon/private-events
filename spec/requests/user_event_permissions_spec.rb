@@ -2,10 +2,6 @@
 
 require 'rails_helper'
 
-RSpec.configure do |config|
-  config.include Devise::Test::IntegrationHelpers, type: :request # to sign_in user by Devise
-end
-
 RSpec.describe 'UserEventPermissions', type: :request do
   let(:user) { create(:user) }
   let(:event) { create(:event, creator: user) }
