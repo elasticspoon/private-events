@@ -29,7 +29,7 @@ development:
   database: <%= ENV['POSTGRES_DB'] %>
   variables:
     statement_timeout: 5000
-  database: private_events_development
+  # database: private_events_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.

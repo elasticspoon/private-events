@@ -207,14 +207,14 @@ RSpec.describe 'Events', type: :request do
     end
 
     # TODO: Fix, issues with radio_button event_privacy
-    it 'when has owner perm it returns 200 response', skip: 'Skipping: has issues with radio buttons' do
+    it 'when has owner perm it returns 200 response' do
       event = create(:event, creator: user)
       sign_in user
       get edit_event_path(event)
       expect(response).to have_http_status(:ok)
     end
 
-    it 'when has owner perm it renders action :edit', skip: 'Skipping: has issues with radio buttons' do
+    it 'when has owner perm it renders action :edit' do
       event = create(:event, creator: user)
       sign_in user
       get edit_event_path(event)
@@ -255,27 +255,24 @@ RSpec.describe 'Events', type: :request do
       expect(response).to redirect_to(event_path(event))
     end
 
-    it 'returns 422 if params are invalid',
-       skip: 'Skipped becuase not sure how to test correctly' do
-      sign_in user
-      event
-      put event_path(event), params: { 'event' => { bad: :value } }
-      expect(response).to redirect_to(root_url)
-    end
-
-    it 'render edit action if params are invalid',
-       skip: 'Skipped becuase not sure how to test correctly' do
-      sign_in user
-      get event_path(event)
-      put event_path(event), params: { 'event' => { bad: :value } }
-      expect(response).to render_template(:edit)
-    end
-
     it 'updates the event' do
       sign_in user
       expect do
         put event_path(event), params: { 'event' => attributes_for(:event) }
       end.to change(Event, :last)
+    end
+
+    it 'returns 422 if params are invalid' do
+      sign_in user
+      event
+      put event_path(event), params: { 'event' => { event_privacy: 'bad' } }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it 'render edit action if params are invalid' do
+      sign_in user
+      put event_path(event), params: { 'event' => { event_privacy: 'bad' } }
+      expect(response).to render_template(:edit)
     end
   end
 

@@ -12,7 +12,7 @@
 <% end %>
 <% set_content_for :page_form do %>
   <%= render partial: 'existing_email_alert', locals: { resource: resource} %>
-  <%= form_for(resource, as: resource_name, url: new_registration_path(resource_name), data: { turbo: false}, method: :put) do |form| %>
+  <%= form_for(resource, as: resource_name, url: new_registration_path(resource_name), data: { turbo: false}, method: :post) do |form| %>
     <div class="mb-2 border-[1px] border-[#dbdae3] flex flex-col font-normal min-h-[44px] rounded-sm">
       <%= form.label :email, value: 'Email address', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287]' %>
       <%= form.email_field :email, autocomplete: 'email', class: 'border-none px-3 pt-[18px] pb-[6px] text-sm '%>

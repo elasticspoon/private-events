@@ -4,7 +4,7 @@
       <%= inline_svg_tag 'svg/eventbrite_logo.svg', class:'h-[20px] px-6 text-cur', style: 'fill: #f05537' %>
     <% end %>
     <%= render partial: 'navbar/search', locals: { is_event_view: true} %>
-    <%= link_to new_event_path, class: 'hidden px-5 h-full lg:flex items-center hover:text-[#39364f]' do %>
+    <%= link_to events_path, class: 'hidden px-5 h-full lg:flex items-center hover:text-[#39364f]' do %>
       <span>Browse Events</span>
     <% end %>
     <%= link_to new_event_path, class: 'hidden px-5 h-full items-center hover:bg-gray-200 lg:flex text-[#3d64ff] ' do %>

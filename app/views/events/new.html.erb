@@ -1,5 +1,5 @@
 <div class="flex w-full flex-col items-center max-w-5xl md:ml-[56px]">
-  <%= link_to root_path, class:'self-start' do %>
+  <%= link_to events_path, class:'self-start' do %>
     <div class="flex pt-4 text-[#3659e3] items-center pl-1">
       <%= inline_svg_tag 'svg/chevron.svg', class: 'h-4 w-4 rotate-90' %>
       <span class="hover:underline pl-1 text-sm ">Events</span>
@@ -15,7 +15,7 @@
     <span class="w-full h-[1px] bg-[#eeedf2]"></span>
     <%= render partial: 'new_date_info', locals: {form:, resource: @event} %>
     <span class="w-full h-[1px] bg-[#eeedf2]"></span>
-    <%= render partial: 'display_privacy', locals: {form:, resource: @event} %>
+    <% render partial: 'display_privacy', locals: {form:, resource: @event} %>
     <nav class="w-full flex border-t-2 fixed left-0 md:left-[56px] px-16 bottom-0 right-0 bg-white">
       <ul class="flex ml-auto py-4 md:px-6">
         <li>
