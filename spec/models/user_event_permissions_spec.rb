@@ -26,24 +26,25 @@ RSpec.describe UserEventPermission, type: :model do
 
   # custom check to ensure uniqueness validation works
   context 'when creating a second user_event_permission with the same user_id and event_id' do
+    before { permission }
+
     it 'allows a second permission of a different type' do
-      create(:permission, user:, event:)
       permission_two = build(:permission, user:, event:, permission_type: 'owner')
       expect(permission_two).to be_valid
     end
 
     it 'does not allow a second permission of the same type' do
-      create(:permission, user:, event:)
       permission_two = build(:permission, user:, event:, permission_type: 'attend')
       expect(permission_two).not_to be_valid
     end
 
-    context 'when permissions are attend and accept_invite' do
-      it 'does not allow an accept_invite if attend exists' do
-        create(:permission, user:, event:, permission_type: 'attend')
-        permission_two = build(:permission, user:, event:, permission_type: 'accept_invite')
-        expect(permission_two).not_to be_valid
-      end
+    it 'does not allow an accept_invite if attend exists' do
+      permission_two = build(:permission, user:, event:, permission_type: 'accept_invite')
+      expect(permission_two).not_to be_valid
+    end
+
+    context 'first permission is accept_invite' do
+      let(:permission) { create(:permission, user:, event:, permission_type: 'attend') }
 
       it 'does not allow an attend if accept_invite exists' do
         create(:permission, user:, event:, permission_type: 'accept_invite')
@@ -278,43 +279,47 @@ RSpec.describe UserEventPermission, type: :model do
     end
 
     describe 'destroy_permission' do
-      it 'no permissions destroyed if user has no permissions' do
-        create(:permission, permission_type: 'attend', user:, event:)
-        described_class.destroy_permission(params['attend'], user)
-        expect(user.user_event_permissions.pluck(:permission_type)).to match ['attend']
-      end
+      context 'general tests' do
+        before { permission }
 
-      it 'returns a notice and success response if a permission is succesfully destroyed' do
-        allow(user).to receive(:held_event_perms).and_return(['current_user'])
-        create(:permission, permission_type: 'attend', user:, event:)
-        response = described_class.destroy_permission(params['attend'], user)
-        expect(response).to match_array([:notice, 'Successfully destroyed permission.'])
-      end
+        it 'users starts with an attend permission' do
+          expect(user.user_event_permissions.pluck(:permission_type)).to match ['attend']
+        end
 
-      it 'returns an array with an alert if a permission is not succesfully destroyed' do
-        create(:permission, permission_type: 'attend', user:, event:)
-        response = described_class.destroy_permission(params['attend'], user)
-        expect(response[0]).to eq(:alert)
-      end
+        it 'no permissions destroyed if user has no permissions' do
+          described_class.destroy_permission(params['attend'], user)
+          expect(user.user_event_permissions.pluck(:permission_type)).to match ['attend']
+        end
 
-      it 'returns an array with an error message if a permission is not succesfully destroyed' do
-        create(:permission, permission_type: 'attend', user:, event:)
-        response = described_class.destroy_permission(params['attend'], user)
-        expect(response[1]).to be_a(String)
+        it 'returns a notice and success response if a permission is succesfully destroyed' do
+          allow(user).to receive(:held_event_perms).and_return(['current_user'])
+          response = described_class.destroy_permission(params['attend'], user)
+          expect(response).to match_array([:notice, 'Successfully destroyed permission.'])
+        end
+
+        it 'returns an array with an alert if a permission is not succesfully destroyed' do
+          response = described_class.destroy_permission(params['attend'], user)
+          expect(response[0]).to eq(:alert)
+        end
+
+        it 'returns an array with an error message if a permission is not succesfully destroyed' do
+          response = described_class.destroy_permission(params['attend'], user)
+          expect(response[1]).to be_a(String)
+        end
       end
 
       context 'when user has permissions: [attend]' do
+        before { permission }
+
         let(:user_held_perms) { ['attend'] }
 
         it 'does not destroy attend permission' do
-          create(:permission, permission_type: 'attend', user:, event:)
           described_class.destroy_permission(params['attend'], user)
           expect(user.user_event_permissions.pluck(:permission_type)).to match ['attend']
         end
 
         it 'destroys attend permission if user also has current_user permission' do
           allow(user).to receive(:held_event_perms).and_return(%w[attend current_user])
-          create(:permission, permission_type: 'attend', user:, event:)
           described_class.destroy_permission(params['attend'], user)
           expect(user.user_event_permissions.pluck(:permission_type)).to be_empty
         end
@@ -343,7 +348,7 @@ RSpec.describe UserEventPermission, type: :model do
         let(:user_held_perms) { ['accept_invite'] }
 
         it 'does not destroy attend permission' do
-          create(:permission, permission_type: 'attend', user:, event:)
+          permission
           described_class.destroy_permission(params['attend'], user)
           expect(user.user_event_permissions.pluck(:permission_type)).to match ['attend']
         end
@@ -372,7 +377,7 @@ RSpec.describe UserEventPermission, type: :model do
         let(:user_held_perms) { ['owner'] }
 
         it 'destroys attend permission' do
-          create(:permission, permission_type: 'attend', user:, event:)
+          permission
           described_class.destroy_permission(params['attend'], user)
           expect(user.user_event_permissions).to be_empty
         end
@@ -401,7 +406,7 @@ RSpec.describe UserEventPermission, type: :model do
         let(:user_held_perms) { ['moderate'] }
 
         it 'destroys attend permission' do
-          create(:permission, permission_type: 'attend', user:, event:)
+          permission
           described_class.destroy_permission(params['attend'], user)
           expect(user.user_event_permissions).to be_empty
         end

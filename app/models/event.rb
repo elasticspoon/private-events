@@ -23,15 +23,10 @@ class Event < ApplicationRecord
   validates :display_privacy, inclusion: AVAILIABLE_SETTINGS
   validates :attendee_privacy, inclusion: AVAILIABLE_SETTINGS
 
+  scope :past, -> { where('date <= ?', DateTime.now) }
+  scope :future, -> { where('date > ?', DateTime.now) }
+
   after_commit :make_owner_permission, on: :create
-
-  def self.past
-    where('date <= ?', DateTime.now)
-  end
-
-  def self.future
-    where('date > ?', DateTime.now)
-  end
 
   def self.display_public
     where(display_privacy: 'public')

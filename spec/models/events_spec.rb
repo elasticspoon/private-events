@@ -47,7 +47,7 @@ RSpec.describe Event, type: :model do
   end
 
   describe 'Testing filter methods' do
-    describe 'self.past' do
+    describe 'scope past' do
       it 'returns an empty array when there are no past events' do
         expect(described_class.past).to be_empty
       end
@@ -58,7 +58,7 @@ RSpec.describe Event, type: :model do
       end
     end
 
-    describe 'self.future' do
+    describe 'scope future' do
       it 'returns an empty array when there are no future events' do
         expect(described_class.future).to be_empty
       end
@@ -119,16 +119,17 @@ RSpec.describe Event, type: :model do
 
   describe 'Create Factory Methods' do
     describe '#attending_viewable_by?' do
-      context 'when attendee_privacy is public' do
-        let(:event) { build_stubbed(:event, attendee_privacy: 'public') }
+      let(:event) { build_stubbed(:event, attendee_privacy:) }
+      let(:attendee_privacy) { 'public' }
 
+      context 'when attendee_privacy is public' do
         it 'returns true when user is nil' do
           expect(event.attending_viewable_by?(nil)).to be true
         end
       end
 
       context 'when attendee_privacy is protected' do
-        let(:event) { build_stubbed(:event, attendee_privacy: 'protected') }
+        let(:attendee_privacy) { 'protected' }
 
         it 'returns false when user is nil' do
           expect(event.attending_viewable_by?(nil)).to be false
@@ -173,16 +174,17 @@ RSpec.describe Event, type: :model do
     end
 
     describe '#viewable_by?' do
-      context 'when display_privacy is public' do
-        let(:event) { build_stubbed(:event, display_privacy: 'public') }
+      let(:event) { build_stubbed(:event, display_privacy:) }
+      let(:display_privacy) { 'public' }
 
+      context 'when display_privacy is public' do
         it 'returns true when user is nil' do
           expect(event.viewable_by?(nil)).to be true
         end
       end
 
       context 'when display_privacy is protected' do
-        let(:event) { build_stubbed(:event, display_privacy: 'protected') }
+        let(:display_privacy) { 'protected' }
 
         it 'returns false when user is nil' do
           expect(event.viewable_by?(nil)).to be false
