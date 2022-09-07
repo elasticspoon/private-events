@@ -1,4 +1,4 @@
 web: bundle exec rdbg -n --open=vscode -c -- bin/rails server -p 3000
  comment web: bundle exec bin/rails server -p 3000
 css: bundle exec bin/rails tailwindcss:watch
-guard: bundle exec guard
+guard: bundle exec guard -i
