@@ -9,7 +9,11 @@ RUN apt-get update -qq && apt-get install -yq --no-install-recommends \
   libpq-dev \
   postgresql-client \
   libvips42 \
+  wget \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome*.deb || apt update && apt-get install -f -y
 
 ENV LANG=C.UTF-8 \
   BUNDLE_JOBS=4 \

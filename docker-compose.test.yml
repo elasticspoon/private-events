@@ -11,11 +11,32 @@ services:
     env_file:
       - .env/test/database
       - .env/test/web
+    networks:
+      rails-network:
+        aliases:
+          - web.com
   redis:
     image: redis
   database:
     image: postgres
     env_file:
       - .env/test/database
+    networks:
+      rails-network:
+        aliases:
+          - db.com
+  chrome:
+    image: selenium/standalone-chrome
+    ports:
+      - "4444:4444"
+      - "5900:5900"
+    depends_on:
+      - web
+    networks:
+      rails-network:
+        aliases:
+          - chrome.com
 volumes:
   gem_cache:
+networks:
+  rails-network:
