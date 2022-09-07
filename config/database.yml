@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  # database: private_events_development
+  database: private_events_development
   # host: <%= ENV['DATABASE_HOST'] %>
   # username: <%= ENV['POSTGRES_USER'] %>
   # password: <%= ENV['POSTGRES_PASSWORD'] %>

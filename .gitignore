@@ -36,3 +36,4 @@ rails_best_practices_output.html
 .env
 spec/examples.txt
 .vscode/rdbg_autoattach.json
+.vscode/settings.json
