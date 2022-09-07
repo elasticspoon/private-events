@@ -1,0 +1,29 @@
+FROM ruby:3.1.2-slim
+LABEL maintainer="ybocharov95@gmail.com"
+
+RUN apt-get update -qq && apt-get install -yq --no-install-recommends \
+    build-essential \
+    gnupg2 \
+    libpq-dev \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENV LANG=C.UTF-8 \
+  BUNDLE_JOBS=4 \
+  BUNDLE_RETRY=3 \
+  RAILS_ENV=production
+  
+COPY Gemfile* /usr/src/app/
+WORKDIR /usr/src/app
+
+ENV BUNDLE_PATH /gems
+RUN bundle install
+
+COPY . /usr/src/app/
+
+EXPOSE 3000
+
+RUN bin/rails assets:clobber && bundle exec rails assets:precompile
+
+ENTRYPOINT [ "./entrypoint.sh" ]
+
+CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0"]

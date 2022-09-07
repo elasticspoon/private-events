@@ -1,14 +1,13 @@
+# rubocop:disable Metrics/ClassLength
 class UserEventPermission < ApplicationRecord
   PERMISSION_TYPES = %w[attend moderate accept_invite owner].freeze
 
   belongs_to :user
   belongs_to :event
 
-  validates :user_id, presence: true
-  validates :event_id, presence: true
   validates :permission_type, inclusion: { in: PERMISSION_TYPES, message: 'is invalid.' }
 
-  validates_uniqueness_of :user_id, scope: %i[permission_type event_id], message: 'already has permission.'
+  validates :user_id, uniqueness: { scope: %i[permission_type event_id], message: 'already has permission.' }
   validate :uniqueness_attend_accept_invite
 
   # validation to make accept_invite and attend mutually exclusive
@@ -29,6 +28,7 @@ class UserEventPermission < ApplicationRecord
   # return flash response
   def self.create_permission(params, curr_user)
     permission_target_id = UserEventPermission.invite_target_id(params, curr_user.id)
+    # TODO: change to find_or_initialize_by
     permission = UserEventPermission.new({ event_id: params[:event_id],
                                            permission_type: params[:permission_type],
                                            user_id: permission_target_id })
@@ -75,8 +75,7 @@ class UserEventPermission < ApplicationRecord
   end
 
   def validate_permission(curr_user, action)
-    held_permissions = User.held_event_perms(curr_user, event_id)
-    held_permissions.push('current_user') if curr_user == user
+    held_permissions = curr_user&.held_event_perms(event_id, curr_user.id)
     required_perms = event.required_perms_for_action(perm_type: permission_type, action:)
 
     validate_held_vs_req(held_permissions, required_perms)
@@ -98,7 +97,7 @@ class UserEventPermission < ApplicationRecord
   # general methods
   ##############################################################################################
   def self.invite_target_id(params, curr_user_id)
-    return curr_user_id unless params[:identifier].present?
+    return curr_user_id if params[:identifier].blank?
 
     params = UserEventPermission.validate_identifier(params)
 
@@ -149,3 +148,5 @@ class UserEventPermission < ApplicationRecord
     "#{action.to_s.sub(/e$/, '')}ed"
   end
 end
+
+# rubocop:enable Metrics/ClassLength

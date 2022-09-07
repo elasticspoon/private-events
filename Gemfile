@@ -34,7 +34,7 @@ gem 'tailwindcss-rails'
 gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 4.0'
+# gem 'redis', '~> 4.0'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -61,10 +61,16 @@ gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'inline_svg'
 
 group :development, :test do
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'rails-controller-testing'
+  gem 'rspec-rails', '~> 5.1', '>= 5.1.2'
+
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
-  gem 'rspec-rails', '~> 5.1', '>= 5.1.2'
-  gem 'shoulda-matchers', '~> 5.1'
+
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 end
 
 group :development do
@@ -79,8 +85,12 @@ group :development do
 
   gem 'guard'
   gem 'guard-livereload'
-  gem 'rails_best_practices', '~> 1.23', '>= 1.23.1'
-  gem 'rubocop-rails'
-  gem 'rubocop-rspec'
   gem 'rubycritic', '~> 4.7'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers', '~> 5.1'
+  gem 'webdrivers'
 end
