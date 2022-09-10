@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers, RSpec/NestedGroups
-
 require 'rails_helper'
 
 RSpec.describe UserEventPermission, type: :model do
@@ -44,10 +42,9 @@ RSpec.describe UserEventPermission, type: :model do
     end
 
     context 'first permission is accept_invite' do
-      let(:permission) { create(:permission, user:, event:, permission_type: 'attend') }
+      let(:permission) { create(:permission, user:, event:, permission_type: 'accept_invite') }
 
       it 'does not allow an attend if accept_invite exists' do
-        create(:permission, user:, event:, permission_type: 'accept_invite')
         permission_two = build(:permission, user:, event:, permission_type: 'attend')
         expect(permission_two).not_to be_valid
       end
@@ -57,7 +54,8 @@ RSpec.describe UserEventPermission, type: :model do
   describe '#self.invite_target_id' do
     let(:params) do
       lambda { |identifier|
-        ActionController::Parameters.new({ event_id: event.id, permission_type: 'attend', identifier: })
+        ActionController::Parameters.new({ event_id: event.id, permission_type: 'attend',
+                                           identifier: })
       }
     end
     let(:target_user) { create(:user) }
@@ -68,23 +66,28 @@ RSpec.describe UserEventPermission, type: :model do
     end
 
     it 'returns nil if email identifier provided but not found' do
-      expect(described_class.invite_target_id(params[{ email: :invalid }], current_user.id)).to be_nil
+      expect(described_class.invite_target_id(params[{ email: :invalid }],
+                                              current_user.id)).to be_nil
     end
 
     it 'returns id of user with matching email if valid email identifier provided' do
-      expect(described_class.invite_target_id(params[{ email: target_user.email }], current_user.id))
+      expect(described_class.invite_target_id(params[{ email: target_user.email }],
+                                              current_user.id))
         .to eq(target_user.id)
     end
 
     it 'raises error if multiple identifiers provided' do
       expect do
-        described_class.invite_target_id(params[{ email: target_user.email, user_id: target_user.id }], current_user.id)
+        described_class.invite_target_id(
+          params[{ email: target_user.email, user_id: target_user.id }], current_user.id
+        )
       end
         .to raise_error RuntimeError, /Invalid identifier/
     end
 
     it 'returns user_id if user_id identifier provided' do
-      expect(described_class.invite_target_id(params[{ user_id: :some_id }], current_user.id)).to eq(:some_id)
+      expect(described_class.invite_target_id(params[{ user_id: :some_id }],
+                                              current_user.id)).to eq(:some_id)
     end
   end
 
@@ -309,16 +312,16 @@ RSpec.describe UserEventPermission, type: :model do
       end
 
       context 'when user has permissions: [attend]' do
-        before { permission }
-
         let(:user_held_perms) { ['attend'] }
 
         it 'does not destroy attend permission' do
+          create(:permission, permission_type: 'attend', user:, event:)
           described_class.destroy_permission(params['attend'], user)
           expect(user.user_event_permissions.pluck(:permission_type)).to match ['attend']
         end
 
         it 'destroys attend permission if user also has current_user permission' do
+          create(:permission, permission_type: 'attend', user:, event:)
           allow(user).to receive(:held_event_perms).and_return(%w[attend current_user])
           described_class.destroy_permission(params['attend'], user)
           expect(user.user_event_permissions.pluck(:permission_type)).to be_empty
@@ -433,4 +436,3 @@ RSpec.describe UserEventPermission, type: :model do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers, RSpec/NestedGroups

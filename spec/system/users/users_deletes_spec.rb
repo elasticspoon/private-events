@@ -1,16 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'Users::Deletes', type: :system do
-  before { driven_by(:rack_test) }
-
-  before(:each, browser: true) { driven_by(:selenium) }
+  before { sign_in user }
 
   let(:user) { create(:user) }
 
-  before { sign_in user }
-
-  describe 'delete user page', browser: true do
-    before { visit users_edit_close_account_path }
+  describe 'delete user page' do
+    before do
+      driven_by(:rack_test)
+      visit users_edit_close_account_path
+    end
 
     it 'deletes the user' do
       fill_in 'close', with: 'CLOSE'
@@ -27,7 +26,7 @@ RSpec.describe 'Users::Deletes', type: :system do
     end
   end
 
-  describe 'page reachable', browser: true do
+  describe 'page reachable' do
     it 'delete user is reachable from the edit account page' do
       visit edit_user_registration_path
       click_button 'Account'

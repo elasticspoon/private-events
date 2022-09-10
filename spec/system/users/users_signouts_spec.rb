@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Users::Signouts', type: :system do
+  before { driven_by(:selenium_chrome_headless) }
+
   let(:user) { create(:user) }
 
   describe 'sign out action' do

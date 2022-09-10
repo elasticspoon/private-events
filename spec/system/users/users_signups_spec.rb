@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Users::SignUp', type: :system do
+RSpec.describe 'Users::SignUps', type: :system do
   before { driven_by(:rack_test) }
 
-  before(:each, browser: true) { driven_by(:selenium) }
+  before(:each, browser: true) { driven_by(:selenium_chrome_headless) }
 
   let(:user) { build(:user) }
   let(:existing_user) { create(:user) }
@@ -13,13 +13,13 @@ RSpec.describe 'Users::SignUp', type: :system do
   describe 'sign_up wizard stage 1: Enter Email' do
     before { visit new_user_registration_path }
 
-    it 'shows an error message if email is taken', visit: true do
+    it 'shows an error message if email is taken' do
       fill_in 'user_email', with: existing_user.email
       click_button 'Continue'
       expect(page.has_content?('account associated with the email')).to be true
     end
 
-    it 'goes to step 2 wizard: sign up if email valid', visit: true do
+    it 'goes to step 2 wizard: sign up if email valid' do
       fill_in_email
       expect(page.has_field?('user_password')).to be true
     end

@@ -9,7 +9,7 @@ RSpec.describe 'Users::Updates', type: :system do
 
   before { sign_in user }
 
-  describe 'edit user info page', browser: true do
+  describe 'edit user info page' do
     before { visit edit_user_registration_path }
 
     it 'changes the users name' do
@@ -37,7 +37,7 @@ RSpec.describe 'Users::Updates', type: :system do
     end
   end
 
-  describe 'change password page', browser: true do
+  describe 'change password page' do
     before { visit users_edit_update_password_path }
 
     it 'changes user password' do
