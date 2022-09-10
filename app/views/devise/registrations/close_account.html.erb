@@ -38,7 +38,8 @@
                 <%= form.radio_button :reason, 'other' %>
                 <%= form.label :reason_other, 'Other (Please Explain)', class: 'pl-1' %>
               </div>
-              <%= form.text_field :reason_other, class: 'w-full py-1 border-[1px] rounded border-gray-300 py-3 px-4 mt-2 text-base leading-8 text-[#39364f]'%>
+              <%= form.label :reason_other_text, 'Other (Please Explain)', class: 'sr-only' %>
+              <%= form.text_field :reason_other_text, class: 'w-full py-1 border-[1px] rounded border-gray-300 py-3 px-4 mt-2 text-base leading-8 text-[#39364f]'%>
             </li>
           </ul>
           <p class="">

@@ -1,4 +1,4 @@
-<nav class="bg-white w-full min-h-[60px] flex flex-row z-20 border-b-[1px] border-[#eeedf2]">
+<nav id="header-nav" class="bg-white w-full min-h-[60px] flex flex-row z-20 border-b-[1px] border-[#eeedf2]">
   <ul class='w-full flex flex-row font-normal text-[13px] items-center justify-center text-[#6f7287]'>
     <%= link_to root_path do %>
       <%= inline_svg_tag 'svg/eventbrite_logo.svg', class:'h-[20px] px-6 text-cur', style: 'fill: #f05537' %>
@@ -13,7 +13,7 @@
     <div class="hidden lg:flex h-full"><%= render partial: 'navbar/drop_down_organize', layout:'navbar/dropdown_layout', locals: { is_event_view: true} %></div>
     <div class="hidden lg:flex  h-full"><%= render partial: 'navbar/drop_down_help', layout:'navbar/dropdown_layout', locals: {is_event_view: true} %></div>
     <div class="lg:hidden flex  h-full"><%= render partial: 'navbar/drop_down_event', layout:'navbar/dropdown_layout', locals: { is_event_view: true} %></div>
-    <%= render( partial: 'navbar/drop_down_user', layout: 'navbar/dropdown_layout', locals: { is_event_view: true}) if user_signed_in? %>
-    <ul class="[&>*:hover]:bg-gray-100 [&>*]:px-5 flex h-full"><%= render 'navbar/log_in_items' %></ul>
+    <%= render(partial: 'navbar/drop_down_user', layout: 'navbar/dropdown_layout', locals: { is_event_view: true}) if user_signed_in? %>
+    <div class="[&>*:hover]:bg-gray-100 [&>*]:px-5 lg:flex h-full hidden"><%= render 'navbar/log_in_items' %></div>
   </ul>
 </nav>

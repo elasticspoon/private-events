@@ -4,13 +4,22 @@
   </div>
 <% end %>
 <% content_for :page_form do %>
+  <style>
+    input:not(:placeholder-shown) + label, input:focus + label {
+      top: 0;
+      font-size: 12px;
+    }
+    input:not(:placeholder-shown), input:focus {
+      padding-top: 16px;
+    }
+  </style>
   <%= form_for(resource, as: resource_name, url: new_registration_path(resource_name), data: { turbo: false}) do |form| %>
     <div class="flex flex-col">
       <div class="flex items-center justify-between border-[1px] border-[#dbdae3] bg-[#f8f7fa] ">
-        <div class=" flex flex-col font-normal h-[48px] rounded-sm" >
-          <%= form.label :email, value: 'Email address', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287]' %>
+        <div class=" flex flex-col font-normal h-[48px] rounded-sm relative" >
           <%= form.hidden_field :email, value: resource[:email] %>
-          <%= form.email_field :email, class: 'border-none px-3 pt-[18px] pb-[6px] text-sm bg-[#f8f7fa] focus:outline-none', disabled: 'true' %>
+          <%= form.text_field :placeholder, value: resource[:email], class: 'border-none px-3 pt-[18px] pb-[6px] text-sm bg-[#f8f7fa] focus:outline-none', disabled: 'true' %>
+          <%= form.label :placeholder, 'Email address', class: 'absolute px-3 pt-[2px] text-xs text-gray-600' %>
         </div>
         <%= render 'devise/registrations/edit_email_button' %>
       </div>
@@ -18,37 +27,32 @@
       <div class="grid grid-cols-2 gap-x-4 mt-2">
         <div class="flex flex-col">
           <div class=" border-[1px] border-[#dbdae3] flex flex-col font-normal h-[48px] rounded-sm relative justify-center" >
-            <%= form.text_field :name, class: 'border-transparent border-[1px] px-3 focus:border-none focus:pt-5 text-sm placeholder:text-sm focus:placeholder:text-transparent peer ', placeholder: 'Name' %>
-            <%= form.label :name, value: 'Name', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287] hidden peer-focus:block top-0' %>
+            <%= form.text_field :name, class: 'border-transparent px-3 text-sm', placeholder: ' ' %>
+            <%= form.label :name, 'Name', class: 'absolute px-3 pt-[2px] text-sm text-[#6f7287]' %>
           </div>
           <%= render 'inline_errors', errors: resource.errors[:name] %>
         </div>
         <div class="flex flex-col">
           <div class=" border-[1px] border-[#dbdae3] flex flex-col font-normal h-[48px] rounded-sm relative justify-center" >
-            <%= form.text_field :username, class: 'border-transparent border-[1px] px-3 focus:border-none focus:pt-5 text-sm placeholder:text-sm focus:placeholder:text-transparent peer', placeholder: 'Username' %>
-            <%= form.label :username, value: 'Username', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287] hidden peer-focus:block top-0' %>
+            <%= form.text_field :username, class: 'border-transparent px-3 text-sm', placeholder: ' ' %>
+            <%= form.label :username, 'Username', class: 'absolute px-3 pt-[2px] text-sm text-[#6f7287]' %>
           </div>
           <%= render 'inline_errors', errors: resource.errors[:username] %>
         </div>
       </div>
       <div class="mt-2 border-[1px] border-[#dbdae3] flex flex-col font-normal h-[48px] rounded-sm relative justify-center" >
-        <%= form.password_field :password, class: 'border-transparent border-[1px] px-3 focus:border-none focus:pt-5 text-sm placeholder:text-sm focus:placeholder:text-transparent peer', placeholder: 'Password' %>
-        <%= form.label :password, value: 'Password', class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287] hidden peer-focus:block top-0' %>
+        <%= form.password_field :password, class: 'border-transparent px-3 text-sm', placeholder: ' ' %>
+        <%= form.label :password, 'Password', class: 'absolute px-3 pt-[2px] text-sm text-[#6f7287]' %>
       </div>
       <div class="mt-2 border-[1px] border-[#dbdae3] flex flex-col font-normal h-[48px] rounded-sm relative justify-center ">
-        <%= form.password_field :password_confirmation, placeholder: 'Confirm password', class: 'border-transparent border-[1px] px-3 focus:border-none focus:pt-5 text-sm placeholder:text-sm focus:placeholder:text-transparent peer' %>
-        <%= form.label :password_confirmation, class: 'absolute px-3 pt-[2px] text-xs text-[#6f7287] hidden peer-focus:block top-0' %>
+        <%= form.password_field :password_confirmation, class: 'border-transparent px-3 text-sm', placeholder: ' ' %>
+        <%= form.label :password_confirmation, class: 'absolute px-3 pt-[2px] text-sm text-[#6f7287]' %>
       </div>
       <%= render 'inline_errors', errors: resource.errors[:password_confirmation] %>
       <div class="flex flex-col mt-6 mb-8">
-        <div class="bg-gray-100 h-1 w-full flex">
-          <div class="" id="passwordStrengthBar"></div>
-        </div>
-        <span class="pt-2 font-normal text-[13px]" id="passwordStrengthResponse">Your password must be at least 8 characters</span>
+        <%= render 'password_strength_bar' %>
       </div>
-      <div class="bg-[#d1410c] w-full flex items-center justify-center min-h-[44px] rounded cursor-pointer mb-10">
-        <%= form.submit 'Create account', class: 'font-semibold text-sm text-white' %>
-      </div>
+      <%= form.submit 'Create Account', class: 'my-4 bg-[#d1410c] w-full flex items-center justify-center min-h-[44px] rounded cursor-pointer font-semibold text-sm text-white', style: 'padding: 0' %>
     </div>
   <% end %>
 <% end %>

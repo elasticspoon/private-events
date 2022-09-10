@@ -1,6 +1,6 @@
-<nav class="bg-white w-full min-h-[72px] flex flex-row justify-evenly z-20 border-b-[1px] border-b-[#eeedf2]">
+<nav id="header-nav" class="bg-white w-full min-h-[72px] flex flex-row justify-evenly z-20 border-b-[1px] border-b-[#eeedf2]">
   <ul class='flex flex-row font-semibold text-[13px] w-full items-center justify-center' style="color: #39364f">
-    <%= link_to root_path do %>
+    <%= link_to root_path, 'aria-label': 'Home' do %>
       <%= inline_svg_tag 'svg/eventbrite_logo.svg', class:'h-[20px] px-6 text-cur', style: 'fill: #f05537' %>
     <% end %>
     <%= render 'navbar/search' %>

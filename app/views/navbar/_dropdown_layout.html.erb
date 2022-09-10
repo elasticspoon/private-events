@@ -1,6 +1,33 @@
-<div class="group flex-col h-full justify-center items-center relative" x-data="{dropdown: false}">
+<div class="group flex-col h-full justify-center items-center relative" 
+x-data="{
+  dropdown: false,
+  toggleDropdown() {
+    if (this.dropdown) {
+      return this.close()
+    }
+
+    this.$refs.button.focus()
+    this.dropdown = true
+  },
+  close(focusAfter) {
+    if (! this.dropdown) return
+
+    this.dropdown = false
+    focusAfter && focusAfter.focus()
+  }
+  }"
+  x-on:keydown.escape.prevent.stop="close($refs.button)"
+  x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+  x-id="['dropdown-button']"
+  >
   <button class="h-full w-full flex flex-row justify-center items-center px-3 lg:px-5 hover:bg-gray-100
-  <%= local_assigns[:is_event_view] ? 'text-[#6f7287] hover:text-[#39364f]' : 'text-[#39364f] ' %>" @click="dropdown = ! dropdown">
+  <%= local_assigns[:is_event_view] ? 'text-[#6f7287] hover:text-[#39364f]' : 'text-[#39364f] ' %>"
+   x-ref="button"
+    x-on:click="toggleDropdown()"
+    :aria-expanded="dropdown"
+    :aria-controls="$id('dropdown-button')"
+    type="button"
+   >
     <%= content_for :picture %>
     <%= content_for :label %>
     <div :class="dropdown && 'rotate-180'">
@@ -9,7 +36,13 @@
   </button>
   <ul class="absolute min-w-[250px] right-0 self-end bg-white text-sm font-normal shadow-sm z-20
   [&>*]:text-gray-500 [&>*]:px-5 [&>*]:py-4 [&>*:hover]:cursor-pointer  [&>*:hover]:text-gray-800 [&>*:hover]:bg-gray-100
-    <%= local_assigns[:is_event_view] ? 'top-[60px]' : 'top-[72px]'  %>" x-show="dropdown" x-cloak @click.outside="dropdown=false">
+    <%= local_assigns[:is_event_view] ? 'top-[60px]' : 'top-[72px]'  %>"
+    x-ref="panel"
+    x-show="dropdown"
+    x-transition.origin.top.left
+    x-on:click.outside="close($refs.button)"
+    :id="$id('dropdown-button')"
+    style="display: none;">
     <%= content_for :list %>
   </ul>
 </div>

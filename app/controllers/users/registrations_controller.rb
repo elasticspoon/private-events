@@ -1,10 +1,12 @@
-# rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+# rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Rails/LexicallyScopedActionFilter
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  prepend_before_action :authenticate_scope!, only: %i[update close_account close_account_action update_password]
+  prepend_before_action :authenticate_scope!,
+                        only: %i[update close_account close_account_action update_password edit
+                                 destroy]
   prepend_before_action :set_minimum_password_length, only: %i[update_password]
 
   # GET /resource/sign_up
@@ -51,6 +53,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
       # respond_with resource
       if resource.errors[:email].empty?
+        landing_on_valid_email_page resource
         render 'valid_email', locals: { resource: }
       else
         render 'new', locals: { resource: }
@@ -82,7 +85,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      respond_with resource
+      if params[:user][:password_confirmation].present?
+        render :update_password, locals: { resource: }
+      else
+        respond_with resource
+      end
     end
   end
 
@@ -144,6 +151,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def update_resource(resource, params)
     resource.update(params)
   end
+
+  def landing_on_valid_email_page(resource)
+    resource.errors.clear if params.require(:user).permit(:wizard_stage)['wizard_stage'] == '1'
+  end
 end
 
-# rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+# rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Rails/LexicallyScopedActionFilter

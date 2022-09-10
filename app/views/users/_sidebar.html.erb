@@ -1,5 +1,5 @@
 <div class="flex flex-col bg-[#f8f7fa] w-full h-full">
-  <div class="flex flex-col text-sm font-normal text-[#6f7287] relative" x-data="{open_submenu: false}">
+  <div class="flex flex-col text-sm font-normal text-gray-600 relative" x-data="{open_submenu: false}">
     <button class="flex px-5 py-4 justify-between items-center hover:text-black" @click="open_submenu = ! open_submenu">
       <span class="font-semibold">Account</span>
       <div :class="open_submenu && 'rotate-180'"><%= render 'navbar/chevron_svg' %></div>
@@ -15,7 +15,7 @@
       <li>Personal Data</li>
     </ul>
   </div>
-  <div class="flex flex-col text-sm font-normal text-[#6f7287] relative" x-data="{open_submenu: false}">
+  <div class="flex flex-col text-sm font-normal text-gray-600 relative" x-data="{open_submenu: false}">
     <button class="flex px-5 py-4 justify-between items-center hover:text-black" @click="open_submenu = ! open_submenu">
       <span class="font-semibold">Developer Links</span>
       <div :class="open_submenu && 'rotate-180'"><%= render 'navbar/chevron_svg' %></div>

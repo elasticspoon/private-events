@@ -5,7 +5,7 @@
     <div class="grid grid-cols-2">
       <%= render partial: 'fields/text_field', locals: {field_name: :name,  form:} %>
       <%= render partial: 'fields/text_field', locals: {field_name: :username,  form:} %>
-      <%= form.submit 'Save', class: 'h-[44px] font-bold text-[15px] text-white rounded px-8 bg-[#d1410c] mt-4 w-fit' %>
+      <%= form.submit 'Save', class: 'save-button h-[44px] font-bold text-[15px] text-white rounded px-8 bg-[#d1410c] mt-4 w-fit', id: 'update-user' %>
     </div>
   <% end %>
 </div>

@@ -7,8 +7,7 @@
     {
       "type": "rdbg",
       "name": "Attach rdbg",
-      "request": "attach",
-      "debugPort": "4000"
+      "request": "attach"
     },
     {
       "type": "rdbg",
