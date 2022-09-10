@@ -37,3 +37,5 @@ rails_best_practices_output.html
 spec/examples.txt
 .vscode/rdbg_autoattach.json
 .vscode/settings.json
+
+/coverage

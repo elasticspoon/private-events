@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Users::SignUps', type: :system do
   before { driven_by(:rack_test) }
 
-  before(:each, browser: true) { driven_by(:selenium_chrome_headless) }
+  before(:each, browser: true) { driven_by(:selenium) }
 
   let(:user) { build(:user) }
   let(:existing_user) { create(:user) }

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Users::Signins', type: :system do
   before { driven_by(:rack_test) }
 
-  before(:each, browser: true) { driven_by(:selenium_chrome_headless) }
+  before(:each, browser: true) { driven_by(:selenium) }
 
   let(:user) { build_stubbed(:user) }
   let(:existing_user) { create(:user) }

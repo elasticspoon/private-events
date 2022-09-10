@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Users::Signouts', type: :system do
-  before { driven_by(:selenium_chrome_headless) }
+  before { driven_by(:selenium) }
 
   let(:user) { create(:user) }
 
