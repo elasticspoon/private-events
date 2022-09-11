@@ -1,6 +1,6 @@
 <div class="flex flex-col md:grid grid-cols-3 w-full" x-data x-intersect:enter="$store.user_in_view = true" x-intersect:leave="$store.user_in_view = false">
   <div class="w-full col-span-2 relative ">
-    <%= image_tag resource.image_url, class: 'w-full' %>
+    <%= image_tag resource.image_url, class: 'w-full', alt: 'Event header image placeholder' %>
     <div class="md:hidden"><%= render 'user_event_permissions/heart_perm_button', resource: resource %></div>
   </div>
   <div class="hidden md:flex flex-col pb-5 px-[30px] pt-[30px] w-full bg-[#eeedef] justify-between relative">

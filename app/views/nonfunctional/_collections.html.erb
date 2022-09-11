@@ -2,18 +2,18 @@
   <div class="flex flex-col w-full px-10 pb-7">
     <span class="font-bold text-2xl">Hand-picked</span>
     <span class="font-bold text-[28px] leading-9 text-[#d1410c]">Collections</span>
-    <span class="font-normal text-sm text-[#6f7287]">
+    <span class="font-normal text-sm text-gray-500">
       Discover more of the best in food, music, wellness, and more with our curated event collections
     </span>
   </div>
 <% end %>
 <% set_content_for :left_arrow do %>
-  <button class="p-2 mr-2 disabled:text-[#a9a8b3] text-[#39364f] rounded-full hover:bg-gray-200 disabled:hover:bg-transparent">
+  <button class="p-2 mr-2 disabled:text-[#a9a8b3] text-[#39364f] rounded-full hover:bg-gray-200 disabled:hover:bg-transparent" aria-label="Next Collection Page">
     <%= inline_svg_tag 'svg/arrow_right.svg', class:'h-6 w-5 rotate-180', stroke: 'currentColor' %>
   </button>
 <% end %>
 <% set_content_for :right_arrow do %>
-  <button class="p-2 mr-10 disabled:text-[#a9a8b3]  text-[#39364f] rounded-full hover:bg-gray-200 disabled:hover:bg-transparent">
+  <button class="p-2 mr-10 disabled:text-[#a9a8b3]  text-[#39364f] rounded-full hover:bg-gray-200 disabled:hover:bg-transparent" aria-label="Previous Collection Page">
     <%= inline_svg_tag 'svg/arrow_right.svg', class:'h-6 w-5', stroke: 'currentColor' %>
   </button>
 <% end %>

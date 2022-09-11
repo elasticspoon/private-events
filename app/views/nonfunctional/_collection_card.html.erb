@@ -2,18 +2,18 @@
   <div class="w-full max-w-[95%]">
     <div class="flex flex-col h-full shadow-2xl shadow-gray-200 hover:shadow-gray-400">
       <%= image_tag "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F110121099%2F438776807040%2F1%2Foriginal.20200901-152816?w=1024&auto=format%2Ccompress&q=75&sharp=10&s=3a7ebd34804296fe718fc298f7e54e79",
-          class: 'w-full' %>
+          class: 'w-full', alt: 'Collection card image placeholder' %>
       <div class="flex flex-col p-4">
         <div class="font-semibold text-xl overflow-hidden">
           Do Well: Virtual Wellness & Fitness Events
         </div>
         <div class="flex mt-2">
-          <div class="w-[32px] h-[32px]"><%= image_tag "https://cdn.evbuc.com/images/100912392/438776807040/1/original.20200513-210241" %></div>
+          <div class="w-[32px] h-[32px]"><%= image_tag "https://cdn.evbuc.com/images/100912392/438776807040/1/original.20200513-210241", alt: 'Eventbrite logo image' %></div>
           <span class="pl-2 text-base font-normal text-[#39364f]">Eventbrite</span>
         </div>
         <div class="flex flex-col pt-4">
-          <div class="text-[#f05537] font-semibold text-base pb-1 "><%= rand(99) %> upcoming events </div>
-          <div class="overflow-hidden text-base font-normal text-[#6f7287] italic max-h-[72px] break-words">
+          <div class="text-orange-700 font-semibold text-base pb-1 "><%= rand(99) %> upcoming events </div>
+          <div class="overflow-hidden text-base font-normal text-gray-500 italic max-h-[72px] break-words">
             Use this curated Collection of virtual wellness events to find an activity that can help you take action on improving your mental and physical health. Zen out with a guided meditation, learn tips and tricks for managing stress, or try a new workout to put your body and mind at ease.
           </div>
         </div>

@@ -1,11 +1,11 @@
 <div class="w-full items-center flex flex-col" x-data x-intersect:enter="$store.user_in_view = true" x-intersect:leave="$store.user_in_view = false">
   <div class="h-[400px] md:h-[640px] w-full absolute overflow-hidden">
     <div class="absolute md:mt-[-10%] overflow-hidden right-0 left-0">
-      <%= image_tag 'profile_picture_placeholder.png', class: 'blur-lg h-[200%] w-[200%]' %>
+      <%= image_tag 'profile_picture_placeholder.png', alt: 'User profile picture placeholder', class: 'blur-lg h-[200%] w-[200%]' %>
     </div>
   </div>
   <div class="hidden md:flex flex-col text-center items-center bg-white z-10 w-[672px] shadow-2xl rounded my-16 py-16">
-    <%= image_tag 'profile_picture_placeholder.png', size: '200x200', style: 'border-radius: 9999px' %>
+    <%= image_tag 'profile_picture_placeholder.png', alt: 'User profile picture placeholder', size: '200x200', style: 'border-radius: 9999px' %>
     <h1 class="py-4 text-5xl leading-[40px] font-extrabold"><%= user.username.titleize %></h1>
     <p class="font-normal text-sm text-[#6f7287]">Hosted <%= user.events_created.count %> events total</p>
     <p class="font-normal text-sm text-[#6f7287] pt-1"><%= rand(99999) %> followers</p>
@@ -24,7 +24,7 @@
     </div>
   </div>
   <div class="flex flex-col self-end text-center items-center justify-center bg-white z-10 w-full rounded md:hidden relative mt-[400px]">
-    <div class="flex absolute -top-12 "><%= image_tag 'profile_picture_placeholder.png', size:'96x96', style: 'border-radius: 9999px' %></div>
+    <div class="flex absolute -top-12 "><%= image_tag 'profile_picture_placeholder.png', alt: 'User profile picture placeholder', size:'96x96', style: 'border-radius: 9999px' %></div>
     <h1 class="pt-20 pb-4 text-3xl leading-[40px] font-extrabold"><%= user.username.titleize %></h1>
     <p class="font-normal text-sm text-[#6f7287]">Hosted <%= user.events_created.count %> events total</p>
     <p class="font-normal text-sm text-[#6f7287] pt-1"><%= rand(99999) %> followers</p>

@@ -3,12 +3,12 @@
     <div class="flex flex-col h-full shadow-2xl shadow-gray-200 <%= 'hover:shadow-gray-400' unless local_assigns[:is_event_view] %>">
       <div class="w-full relative">
         <%= link_to event, class: 'w-full' do %>
-          <%= image_tag event.image_url, class: 'w-full' %>
+          <%= image_tag event.image_url, class: 'w-full', alt: 'Event card placeholder image' %>
         <% end %>
         <div class="absolute -top-4 -right-3"><%= render 'events/event_tags_bar', resource: event %></div>
         <%= render 'user_event_permissions/heart_perm_button', resource: event unless local_assigns[:hide_invite] %>
       </div>
-      <%= link_to event do %>
+      <%= link_to event, value: nil, 'aria-label': "Link to #{event.name}" do %>
         <div class="flex flex-col px-4 py-6">
           <div class="font-bold text-xl clamp-three"><%= event.name.titleize %></div>
           <div class="text-[#d1410c] font-semibold text-base pb-1 pt-2">
@@ -19,7 +19,7 @@
             <% end%>
             + <%= rand(99) %> more events 
           </div>
-          <div class="clamp-one text-base font-normal text-gray-400 "><%= event.location.titleize %> - <%= event.location.titleize %></div>
+          <div class="clamp-one text-base font-light text-gray-600 "><%= event.location.titleize %> - <%= event.location.titleize %></div>
           <div class="pt-1">
             <%= render "users/short_user_alt", resource: event.creator %>
           </div>

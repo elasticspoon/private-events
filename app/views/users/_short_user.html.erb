@@ -1,6 +1,6 @@
 <%= link_to resource do %>
   <div class="flex flex-row items-center my-2">
-    <div class="mr-2"><%= image_tag 'profile_picture_placeholder.png', size: '40x40', style: 'border-radius: 9999px' %></div>
+    <div class="mr-2"><%= image_tag 'profile_picture_placeholder.png', size: '40x40', style: 'border-radius: 9999px', alt: 'User profile picture placeholder' %></div>
     <div class="flex flex-col">
       <div class="font-extrabold clamp-one"><%= resource.username.titleize %></div>
       <div class="font-medium">3.4k Followers</div>
