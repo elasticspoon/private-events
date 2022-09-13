@@ -1,0 +1,9 @@
+<div x-bind="radio_option('<%= value %>')"
+    :class="{ 'text-[#3659e3] bg-[#eaeefc] border-[#3659e3]': isSelected(option) }"
+    class="flex justify-center cursor-pointer rounded border-[1px] border-[#dbdae3]" >
+  <%= form.radio_button group_value, value, class: 'peer sr-only', checked: true, 'x-bind': "radio_option('#{value}')" %>
+  <%= form.label group_value, value.titleize, value: value,
+        class: 'flex justify-center px-2 py-3' do %>
+    <span><%= value.titleize %></span>
+  <% end %>
+</div>

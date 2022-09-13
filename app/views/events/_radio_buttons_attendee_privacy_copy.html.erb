@@ -1,0 +1,35 @@
+<div class="flex flex-col mb-1" x-data="{setting_description: 'private'}">
+  <h3 class="py-1 text-base font-medium">Attendee Display Options</h3>
+  <ul class="flex text-sm font-normal [&>*]:mr-4 [&>*]:flex-grow mb-1 w-full">
+    <li @click="setting_description = 'public'">
+      <%= form.radio_button :attendee_privacy, 'public', class: 'peer sr-only' %>
+      <%= form.label :attendee_privacy, 'Public', value: 'public',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+        <span>Public</span>
+      <% end %>
+    </li>
+    <li @click="setting_description = 'protected'">
+      <%= form.radio_button :attendee_privacy, 'protected', class: 'peer sr-only' %>
+      <%= form.label :attendee_privacy, 'Protected', value: 'protected',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+        <span>Protected</span>
+      <% end %>
+    </li>
+    <li @click="setting_description = 'private'">
+      <%= form.radio_button :attendee_privacy, 'private', checked: true, class: 'peer sr-only' %>
+      <%= form.label :attendee_privacy, 'Private', value: 'private',
+        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+        <span>Private</span>
+      <% end %>
+    </li>
+  </ul>
+  <p class="font-normal text-sm break-normal leading-6" xcloak x-show="setting_description == 'public'">
+    Any user will be able to see the other users attending your event. 
+  </p>
+  <p class="font-normal text-sm break-normal leading-6" xcloak x-show="setting_description == 'protected'">
+    Any Eventbrite member will be able to see the other users attending your event.
+  </p>
+  <p class="font-normal text-sm break-normal leading-6" xcloak x-show="setting_description == 'private'">
+    Only users invited to the event will be able to see the other users attending your event.
+  </p>
+</div>

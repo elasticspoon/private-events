@@ -1,11 +1,10 @@
 <nav class="flex justify-between items-center h-[59px] border-b border-b-[#eeedf2] sticky top-0 bg-white z-50">
-  <%= link_to root_path do %>
-    <div class="px-6"><%= inline_svg_tag 'svg/eventbrite_logo.svg', class:'h-5 text-cur', style:"fill: #f05537" %></div>
+  <%= link_to root_path, 'aria-label': 'Home' do %>
+    <%= inline_svg_tag 'svg/eventbrite_logo.svg', class:'h-[20px] px-6 text-cur', style: 'fill: #f05537' %>
   <% end %>
-  <div class="flex items-center">
+  <div class="flex items-center h-full">
     <div class="md:hidden bg-[#f8f7fa] h-10 w-10 flex items-center justify-center rounded-full"><%= render 'events/side_bar_dropdown' %></div>
-    <div class="flex my-[10px] ml-6 mr-2 pl-1 pr-2 py-1 bg-[#f8f7fa] hover:bg-[#dbdae3] rounded-full">
-      <%= render 'navbar/drop_down_event_user' %>
+    <div class="h-full ">
+      <%= render partial: 'navbar/drop_down_event_user', layout: 'navbar/dropdown_layout', locals: {is_event_view: true} %>
     </div>
-  </div>
-</nav>
+  </nav>

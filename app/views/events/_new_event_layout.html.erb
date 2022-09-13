@@ -10,7 +10,7 @@
       </div>
       <div class="mb-2"><%= render partial: 'fields/text_field_labeled', locals: { resource: @event, form:, field_name: :organizer, placeholder: 'Tell attendees who is organizing the event.', value: 'Organizer', hidden: false } %></div>
       <p class="ont-normal text-xs break-normal">This profile describes a unique organizer and shows all of the events on one page.
-        <span class="text-blue-500 hover:underline">View Organizer Info</span>
+        <span class="text-blue-700 hover:underline">View Organizer Info</span>
       </p>
       <div class="flex flex-col md:grid grid-cols-3 gap-4 mt-8">
         <%= form.select :type, [['Type', nil],['Placeholder',nil],['Placeholder',nil]],  {class: 'w-full'} %>

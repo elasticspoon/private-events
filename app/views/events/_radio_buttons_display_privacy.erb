@@ -1,29 +1,37 @@
-<div class="flex flex-col mb-1" x-data="{setting_description: 'public'}">
-  <h3 class="py-1 text-base font-medium">Event Display Options</h3>
-  <ul class="flex text-sm font-normal [&>*]:mr-4 [&>*]:flex-grow mb-1 w-full">
-    <li @click="setting_description = 'public'">
-      <%= form.radio_button :display_privacy, 'public', checked: true, class: 'peer sr-only' %>
+<% set_content_for :radio_buttons do %>
+  <div class="flex text-sm font-normal [&>*]:mr-4 [&>*]:flex-grow mb-1 w-full">
+    <div x-bind="radio_option('public')"
+    :class="{ 'text-[#3659e3] bg-[#eaeefc] border-[#3659e3]': isSelected(option) }"
+    class="flex justify-center cursor-pointer rounded border-[1px] border-[#dbdae3]" >
+      <%= form.radio_button :display_privacy, 'public', class: 'peer sr-only' %>
       <%= form.label :display_privacy, 'Public', value: 'public',
-        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+        class: 'flex justify-center px-2 py-3' do %>
         <span>Public</span>
       <% end %>
-    </li>
-    <li @click="setting_description = 'protected'">
+    </div>
+    <div x-bind="radio_option('protected')"
+    :class="{ 'text-[#3659e3] bg-[#eaeefc] border-[#3659e3]': isSelected(option) }"
+    class="flex justify-center cursor-pointer rounded border-[1px] border-[#dbdae3]">
       <%= form.radio_button :display_privacy, 'protected', class: 'peer sr-only' %>
       <%= form.label :display_privacy, 'Protected', value: 'protected',
-        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+        class: 'flex justify-center px-2 py-3' do %>
         <span>Protected</span>
       <% end %>
-    </li>
-    <li @click="setting_description = 'private'">
+    </div>
+    <div x-bind="radio_option('private')"
+    :class="{ 'text-[#3659e3] bg-[#eaeefc] border-[#3659e3]': isSelected(option) }"
+    class="flex justify-center cursor-pointer rounded border-[1px] border-[#dbdae3]">
       <%= form.radio_button :display_privacy, 'private', class: 'peer sr-only' %>
       <%= form.label :display_privacy, 'Private', value: 'private',
-        class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
+        class: 'flex justify-center px-2 py-3' do %>
         <span>Private</span>
       <% end %>
-    </li>
-  </ul>
-  <p class="font-normal text-sm break-normal leading-6" xcloak x-show="setting_description == 'public'">Any user will be able to see your event.</p>
-  <p class="font-normal text-sm break-normal leading-6" xcloak x-show="setting_description == 'protected'">Only Eventbrite members will be able to see your event.</p>
-  <p class="font-normal text-sm break-normal leading-6" xcloak x-show="setting_description == 'private'">Only users invited to the event will be able to see your event.</p>
-</div>
+    </div>
+  </div>
+<% end %>
+<% set_content_for :descriptions do %>
+  <%= render 'inline_errors', errors: resource.errors[:display_privacy] %>
+  <p class="font-normal text-sm break-normal leading-6" x-show="isSelected('public')">Any user will be able to see your event.</p>
+  <p class="font-normal text-sm break-normal leading-6" x-show="isSelected('protected')">Only Eventbrite members will be able to see your event.</p>
+  <p class="font-normal text-sm break-normal leading-6" x-show="isSelected('private')">Only users invited to the event will be able to see your event.</p>
+<% end %>

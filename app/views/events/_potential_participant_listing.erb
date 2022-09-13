@@ -1,20 +1,26 @@
-<% if resource.attending_viewable_by?(current_user)%>
-  <div class="flex flex-row py-4 w-full">
-    <div class="flex flex-col w-full mr-8">
-      <div class="">Attending Users:</div>
-      <div class="flex flex-col py-2">
-        <% resource.accepted_invites.each do |attendee| %>
-          <%= render 'user_event_permissions/short_permission', resource: attendee %>
-        <% end %>
+<div class="mt-5 pt-5 pb-20 flex flex-col lg:grid grid-cols-12 px-4 lg:px-0 w-full">
+  <div class="col-start-2 hidden lg:block"><%= inline_svg_tag 'svg/text.svg', class:'h-12 w-12 text-[#dbdae3]' %></div>
+  <div class="flex flex-col col-start-3 col-span-8">
+    <h2 class="text-3xl font-bold">Invites</h1>
+    <p class="font-normal text-sm break-normal leading-6 mb-6">Invite additional users to this event, or manage users already attending.</p>
+    <%= render 'user_event_permissions/create_invite_form', resource: resource %>
+    <div class="flex w-full mt-5 gap-8">
+      <div class="flex flex-col w-full grow">
+        <h3 class="text-lg font-semibold mb-2">Attending Users</h3>
+        <div class="flex flex-col py-2 gap-y-4">
+          <% resource.accepted_invites.limit(10).each do |attendee| %>
+            <%= render 'user_event_permissions/short_permission', resource: attendee %>
+          <% end %>
+        </div>
       </div>
-    </div>
-    <div class="flex flex-col w-full ml-8">
-      <div class="">Pending Invites:</div>
-      <div class="flex flex-col py-2">
-        <% resource.pending_invites.each do |pending| %>
-          <%= render 'user_event_permissions/short_permission', resource: pending %>
-        <% end %>
+      <div class="flex flex-col w-full grow">
+        <h3 class="text-lg font-semibold mb-2">Pending Invites</h3>
+        <div class="flex flex-col py-2 gap-y-4">
+          <% resource.accepted_invites.limit(10).each do |pending| %>
+            <%= render 'user_event_permissions/short_permission', resource: pending %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-<% end%>
+</div>

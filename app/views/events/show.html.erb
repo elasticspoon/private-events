@@ -16,7 +16,7 @@
           <span class="font-normal text-base text-[#39364f] mb-8"><b><%= @event.name.titleize %></b></span>
           <div class="flex flex-col">
             <h2 class="font-semibold text-xl mb-5">About this event</h2>
-            <div class="text-[15px] text-[#6f7287]"><%= render 'placeholder_text' %></div>
+            <div class="text-[15px] text-[#6f7287]"><%= @event.desc %></div>
             <div class="mt-12"><%= render 'tags' %></div>
             <div class="mt-12"><%= render 'share' %></div>
           </div>

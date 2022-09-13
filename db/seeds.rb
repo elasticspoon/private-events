@@ -12,6 +12,7 @@ UserEventPermission.destroy_all
 
 VISIBILITY = %w[public public public public public public protected private].freeze
 ACCESS = %w[public public public public public public public private].freeze
+PERMISSIONS = %w[attend accept_invite].freeze
 
 30.times do
   User.create!(name: Faker::Name.name,
@@ -32,4 +33,10 @@ User.all.each do |user|
                  display_privacy: VISIBILITY.sample,
                  attendee_privacy: VISIBILITY.sample)
   end
+end
+
+Event.all.each do |event|
+  event.user_event_permissions
+       .create!(user_id: User.all.sample.id,
+                permission_type: PERMISSIONS.sample)
 end

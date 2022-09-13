@@ -30,7 +30,6 @@
   </div>
 <% end %>
 <% set_content_for :descriptions do %>
-  <%= render 'inline_errors', errors: resource.errors[:attendee_privacy] %>
   <p class="font-normal text-sm break-normal leading-6" x-show="isSelected('public')">
     Any user will be able to see the other users attending your event. 
   </p>
@@ -41,3 +40,6 @@
     Only users invited to the event will be able to see the other users attending your event.
   </p>
 <% end %>
+<span :id="$id('radio-option-description')" class="mt-2 text-sm">
+  A Ruby framework built by DHH
+</span>

@@ -4,9 +4,30 @@
     <h1 class="text-3xl font-bold">Event Privacy Settings</h1>
     <p class="font-normal text-sm break-normal leading-6">Set up who can and cannot view and access your event.</p>
     <div class="flex flex-col w-full mt-5">
-      <%= render 'radio_buttons_event_privacy', form: form %>
-      <%= render 'radio_buttons_display_privacy', form: form %>
-      <%= render 'radio_buttons_attendee_privacy', form: form %>
+      <div class="flex flex-col mb-6">
+        <h3 class="py-1 text-base font-medium">Event Options</h3>
+        <%= render partial: 'events/generic_radio_group', locals: { resource:, form:, group_value: :event_privacy,
+          radio_buttons: [{val: 'public', desc: 'Any Eventbrite memeber will be able to attend your event.'},
+                          {val: 'private', desc: 'Only users invited to the event will be able to attend your event.'}]
+        } %>
+      </div>
+      <div class="flex flex-col mb-6">
+        <h3 class="py-1 text-base font-medium">Event Display Options</h3>
+        <%= render partial: 'events/generic_radio_group', locals: { resource:, form:, group_value: :display_privacy,
+          radio_buttons: [{val: 'public', desc: 'Any user will be able to see your event.'},
+                          {val: 'protected', desc: 'Only Eventbrite members will be able to see your event.'},
+                          {val: 'private', desc: 'Only users invited to the event will be able to see your event.'}]
+        } %>
+      </div>
+      <div class="flex flex-col mb-6">
+        <h3 class="py-1 text-base font-medium">Event Attendee Display Options</h3>
+        <%= render partial: 'events/generic_radio_group', locals: { resource:, form:, group_value: :attendee_privacy,
+          radio_buttons: [{val: 'public', desc: 'Any user will be able to see the other users attending your event.'},
+                          {val: 'protected', desc: 'Only Eventbrite members will be able to see the other users attending your event.'},
+                          {val: 'private', desc: 'Only users invited to the event will be able to see the other users attending your event.'}]
+        } %>
+        <%# render partial: 'radio_buttons_attendee_privacy', layout: 'layouts/radio_button_layout', locals: {form:, resource:} %>
+      </div>
     </div>
   </div>
 </div>

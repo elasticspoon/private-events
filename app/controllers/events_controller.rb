@@ -11,7 +11,9 @@ class EventsController < ApplicationController
 
   def show; end
 
-  def edit; end
+  def edit
+    render 'new', locals: { action: :put }
+  end
 
   def update
     if @event.update(event_params)
@@ -21,7 +23,9 @@ class EventsController < ApplicationController
     end
   end
 
-  def new; end
+  def new
+    render 'new', locals: { action: :post }
+  end
 
   def create
     if @event.update(event_params)
@@ -43,21 +47,20 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:date, :location, :event_privacy, :desc, :name, :display_privacy, :attendee_privacy)
+    params.require(:event).permit(:date, :location, :event_privacy, :desc, :name, :display_privacy,
+                                  :attendee_privacy)
   end
 
   def perms_show?
     unless @event.viewable_by?(current_user)
 
-      redirect_to(root_path,
-                  alert: 'You do not have permission to view that page.')
+      redirect_to(root_path, alert: 'You do not have permission to view that page.')
     end
   end
 
   def perms_edit?
     unless @event.editable_by?(current_user)
-      redirect_to(root_path,
-                  alert: 'You do not have permission to edit that page.')
+      redirect_to(root_path, alert: 'You do not have permission to edit that page.')
     end
   end
 

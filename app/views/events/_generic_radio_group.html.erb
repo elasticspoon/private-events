@@ -1,0 +1,89 @@
+<div x-data=<%= resource.send(group_value) ? "radio_group('#{resource.send(group_value)}')" : "radio_group"%> 
+  @keydown.down.stop.prevent="selectNext" 
+  @keydown.right.stop.prevent="selectNext" 
+  @keydown.up.stop.prevent="selectPrevious" 
+  @keydown.left.stop.prevent="selectPrevious" 
+  role="radiogroup" 
+  x-id="['radio-group-label']"
+  class="relative"
+  >
+  <label :id="$id('radio-group-label')" role="none" class="hidden">Backend framework: <span x-text="value"></span></label>
+  <div class="flex text-sm font-normal [&>*]:mr-4 [&>*]:flex-grow mb-1 w-full">
+    <% radio_buttons.map { |v| v[:val] }.each do |value| %>
+      <%= render partial: 'events/generic_radio_button', locals: {group_value: , value:, form:} %>
+    <% end %>
+  </div>
+  <div class="bottom-0">
+    <%= render 'inline_errors', errors: resource.errors[group_value] %>
+    <% radio_buttons.each do |button| %>
+      <p class="font-normal text-sm break-normal leading-6" x-show="isSelected('<%= button[:val] %>')"><%= button[:desc] %></p>
+    <% end %>
+  </div>
+</div>
+<script>
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("radio_group", (inital_val = null) => ({
+      value: inital_val,
+      select(option) {
+        this.value = option;
+      },
+      isSelected(option) {
+        return this.value === option;
+      },
+      hasRovingTabindex(option, el) {
+        if (
+          this.value === null &&
+          Array.from(el.parentElement.children).indexOf(el) === 0
+        )
+          return true;
+        return this.isSelected(option);
+      },
+      selectNext(e) {
+        let el = e.target;
+        let siblings = Array.from(el.parentElement.children);
+        let index = siblings.indexOf(el);
+        let next = siblings[index === siblings.length - 1 ? 0 : index + 1];
+        next.click();
+        next.focus();
+      },
+      selectPrevious(e) {
+        let el = e.target;
+        let siblings = Array.from(el.parentElement.children);
+        let index = siblings.indexOf(el);
+        let previous = siblings[index === 0 ? siblings.length - 1 : index - 1];
+        previous.click();
+        previous.focus();
+      },
+    }));
+
+    Alpine.bind("radio_option", (thing) => ({
+      ["x-data"]() {
+        return { option: thing };
+      },
+      ["@click"]() {
+        return this.select(this.option);
+      },
+      ["@keydown.enter.stop.prevent"]() {
+        return this.select(this.option);
+      },
+      ["@keydown.space.stop.prevent"]() {
+        return this.select(this.option);
+      },
+      [":checked"]() {
+        return this.isSelected(this.option);
+      },
+      [":tabindex"]() {
+        return this.hasRovingTabindex(this.option, this.$el) ? 0 : -1;
+      },
+      [":aria-labelledby"]() {
+        return this.$id("radio-option-label");
+      },
+      [":aria-describedby"]() {
+        return this.$id("radio-option-description");
+      },
+      ["x-id"]() {
+        return ["radio-option-label", "radio-option-description"];
+      },
+    }));
+  });
+</script>

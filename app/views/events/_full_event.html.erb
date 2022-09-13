@@ -1,4 +1,10 @@
 <div class="flex flex-col md:grid grid-cols-3 w-full" x-data x-intersect:enter="$store.user_in_view = true" x-intersect:leave="$store.user_in_view = false">
+  <% if user_signed_in? && resource.editable_by?(current_user) %>
+    <div class="flex grow col-start-1 col-end-4 bg-yellow-400 p-4 items-center">
+      <div class="px-4"><%= inline_svg_tag 'svg/pencil.svg', class: 'h-10 w-10' %></div>
+      <%= link_to 'You are the event owner. Click to switch to edit view.', edit_event_path(resource), class: 'text-lg hover:underline'  %>
+    </div>
+  <% end %>
   <div class="w-full col-span-2 relative ">
     <%= image_tag resource.image_url, class: 'w-full', alt: 'Event header image placeholder' %>
     <div class="md:hidden"><%= render 'user_event_permissions/heart_perm_button', resource: resource %></div>
@@ -10,9 +16,9 @@
         <span class="text-[17px] font-normal leading-5"><%= resource.date.strftime("%e") %></span>
       </div>
       <div class=" pt-16 pb-[2px]">
-        <span class="text-[#1e0a3c] text-base lg:text-xl font-semibold  clamp-four leading-5 max-h-32">
+        <h1 class="text-[#1e0a3c] text-base lg:text-xl font-semibold  clamp-four leading-5 max-h-32">
           <%= resource.name.titleize %>
-        </span>
+        </h1>
       </div>
       <div class="py-2"><%= render "users/short_user_alt_two", resource: resource.creator %></div>
     </div>
