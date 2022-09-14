@@ -10,22 +10,22 @@
     </div>
     <ul class="flex  [&>*]:flex [&>*]:items-center [&>*]:justify-center  [&>*]:rounded-full [&>*]:border-transparent [&>*]:border-2">
       <li class="hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
-        <%= button_to not_implemented_path, class: 'p-[10px]' do %>
+        <%= button_to not_implemented_path, class: 'p-[10px]', 'aria-label': 'Car Route' do %>
           <%= inline_svg_tag 'svg/car.svg', class:'h-6 w-6' %>
         <% end %>
       </li>
       <li class="hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
-        <%= button_to not_implemented_path, class: 'p-[10px]' do %>
+        <%= button_to not_implemented_path, class: 'p-[10px]', 'aria-label': 'Pedestrian Route' do %>
           <%= inline_svg_tag 'svg/pedestrian.svg', class:'h-6 w-6' %>
         <% end %>
       </li>
       <li class="hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
-        <%= button_to not_implemented_path, class: 'p-[10px]' do %>
+        <%= button_to not_implemented_path, class: 'p-[10px]', 'aria-label': 'Bus Route' do %>
           <%= inline_svg_tag 'svg/bus.svg', class:'h-6 w-6' %>
         <% end %>
       </li>
       <li class="hover:bg-[#f8f7fa] hover:border-[#f8f7fa]">
-        <%= button_to not_implemented_path, class: 'p-[10px]' do %>
+        <%= button_to not_implemented_path, class: 'p-[10px]', 'aria-label': 'Biking Route' do %>
           <%= inline_svg_tag 'svg/bike.svg', class:'h-6 w-6' %>
         <% end %>
       </li>

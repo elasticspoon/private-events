@@ -2,7 +2,7 @@
   <% if user_signed_in? && resource.editable_by?(current_user) %>
     <div class="flex grow col-start-1 col-end-4 bg-yellow-400 p-4 items-center">
       <div class="px-4"><%= inline_svg_tag 'svg/pencil.svg', class: 'h-10 w-10' %></div>
-      <%= link_to 'You are the event owner. Click to switch to edit view.', edit_event_path(resource), class: 'text-lg hover:underline'  %>
+      <%= link_to 'You are the event owner. Click to switch to edit view.', edit_event_path(resource), class: 'hover:underline'  %>
     </div>
   <% end %>
   <div class="w-full col-span-2 relative ">

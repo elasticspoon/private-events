@@ -9,9 +9,7 @@
     <span class="mb-4 font-normal text-base text-[#39364f]">Organizer of <%= resource.name.titleize %></span>
     <span class="text-[#6f7287] font-semibold text-base">Social Media Links</span>
     <div class="flex mt-2 mb-10 ">
-      <%= button_to not_implemented_path, class: 'rounded-full bg-[#eeedf2] hover:bg-gray-200 p-3 mx-4' do %>
-        <%= inline_svg_tag 'svg/fb_logo.svg', class:'h-6 w-6' %>
-      <% end %>
+      <%= button_to (inline_svg_tag 'svg/fb_logo.svg', class:'h-6 w-6'), user_path(resource.creator),   class: 'rounded-full bg-[#eeedf2] hover:bg-gray-200 p-3 mx-4', 'aria-label': 'Organizer Link' %>
     </div>
     <div class="flex mb-6 ">
       <%= button_to not_implemented_path, class: 'flex items-center justify-center mr-8 ml-4 h-11 border-2 border-[#3659e3] rounded-[4px] hover:bg-[#f8f7fa]' do%>

@@ -17,12 +17,12 @@
       <% if local_assigns[:show_socials] %>
         <div class="flex px-4 items-center pb-4">
           <div class="p-2 text-[#4b4d63] rounded-full hover:bg-gray-100 relative flex flex-col items-center group mr-1">
-            <%= link_to not_implemented_path, class: 'cursor-pointer' do %>
+            <%= link_to not_implemented_path, class: 'cursor-pointer', 'aria-label': 'Share' do %>
               <%= inline_svg_tag 'svg/share.svg', class:'h-6 w-6' %>
             <% end %>
           </div>
           <div class="p-2 text-[#4b4d63] border border-[#4b4d63] rounded-full hover:bg-gray-100">
-            <%= link_to not_implemented_path, class: 'cursor-pointer' do %>
+            <%= link_to not_implemented_path, class: 'cursor-pointer', 'aria-label': 'Register' do %>
               <%= inline_svg_tag 'svg/heart.svg', class:'h-6 w-6' %>
             <% end %>
           </div>

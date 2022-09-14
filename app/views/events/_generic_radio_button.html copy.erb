@@ -1,7 +1,7 @@
-<div @click="setting_description = '<%= value %>'">
-  <%= form.radio_button group_value, value, class: 'sr-only peer', style: 'position: fixed; opacity: 0; pointer-events: none;' %>
+<div>
+  <%= form.radio_button group_value, value, class: 'peer sr-only', 'x-bind': "radio_selector('#{value}')" %>
   <%= form.label group_value, value.titleize, value: value,
         class: 'flex justify-center rounded border-[1px] border-[#dbdae3] peer-checked:text-[#3659e3] peer-checked:bg-[#eaeefc] peer-checked:border-[#3659e3] px-2 py-3' do %>
-    <span><%= value.titleize %></span>
+    <span>Public</span>
   <% end %>
 </div>

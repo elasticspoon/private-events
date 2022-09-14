@@ -12,14 +12,14 @@ class EventsController < ApplicationController
   def show; end
 
   def edit
-    render 'new', locals: { action: :put }
+    render 'new', locals: { resource: @event, action: :put }
   end
 
   def update
     if @event.update(event_params)
       redirect_to @event, notice: 'Event updated!'
     else
-      render 'edit', status: :unprocessable_entity
+      render 'new', locals: { resource: @event, action: :put }, status: :unprocessable_entity
     end
   end
 
