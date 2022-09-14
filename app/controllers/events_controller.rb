@@ -31,7 +31,7 @@ class EventsController < ApplicationController
     if @event.update(event_params)
       redirect_to @event, notice: 'Event created!'
     else
-      render 'new', status: :unprocessable_entity
+      render 'new', locals: { action: :post }, status: :unprocessable_entity
     end
   end
 

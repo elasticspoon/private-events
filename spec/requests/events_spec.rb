@@ -218,7 +218,7 @@ RSpec.describe 'Events', type: :request do
       event = create(:event, creator: user)
       sign_in user
       get edit_event_path(event)
-      expect(response).to render_template(:edit)
+      expect(response).to render_template(:new)
     end
   end
 
@@ -272,7 +272,7 @@ RSpec.describe 'Events', type: :request do
     it 'render edit action if params are invalid' do
       sign_in user
       put event_path(event), params: { 'event' => { event_privacy: 'bad' } }
-      expect(response).to render_template(:edit)
+      expect(response).to render_template(:new)
     end
   end
 
@@ -312,8 +312,7 @@ RSpec.describe 'Events', type: :request do
     it 'deletes event if user has owner perm' do
       event
       sign_in user
-      expect { delete event_path(event) }
-        .to change(Event, :count).from(1).to(0)
+      expect { delete event_path(event) }.to change(Event, :count).from(1).to(0)
     end
   end
 end
