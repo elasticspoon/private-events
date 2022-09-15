@@ -58,14 +58,14 @@ class Event < ApplicationRecord
   end
 
   def attending_viewable_by?(user)
-    return true if user.nil? && attendee_privacy == 'public'
+    return true if attendee_privacy == 'public'
     return true if user && attendee_privacy == 'protected'
 
     holds_permission_currently?(user&.id, 'attend', 'moderate', 'owner')
   end
 
   def viewable_by?(user)
-    return true if user.nil? && display_privacy == 'public'
+    return true if display_privacy == 'public'
     return true if user && display_privacy == 'protected'
 
     holds_permission_currently?(user&.id, 'attend', 'moderate', 'owner', 'accept_invite')
@@ -76,7 +76,8 @@ class Event < ApplicationRecord
   end
 
   def required_perms_for_action(perm_type:, action:)
-    required_permissions.dig(action, perm_type) || (raise "Invalid perm type: #{perm_type} or action: #{action}")
+    required_permissions.dig(action,
+                             perm_type) || (raise "Invalid perm type: #{perm_type} or action: #{action}")
   end
 
   private

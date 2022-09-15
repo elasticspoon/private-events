@@ -1,4 +1,4 @@
-# rubocop:disable RSpec/NestedGroups, RSpec/ImplicitExpect, RSpec/ImplicitSubject
+# rubocop:disable RSpec/ImplicitExpect, RSpec/ImplicitSubject
 
 require 'rails_helper'
 
@@ -42,7 +42,9 @@ RSpec.describe Event, type: :model do
   describe 'Callbacks' do
     it 'creates owner permission when event is created' do
       event = build(:event, creator: user)
-      expect { event.save }.to change { event.user_event_permissions.map(&:permission_type) }.from([]).to(['owner'])
+      expect { event.save }.to change {
+                                 event.user_event_permissions.map(&:permission_type)
+                               }.from([]).to(['owner'])
     end
   end
 
@@ -126,6 +128,10 @@ RSpec.describe Event, type: :model do
         it 'returns true when user is nil' do
           expect(event.attending_viewable_by?(nil)).to be true
         end
+
+        it 'returns true for any user' do
+          expect(event.attending_viewable_by?(user)).to be true
+        end
       end
 
       context 'when attendee_privacy is protected' do
@@ -180,6 +186,10 @@ RSpec.describe Event, type: :model do
       context 'when display_privacy is public' do
         it 'returns true when user is nil' do
           expect(event.viewable_by?(nil)).to be true
+        end
+
+        it 'returns true for any user' do
+          expect(event.viewable_by?(user)).to be true
         end
       end
 
@@ -253,7 +263,8 @@ RSpec.describe Event, type: :model do
       it 'calls required_perms_for_action with action and perm_type arguments' do
         event = instance_double(described_class, required_perms_for_action: {})
         event.required_perms_for_action(action: :create, perm_type: 'moderate')
-        expect(event).to have_received(:required_perms_for_action).with(action: :create, perm_type: 'moderate').once
+        expect(event).to have_received(:required_perms_for_action).with(action: :create,
+                                                                        perm_type: 'moderate').once
       end
 
       it 'raises an error if action - perm_type combo is invalid' do
@@ -267,4 +278,4 @@ RSpec.describe Event, type: :model do
   end
 end
 
-# rubocop:enable RSpec/NestedGroups, RSpec/ImplicitExpect, RSpec/ImplicitSubject
+# rubocop:enable RSpec/ImplicitExpect, RSpec/ImplicitSubject
