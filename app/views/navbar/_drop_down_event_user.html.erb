@@ -30,7 +30,7 @@
     <li ><%= button_to destroy_user_session_path, method: :delete do %>
         <div class="flex">
           <span class="mr-4"><%= inline_svg_tag 'svg/log_out.svg', class: 'h-6 w-6'  %></span>
-          <span class="text-ellipsis">Log out <%= current_user.email %></span>
+          <span class="text-ellipsis clamp-one text-left">Log out <%= current_user.email %></span>
         </div>
       <% end %>
     </li>
@@ -71,7 +71,7 @@
   <li ><%= button_to destroy_user_session_path, method: :delete do %>
       <div class="flex">
         <span class="mr-4"><%= inline_svg_tag 'svg/log_out.svg', class: 'h-6 w-6'  %></span>
-        <span class="text-ellipsis">Log out <%= current_user.email %></span>
+        <span class="text-ellipsis clamp-one text-left">Log out <%= current_user.email %></span>
       </div>
     <% end %>
   </li>

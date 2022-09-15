@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/shared_examples_for_event_page_layout'
 
 RSpec.describe 'Events::Shows', type: :system do
   before { driven_by(:rack_test) }
@@ -12,13 +13,8 @@ RSpec.describe 'Events::Shows', type: :system do
     describe 'Page content' do
       before { visit event_path(event) }
 
-      it 'has link to create event' do
-        expect(page.has_link?('Create an event')).to be true
-      end
-
-      it 'has link to events index' do
-        click_link 'Home'
-        expect(page.has_current_path?(root_path)).to be true
+      include_examples 'event_layout' do
+        let(:start_path) { event_path(event) }
       end
 
       it 'has correct event name' do
@@ -38,47 +34,61 @@ RSpec.describe 'Events::Shows', type: :system do
       it 'has correct event location' do
         expect(page.has_content?(event.location)).to be true
       end
-    end
 
-    context 'when user is not logged in' do
-      before { visit event_path(event) }
-
-      it 'has link to log in' do
-        within '#header-nav' do
-          click_link 'Log In'
-        end
-        expect(page.has_current_path?(new_user_session_path)).to be true
-      end
-
-      it 'has a link to sign up' do
-        within '#header-nav' do
-          click_link 'Sign Up'
-        end
-        expect(page.has_current_path?(new_user_registration_path)).to be true
-      end
-    end
-
-    context 'when user is logged in' do
-      before do
+      it 'has a link to edit event if user is event owner' do
         sign_in user
         visit event_path(event)
+        click_link 'Click to switch to edit view'
+        expect(page.has_current_path?(edit_event_path(event))).to be true
       end
 
-      it 'has a link to edit user profile', browser: true do
-        click_button user.email
-        click_link 'Account Settings'
-        expect(page.has_current_path?(edit_user_registration_path)).to be true
+      it 'has no link to edit event if user is not event owner' do
+        visit event_path(event)
+        expect(page.has_link?('Click to switch to edit view')).to be false
+      end
+    end
+
+    describe 'user registration button for event', browser: true do
+      context 'user is attending event' do
+        before do
+          create(:permission, user:, event:, permission_type: 'attend')
+
+          sign_in user
+          visit event_path(event)
+        end
+
+        it 'does not have a button to register' do
+          expect(page.has_button?('Register')).to be false
+        end
+
+        it 'has a button to unregister' do
+          expect(page.has_button?('Leave')).to be true
+        end
+
+        it 'button destroys the attendance' do
+          click_button 'Leave'
+          expect(UserEventPermission.where(user:, event:, permission_type: 'attend').count).to eq(0)
+        end
       end
 
-      it 'has a link to log out', browser: true do
-        click_button user.email
-        click_button 'Log Out'
-        expect(page.find('#header-nav').has_link?('Log In')).to be true
-      end
+      context 'user is not attending event' do
+        before do
+          sign_in user
+          visit event_path(event)
+        end
 
-      it 'has link to create event that works' do
-        click_link 'Create an event'
-        expect(page.has_current_path?(new_event_path)).to be true
+        it 'has a button to register' do
+          expect(page.has_button?('Register')).to be true
+        end
+
+        it 'does not have a button to unregister' do
+          expect(page.has_button?('Leave')).to be false
+        end
+
+        it 'button creates an attendance' do
+          click_button 'Register'
+          expect(UserEventPermission.where(user:, event:, permission_type: 'attend').count).to eq(1)
+        end
       end
     end
   end
