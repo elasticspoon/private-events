@@ -1,3 +1,4 @@
+# rubocop:disable RSpec/ExampleLength
 require 'rails_helper'
 
 RSpec.shared_examples 'new event page' do
@@ -96,6 +97,14 @@ RSpec.describe 'Events::NewOrEdits', type: :system do
         expect(Event.last.name).to eq(new_event.name)
       end
     end
+
+    describe 'invite moderation' do
+      it 'is not shown' do
+        sign_in user
+        visit new_event_path
+        expect(page.has_button?('Send Invite')).to be false
+      end
+    end
   end
 
   describe 'Events Edit page' do
@@ -128,6 +137,115 @@ RSpec.describe 'Events::NewOrEdits', type: :system do
         expect(Event.find_by(id: event.id).nil?).to be true
       end
     end
+
+    describe 'invite moderation' do
+      let(:event) { create(:event, creator: user, date: 1.day.from_now) }
+
+      describe 'pending invites' do
+        it 'invites are shown if they exist' do
+          create(:permission, event:, user:, permission_type: 'accept_invite')
+          sign_in user
+          visit edit_event_path(event)
+          within '#pending-invites' do
+            expect(has_content?(user.name.titleize)).to be true
+          end
+        end
+
+        it 'invites are not shown if they do not exist' do
+          sign_in user
+          visit edit_event_path(event)
+          within '#pending-invites' do
+            expect(has_content?(user.name.titleize)).to be false
+          end
+        end
+
+        it 'invites can be deleted' do
+          create(:permission, event:, user:, permission_type: 'accept_invite')
+          sign_in user
+          visit edit_event_path(event)
+          within '#pending-invites' do
+            click_button 'Revoke Invite'
+          end
+          expect(UserEventPermission.exists?(event:, user:,
+                                             permission_type: 'accept_invite')).to be false
+        end
+      end
+
+      describe 'accepted invites' do
+        it 'invites are shown if they exist' do
+          create(:permission, event:, user:, permission_type: 'attend')
+          sign_in user
+          visit edit_event_path(event)
+          within '#accepted-invites' do
+            expect(has_content?(user.name.titleize)).to be true
+          end
+        end
+
+        it 'invites are not shown if they do not exist' do
+          sign_in user
+          visit edit_event_path(event)
+          within '#accepted-invites' do
+            expect(has_content?(user.name.titleize)).to be false
+          end
+        end
+
+        it 'invites can be deleted' do
+          create(:permission, event:, user:, permission_type: 'attend')
+          sign_in user
+          visit edit_event_path(event)
+          within '#accepted-invites' do
+            click_button 'Revoke Invite'
+          end
+          expect(UserEventPermission.exists?(event:, user:, permission_type: 'attend')).to be false
+        end
+      end
+
+      describe 'create invite' do
+        before do
+          sign_in user
+          visit edit_event_path(event)
+        end
+
+        context 'when event is in the future' do
+          let(:event) { create(:event, creator: user, date: 1.day.from_now) }
+
+          it { expect(page.has_button?('Send Invite')).to be true }
+        end
+
+        context 'when event is in the past' do
+          let(:event) { create(:event, creator: user, date: 1.day.ago) }
+
+          it { expect(page.has_button?('Send Invite')).to be false }
+        end
+
+        it 'invite can be created to valid email' do
+          fill_in 'user_event_permissions_identifier_email', with: user.email
+          click_button 'Send Invite'
+          expect(UserEventPermission.exists?(event:, user:,
+                                             permission_type: 'accept_invite')).to be true
+        end
+
+        it 'shows error if invite is created to invalid email' do
+          fill_in 'user_event_permissions_identifier_email', with: 'notareal@mail.com'
+          click_button 'Send Invite'
+          expect(page.has_css?('.alert-flash')).to be true
+        end
+
+        it 'shows error if invite is created to attending user' do
+          create(:permission, event:, user:, permission_type: 'attend')
+          fill_in 'user_event_permissions_identifier_email', with: user.email
+          click_button 'Send Invite'
+          expect(page.has_css?('.alert-flash')).to be true
+        end
+
+        it 'shows error if invite is created to invited user' do
+          create(:permission, event:, user:, permission_type: 'accept_invite')
+          fill_in 'user_event_permissions_identifier_email', with: user.email
+          click_button 'Send Invite'
+          expect(page.has_css?('.alert-flash')).to be true
+        end
+      end
+    end
   end
 
   def input_event_vals(event)
@@ -140,3 +258,5 @@ RSpec.describe 'Events::NewOrEdits', type: :system do
     find_by_id("event_attendee_privacy_#{event.attendee_privacy}").click
   end
 end
+
+# rubocop:enable RSpec/ExampleLength

@@ -1,5 +1,5 @@
 <% if flash[:notice] %>
-  <div class="flex p-1 text-green-900" role="">
+  <div class="notice-flash flex p-1 text-green-900">
     <div class="shadow-sm flex w-full rounded-md bg-green-50 border-[1px] border-gray-100">
       <div class="w-2 bg-green-700 relative left rounded-l-md"></div>
       <div class="px-5 flex items-center">
@@ -19,7 +19,7 @@
   <%= render 'notices_not_implemented' %>
 <% elsif flash[:alert] %>
   <% [flash[:alert]].flatten.each do |alert| %>
-    <div class="flex p-1 text-red-900" role="alert">
+    <div class="alert-flash flex p-1 text-red-900" role="alert">
       <div class="shadow-sm flex w-full rounded-md bg-red-50 border-[1px] border-gray-100">
         <div class="w-2 bg-red-700 relative left rounded-l-md"></div>
         <div class="px-5 flex items-center">

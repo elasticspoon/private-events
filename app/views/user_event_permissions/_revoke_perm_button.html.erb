@@ -1,8 +1,8 @@
 <%= form_with url: user_event_permissions_url, scope: :user_event_permissions, method: :delete, 
-class: 'px-8', 'aria-label': 'Revoke Invite' do |form| %>
+class: 'px-8' do |form| %>
   <%= form.hidden_field :event_id, value: resource.event_id %>
   <%= form.hidden_field 'identifier[user_id]', value: resource.user_id %>
   <%= form.hidden_field :permission_type, value: resource.permission_type %>
   <%= form.button (inline_svg_tag 'svg/cross.svg', class: 'h-10 w-10 text-red-600'), type: 'submit', 
-  class: 'border rounded-full  border-transparent hover:border-black' %>
+  class: 'border rounded-full  border-transparent hover:border-black', 'aria-label': 'Revoke Invite' %>
 <% end %>
