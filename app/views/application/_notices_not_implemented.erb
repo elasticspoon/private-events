@@ -10,11 +10,16 @@
           This feature is not yet implemented. Consider supporting the developer with an offer of employment.
         </strong>
       </div>
-      <div class="pl-4 flex flex-grow justify-end">
-        <ul class="flex md:flex-row flex-col">
-          <li class="px-4">Social</li>
-          <li class="px-4">Social</li>
-          <li class="px-4">Social</li>
+      <div class="pl-4 flex flex-grow justify-end ">
+        <ul class="flex md:flex-row flex-col text-gray-700 gap-x-4 [&>*]:gap-x-2">
+          <%= link_to 'https://github.com/elasticspoon', target: '_blank', 'aria-label': 'Github Link', class: 'flex items-center hover:bg-white px-4 py-2 rounded-full' do %>
+            <span>Github</span>
+            <%= inline_svg_tag 'svg/logo-github.svg', class: 'h-6 w-6' %>
+          <% end %>
+          <%= mail_to 'ybocharov95@gmail.com', 'aria-label': 'Email Link', class: 'flex items-center hover:bg-white px-4 py-2 rounded-full' do %>
+            <span>Email</span>
+            <%= inline_svg_tag 'svg/mail.svg', class: 'h-6 w-6' %>
+          <% end %>
         </ul>
       </div>
     </div>
