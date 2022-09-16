@@ -37,10 +37,12 @@
           <span class="font-semibold">Past (<%= @user.events_created.past.count %>)</span>
         </button>
       </div>
-      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-items-center" x-show="time_filter == 'future'">
+      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-items-center"
+       x-show="time_filter == 'future'" id="future-events">
         <%= render partial: 'events/event', collection: @user.events_created.future.limit(12), locals: {is_event_view: true, show_share: true } %>
       </div>
-      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-items-center" x-show="time_filter == 'past'">
+      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-items-center"
+       x-show="time_filter == 'past'" id="past-events">
         <%= render partial: 'events/event', collection: @user.events_created.past.limit(12), locals: {is_event_view: true, show_share: true} %>
       </div>
     </div>

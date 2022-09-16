@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/shared_examples_for_event_join_icon'
 
 RSpec.describe 'Events::Indices', type: :system do
   before { driven_by(:rack_test) }
@@ -6,6 +7,10 @@ RSpec.describe 'Events::Indices', type: :system do
   before(:each, browser: true) { driven_by(:selenium) }
 
   let(:user) { create(:user) }
+
+  include_examples 'join event button' do
+    let(:start_path) { root_path }
+  end
 
   describe 'Events Index page' do
     it 'has link to create event' do

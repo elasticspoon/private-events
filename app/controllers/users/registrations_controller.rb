@@ -5,8 +5,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
   prepend_before_action :authenticate_scope!,
-                        only: %i[update close_account close_account_action update_password edit
-                                 destroy]
+                        only: %i[update close_account close_account_action update_password edit]
   prepend_before_action :set_minimum_password_length, only: %i[update_password]
 
   # GET /resource/sign_up
@@ -94,9 +93,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # DELETE /resource
-  # def destroy
-  #   super
-  # end
+  def destroy; end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign

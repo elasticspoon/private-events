@@ -18,19 +18,9 @@ RSpec.describe 'Events', type: :request do
 
   # events#index
   describe 'GET /events' do
-    it 'root path should return valid status' do
-      get root_path
-      expect(response).to have_http_status(:ok)
-    end
-
-    it 'root path should render index' do
-      get root_path
-      expect(response).to render_template(:index)
-    end
-
     it 'events index should return valid status' do
       get events_path
-      expect(response).to have_http_status(:ok)
+      expect(response.ok?).to be(true)
     end
 
     it 'events path should render index' do
@@ -44,7 +34,7 @@ RSpec.describe 'Events', type: :request do
     context 'when event view is public' do
       it 'responds with valid status' do
         get event_path(event)
-        expect(response).to have_http_status(:ok)
+        expect(response.ok?).to be(true)
       end
 
       it 'renders show action' do
@@ -81,7 +71,7 @@ RSpec.describe 'Events', type: :request do
       it 'responds with 200 when logged in with perms' do
         sign_in user
         get event_path(create(:event, display_privacy: 'private', creator: user))
-        expect(response).to have_http_status(:ok)
+        expect(response.ok?).to be(true)
       end
 
       it 'renders show action when logged in with perms' do
@@ -96,7 +86,7 @@ RSpec.describe 'Events', type: :request do
 
       it 'responsd with 302 when not logged in' do
         get event_path(event)
-        expect(response).to have_http_status(:found)
+        expect(response.redirect?).to be(true)
       end
 
       it 'redirects to root path when not logged in' do
@@ -112,7 +102,7 @@ RSpec.describe 'Events', type: :request do
       it 'responds with 200 when logged in' do
         sign_in user
         get event_path(event)
-        expect(response).to have_http_status(:ok)
+        expect(response.ok?).to be(true)
       end
 
       it 'responds with show action when logged in' do
@@ -133,7 +123,7 @@ RSpec.describe 'Events', type: :request do
     it 'responds with 200 when logged in' do
       sign_in user
       get new_event_path
-      expect(response).to have_http_status(:ok)
+      expect(response.ok?).to be(true)
     end
 
     it 'renders new action when logged in' do
@@ -171,7 +161,7 @@ RSpec.describe 'Events', type: :request do
     it 'returns 422 status if given params are invalid' do
       sign_in user
       post events_path, params: { 'event' => { bad: :value } }
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.unprocessable?).to be(true)
     end
 
     it 'renders new if given params are invalid' do
@@ -211,7 +201,7 @@ RSpec.describe 'Events', type: :request do
       event = create(:event, creator: user)
       sign_in user
       get edit_event_path(event)
-      expect(response).to have_http_status(:ok)
+      expect(response.ok?).to be(true)
     end
 
     it 'when has owner perm it renders action :edit' do
@@ -266,7 +256,7 @@ RSpec.describe 'Events', type: :request do
       sign_in user
       event
       put event_path(event), params: { 'event' => { event_privacy: 'bad' } }
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.unprocessable?).to be(true)
     end
 
     it 'render edit action if params are invalid' do

@@ -1,15 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
-    registrations: 'users/registrations'
-  }
-
   devise_scope :user do
     post 'users/sign_up' => 'users/registrations#create'
     get 'users/edit/update_password' => 'users/registrations#update_password'
     get 'users/edit/close_account' => 'users/registrations#close_account'
-    put 'users/edit/close_account' => 'users/registrations#close_account_action'
+    post 'users/edit/close_account' => 'users/registrations#close_account_action'
   end
 
+  devise_for :users, controllers: { registrations: 'users/registrations' }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
