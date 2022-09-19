@@ -1,7 +1,7 @@
 <% content_for :page_form do %>
   <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false}) do |form| %>
     <%= render partial: 'fields/email_field', locals: { resource:, form:, field_name: :email, placeholder: nil, value: 'Email Address', hidden: false } %>
-    <%= render partial: 'fields/password_field', locals: { resource:, form:, field_name: :password, placeholder: nil, value: 'New Password', hidden: false } %>
+    <%= render partial: 'fields/password_field', locals: { resource:, form:, field_name: :password, placeholder: nil, value: 'Enter Password', hidden: false } %>
     <div class="mt-6"><%= render partial: 'fields/submit_button', locals: { form: , value: 'Log in'} %></div>
   <% end %>
 <% end %>

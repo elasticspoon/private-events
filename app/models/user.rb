@@ -1,10 +1,10 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
-  has_many :events_created, class_name: 'Event', foreign_key: 'creator_id', dependent: :destroy, inverse_of: :creator
+  has_many :events_created, class_name: 'Event', foreign_key: 'creator_id',
+                            dependent: :destroy, inverse_of: :creator
 
   has_many :user_event_permissions, dependent: :destroy
   has_many :event_relations, through: :user_event_permissions, source: :event
@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_many :events_pending, through: :events_pending_perms, source: :event
 
   validates :name, presence: true, length: { in: 3..30 }
-  validates :username, presence: true, uniqueness: true, length: { minimum: 5 }
+  validates :username, presence: true, length: { minimum: 5 }
 
   def attending?(event_id)
     holds_permission_currently?(event_id, 'attend')

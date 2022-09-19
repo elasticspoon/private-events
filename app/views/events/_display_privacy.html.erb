@@ -19,15 +19,6 @@
                           {val: 'private', desc: 'Only users invited to the event will be able to see your event.'}]
         } %>
       </div>
-      <div class="flex flex-col mb-6">
-        <h3 class="py-1 text-base font-medium">Event Attendee Display Options</h3>
-        <%= render partial: 'events/generic_radio_group', locals: { resource:, form:, group_value: :attendee_privacy,
-          radio_buttons: [{val: 'public', desc: 'Any user will be able to see the other users attending your event.'},
-                          {val: 'protected', desc: 'Only Eventbrite members will be able to see the other users attending your event.'},
-                          {val: 'private', desc: 'Only users invited to the event will be able to see the other users attending your event.'}]
-        } %>
-        <%# render partial: 'radio_buttons_attendee_privacy', layout: 'layouts/radio_button_layout', locals: {form:, resource:} %>
-      </div>
     </div>
   </div>
 </div>

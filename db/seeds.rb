@@ -30,8 +30,7 @@ User.all.each do |user|
                  date: Faker::Date.forward(days: 360),
                  location: Faker::Fantasy::Tolkien.location,
                  event_privacy: ACCESS.sample,
-                 display_privacy: VISIBILITY.sample,
-                 attendee_privacy: VISIBILITY.sample)
+                 display_privacy: VISIBILITY.sample)
   end
 end
 

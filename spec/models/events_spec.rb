@@ -16,7 +16,6 @@ RSpec.describe Event, type: :model do
     it { should validate_presence_of(:desc) }
     it { should validate_inclusion_of(:event_privacy).in_array(Event::AVAILIABLE_SETTINGS) }
     it { should validate_inclusion_of(:display_privacy).in_array(Event::AVAILIABLE_SETTINGS) }
-    it { should validate_inclusion_of(:attendee_privacy).in_array(Event::AVAILIABLE_SETTINGS) }
   end
 
   describe 'Associations' do
@@ -120,65 +119,6 @@ RSpec.describe Event, type: :model do
   end
 
   describe 'Create Factory Methods' do
-    describe '#attending_viewable_by?' do
-      let(:event) { build_stubbed(:event, attendee_privacy:) }
-      let(:attendee_privacy) { 'public' }
-
-      context 'when attendee_privacy is public' do
-        it 'returns true when user is nil' do
-          expect(event.attending_viewable_by?(nil)).to be true
-        end
-
-        it 'returns true for any user' do
-          expect(event.attending_viewable_by?(user)).to be true
-        end
-      end
-
-      context 'when attendee_privacy is protected' do
-        let(:attendee_privacy) { 'protected' }
-
-        it 'returns false when user is nil' do
-          expect(event.attending_viewable_by?(nil)).to be false
-        end
-
-        it 'returns true for any user' do
-          expect(event.attending_viewable_by?(user)).to be true
-        end
-      end
-
-      context 'when attendee_privacy is private' do
-        let(:event) { create(:event, attendee_privacy: 'private') }
-
-        it 'returns false when user is nil' do
-          expect(event.attending_viewable_by?(nil)).to be false
-        end
-
-        it 'returns false when user has no permissions' do
-          expect(event.attending_viewable_by?(user)).to be false
-        end
-
-        it 'returns false when user has not accepted the invite' do
-          create(:permission, user:, event:, permission_type: 'accept_invite')
-          expect(event.attending_viewable_by?(user)).to be false
-        end
-
-        it 'returns true when user has owner permission' do
-          create(:permission, user:, event:, permission_type: 'owner')
-          expect(event.attending_viewable_by?(user)).to be true
-        end
-
-        it 'returns true when user has moderate permission' do
-          create(:permission, user:, event:, permission_type: 'moderate')
-          expect(event.attending_viewable_by?(user)).to be true
-        end
-
-        it 'returns true when user has attend permission' do
-          create(:permission, user:, event:, permission_type: 'attend')
-          expect(event.attending_viewable_by?(user)).to be true
-        end
-      end
-    end
-
     describe '#viewable_by?' do
       let(:event) { build_stubbed(:event, display_privacy:) }
       let(:display_privacy) { 'public' }

@@ -14,7 +14,6 @@ FactoryBot.define do
     location { Faker::Fantasy::Tolkien.location }
     event_privacy { 'public' }
     display_privacy { 'public' }
-    attendee_privacy { 'public' }
   end
 
   factory :permission, class: 'UserEventPermission' do

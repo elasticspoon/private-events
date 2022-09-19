@@ -17,7 +17,7 @@ RSpec.shared_examples 'new event page' do
     it 'has a link to logout' do
       click_button user.name
       click_link_or_button 'Log out'
-      expect(page.find('#header-nav').has_link?('Log In')).to be true
+      expect(page.find_by_id('header-nav').has_link?('Log In')).to be true
     end
 
     it 'has a link to edit account' do
@@ -46,10 +46,10 @@ RSpec.shared_examples 'new event page' do
       let(:new_event) { build_stubbed(:event) }
 
       it 'discard resets the form' do
-        inital_contents = page.find('#event_name').value
+        inital_contents = page.find_by_id('event_name').value
         fill_in 'event_name', with: 'Some random text', fill_options: { clear: :backspace }
         click_button 'Discard'
-        expect(page.find('#event_name').value).to eq(inital_contents)
+        expect(page.find_by_id('event_name').value).to eq(inital_contents)
       end
     end
 
@@ -255,7 +255,6 @@ RSpec.describe 'Events::NewOrEdits', type: :system do
     fill_in 'event_date', with: event.date
     find_by_id("event_event_privacy_#{event.event_privacy}").click
     find_by_id("event_display_privacy_#{event.display_privacy}").click
-    find_by_id("event_attendee_privacy_#{event.attendee_privacy}").click
   end
 end
 

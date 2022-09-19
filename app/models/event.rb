@@ -21,7 +21,6 @@ class Event < ApplicationRecord
   validates :desc, presence: true
   validates :event_privacy, inclusion: { in: AVAILIABLE_SETTINGS }
   validates :display_privacy, inclusion: AVAILIABLE_SETTINGS
-  validates :attendee_privacy, inclusion: AVAILIABLE_SETTINGS
 
   scope :past, -> { where('date <= ?', DateTime.now) }
   scope :future, -> { where('date > ?', DateTime.now) }
@@ -55,13 +54,6 @@ class Event < ApplicationRecord
 
   def pending_invites
     user_event_permissions.where(permission_type: 'accept_invite').includes(:user)
-  end
-
-  def attending_viewable_by?(user)
-    return true if attendee_privacy == 'public'
-    return true if user && attendee_privacy == 'protected'
-
-    holds_permission_currently?(user&.id, 'attend', 'moderate', 'owner')
   end
 
   def viewable_by?(user)
