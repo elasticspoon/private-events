@@ -38,6 +38,7 @@
           </div>
         </div>
       </div>
+      <%= render 'inline_errors', errors: resource.errors[:date] %>
       <div class="flex mt-5 mb-2">
         <div class="flex border-[1px] border-[#dbdae3] rounded-sm w-full items-center h-[48px] mr-2">
           <div class="ml-3 my-3"><%= inline_svg_tag 'svg/calendar.svg', class: 'h-6 w-6' %></div>

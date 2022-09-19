@@ -7,6 +7,7 @@
   <span class="pl-2 hidden lg:block"><%= current_user.email %></span>
 <% end %>
 <% set_content_for :list do %>
+  <li><%= link_to 'Create an event', new_event_path, class: 'text-blue-600 hover:text-blue-600' %></li>
   <li class="border-b-[1px] border-gray-100">
     <%= link_to 'Browse Events', events_path %>
   </li>
