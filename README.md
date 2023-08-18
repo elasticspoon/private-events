@@ -29,7 +29,7 @@
 
 ## Project Overview
 
-Project site: <http://34.203.167.251:3000/>
+Project site: <http://35.243.197.55/>
 
 Eventbrite is a website that is based around events, users can create events, join events and invite others to events. From what I can gather Eventbrite is built with a Django framework, uses React in the front end, a MySQL database and is hosted on AWS.
 
