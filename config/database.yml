@@ -17,17 +17,17 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: private_events_dev
+  host: <%= ENV["PG_HOST"] || 'localhost' %>
+  username: <%= ENV["PG_USERNAME"] || 'postgres' %>
+  password: <%= ENV["PG_PASSWORD"] || nil %>
+  pool: <%= ENV["RAILS_MAX_THREADS"] || 5  %>
+  timeout: 5000
 
 development:
   <<: *default
-  database: private_events_development
-  # host: <%= ENV['DATABASE_HOST'] %>
-  # username: <%= ENV['POSTGRES_USER'] %>
-  # password: <%= ENV['POSTGRES_PASSWORD'] %>
-  # database: <%= ENV['POSTGRES_DB'] %>
+  username: <%= ENV["PG_USERNAME"] || 'postgres' %>
+  password: <%= ENV["PG_PASSWORD"] || nil %>
   # variables:
   #   statement_timeout: 5000
 
@@ -64,10 +64,6 @@ development:
 test:
   <<: *default
   database: private_events_test
-  # host: <%= ENV['DATABASE_HOST'] %>
-  # username: <%= ENV['POSTGRES_USER'] %>
-  # password: <%= ENV['POSTGRES_PASSWORD'] %>
-  # database: <%= ENV['POSTGRES_DB'] %>
   # variables:
   #   statement_timeout: 5000
 
